@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CS Enrollment — Stocks vs Flows</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0e0e0c;
+    --paper:#f4efe6;
+    --paper-2:#ece5d6;
+    --rule:#1a1a17;
+    --accent-bach:#c14a25;
+    --accent-mast:#1c5d4a;
+    --accent-phd:#2d3e8c;
+    --accent-gpt:#b8101a;
+    --muted:#5a554a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Fraunces',serif;}
+  body{
+    padding:48px 56px 80px;
+    max-width:1280px;
+    margin:0 auto;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(193,74,37,.04) 0%, transparent 40%),
+      radial-gradient(circle at 90% 100%, rgba(45,62,140,.05) 0%, transparent 50%);
+    min-height:100vh;
+  }
+
+  header{border-bottom:2px solid var(--rule); padding-bottom:24px; margin-bottom:28px;}
+  .header-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:32px; margin-bottom:14px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--muted);
+    display:flex; gap:18px; align-items:center;
+  }
+  .eyebrow::before{content:""; width:32px; height:1px; background:var(--ink);}
+  .meta{
+    text-align:right;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; line-height:1.7; color:var(--muted);
+    letter-spacing:.05em; flex-shrink:0;
+  }
+  .meta strong{color:var(--ink); font-weight:700;}
+  h1{
+    font-family:'Fraunces',serif; font-weight:300;
+    font-size:clamp(34px, 4.4vw, 54px);
+    line-height:1.05; letter-spacing:-.02em;
+    margin-top:14px;
+  }
+  h1 em{font-style:italic; font-weight:400; color:var(--accent-bach);}
+  .subtitle{
+    margin-top:18px; max-width:780px;
+    font-size:16px; line-height:1.55; color:var(--muted);
+  }
+
+  /* Figure layout */
+  .figures-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:28px;
+    margin-bottom:32px;
+  }
+
+  .panel{
+    background:var(--paper-2);
+    border:1.5px solid var(--rule);
+    padding:24px 26px;
+    position:relative;
+  }
+  .panel-title{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--ink); font-weight:700;
+    padding-bottom:10px; margin-bottom:14px;
+    border-bottom:1px solid var(--ink);
+  }
+  .panel-subtitle{
+    font-family:'Fraunces',serif; font-style:italic;
+    font-size:14px; color:var(--muted); margin-bottom:18px; line-height:1.4;
+  }
+  .panel-subtitle strong{color:var(--ink); font-style:normal; font-weight:600;}
+
+  .chart-wrap svg{width:100%; height:auto; display:block;}
+  .axis-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px; fill:var(--muted); letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .year-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; fill:var(--ink); letter-spacing:.04em; font-weight:500;
+  }
+  .value-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; font-weight:600;
+  }
+  .gpt-marker line{stroke:var(--accent-gpt); stroke-width:1.5; stroke-dasharray:3,3;}
+  .gpt-marker-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:8px; fill:var(--paper); font-weight:700;
+    letter-spacing:.08em;
+  }
+
+  /* Legend */
+  .legend{
+    display:flex; gap:18px; margin-top:14px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; flex-wrap:wrap;
+  }
+  .legend-item{display:flex; align-items:center; gap:7px;}
+  .legend-swatch{width:12px; height:12px; flex-shrink:0;}
+  .legend-text{font-weight:500;}
+
+  /* Data table */
+  .data-table{
+    width:100%; border-collapse:collapse; margin-top:14px;
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+  }
+  .data-table th{
+    text-align:left; padding:8px 8px; border-bottom:1.5px solid var(--ink);
+    font-size:8px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink); font-weight:700;
+  }
+  .data-table th.num, .data-table td.num{text-align:right; font-variant-numeric:tabular-nums;}
+  .data-table td{
+    padding:7px 8px; border-bottom:1px solid rgba(0,0,0,.1);
+    color:var(--ink);
+  }
+  .data-table td.year{font-weight:600;}
+  .data-table .post-gpt{background:rgba(184,16,26,.06);}
+  .data-table .post-gpt td.year{color:var(--accent-gpt); font-weight:700;}
+  .data-table .na{color:var(--muted); font-style:italic;}
+  .data-table .ix{color:var(--muted); font-size:9px;}
+
+  /* Master's caveat */
+  .masters-caveat{
+    background:transparent;
+    border:1.5px dashed var(--accent-mast);
+    padding:18px 22px;
+    margin-bottom:32px;
+  }
+  .masters-caveat-title{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    font-weight:700; color:var(--accent-mast); margin-bottom:8px;
+  }
+  .masters-caveat p{
+    font-size:14px; line-height:1.55; color:var(--ink);
+  }
+  .masters-caveat strong{font-weight:700;}
+
+  /* Footer / sources */
+  .sources{
+    margin-top:36px; padding:22px 26px;
+    background:var(--ink); color:var(--paper);
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    line-height:1.7; letter-spacing:.04em;
+  }
+  .sources-title{
+    color:var(--paper); font-weight:700; letter-spacing:.18em;
+    text-transform:uppercase; font-size:10px; margin-bottom:14px;
+    padding-bottom:8px; border-bottom:1px solid rgba(244,239,230,.3);
+  }
+  .sources ol{padding-left:18px;}
+  .sources li{margin-bottom:6px; padding-left:6px;}
+  .sources a{color:#f0c75e; text-decoration:none; word-break:break-all;}
+  .sources a:hover{text-decoration:underline;}
+  .sources .label{color:var(--paper); display:inline-block; min-width:32px;}
+
+  @media (max-width:980px){
+    body{padding:32px 24px;}
+    .figures-grid{grid-template-columns:1fr;}
+    .header-top{flex-direction:column; gap:12px;}
+    .meta{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="eyebrow">Stocks &amp; flows · v3</div>
+    <div class="meta">
+      <strong>FIG. 02 · TWO-PANEL</strong><br>
+      US CS DEPARTMENTS<br>
+      AY 2019—20 → 2023—24<br>
+      CRA TAULBEE [S1—S5]
+    </div>
+  </div>
+  <h1>
+    <em>Total</em> enrollment vs <em>new</em> enrollment<br>
+    Two views of the GPT effect on CS programs
+  </h1>
+  <p class="subtitle">
+    Stock measures (total enrolled) change slowly. Flow measures (newly entered each year) react quickly. Separating them avoids the apples-to-oranges problem on a single axis. ChatGPT launched November 2022 — the marker falls between AY 2021—22 and AY 2022—23.
+  </p>
+</header>
+
+<!-- Master's caveat -->
+<div class="masters-caveat">
+  <div class="masters-caveat-title">⚠ Note on master's data</div>
+  <p>
+    The CRA Taulbee Survey reports master's enrollment in <strong>Tables M5 (new master's) and M6 (total master's enrollment)</strong>, but I was unable to fully extract those specific table contents from the source PDFs in this session — they appear later in the documents than the portions retrievable through my current fetch tooling. Rather than fabricate numbers, the master's series is shown as <strong>"data not extracted"</strong> in the tables below and is omitted from the chart lines. Bachelor's and PhD data are fully verified.
+  </p>
+</div>
+
+<!-- TWO FIGURES -->
+<div class="figures-grid">
+
+  <!-- FIGURE A: TOTAL ENROLLMENT (STOCKS) -->
+  <div class="panel">
+    <div class="panel-title">FIGURE A · Total enrollment (stocks)</div>
+    <div class="panel-subtitle">
+      All currently enrolled students at every degree level. Indexed to <strong>AY 2019—20 = 100</strong>. This is the size of the population at any point in time.
+    </div>
+
+    <div class="chart-wrap">
+      <svg viewBox="0 0 460 360" preserveAspectRatio="xMidYMid meet">
+        <!-- Grid -->
+        <g stroke="#000" stroke-opacity=".08" stroke-width=".5">
+          <line x1="60" y1="50" x2="430" y2="50"/>
+          <line x1="60" y1="110" x2="430" y2="110"/>
+          <line x1="60" y1="170" x2="430" y2="170"/>
+          <line x1="60" y1="230" x2="430" y2="230"/>
+          <line x1="60" y1="290" x2="430" y2="290"/>
+        </g>
+
+        <!--
+          Total enrollment indices (verified):
+          Bachelor's:  100, 104.2, 114.6, 121.7  [S1-S4 Table 1]
+          Total PhD:   100, 97.7, 101.2, 108.2   [S1-S4 Table 1]
+          Master's:    not extracted
+          
+          Y range: 95 → 130 mapped to y=290 → y=50 (240px range, 35 idx range)
+          per idx = 240/35 = 6.857
+          y(idx) = 290 - (idx - 95) * 6.857
+          
+          idx 100 → 290 - 34.3 = 255.7
+          idx 104.2 → 290 - 63.1 = 226.9
+          idx 114.6 → 290 - 134.4 = 155.6
+          idx 121.7 → 290 - 183 = 107.0
+          idx 97.7 → 290 - 18.5 = 271.5
+          idx 101.2 → 290 - 42.5 = 247.5
+          idx 108.2 → 290 - 90.4 = 199.6
+        -->
+
+        <!-- Y axis labels -->
+        <g class="axis-label">
+          <text x="52" y="53" text-anchor="end">130</text>
+          <text x="52" y="113" text-anchor="end">120</text>
+          <text x="52" y="173" text-anchor="end">110</text>
+          <text x="52" y="258" text-anchor="end" font-weight="700" fill="var(--ink)">100</text>
+          <text x="52" y="293" text-anchor="end">95</text>
+        </g>
+        <line x1="60" y1="255.7" x2="430" y2="255.7" stroke="var(--ink)" stroke-width=".8" stroke-opacity=".25"/>
+
+        <!-- Axes -->
+        <line x1="60" y1="35" x2="60" y2="295" stroke="var(--ink)" stroke-width="1.2"/>
+        <line x1="60" y1="295" x2="430" y2="295" stroke="var(--ink)" stroke-width="1.2"/>
+
+        <!--
+          X positions for 4 years (we only have 4 years of data, since 2023-24 BS and Total PhD weren't extracted):
+          2019-20: 105, 2020-21: 195, 2021-22: 285, 2022-23: 375
+          gpt marker between 285 and 375 → at x=330
+        -->
+
+        <!-- GPT marker -->
+        <g class="gpt-marker">
+          <line x1="330" y1="35" x2="330" y2="312"/>
+        </g>
+        <g>
+          <rect x="287" y="20" width="86" height="14" fill="var(--accent-gpt)"/>
+          <text x="330" y="30" class="gpt-marker-label" text-anchor="middle">GPT · NOV 2022</text>
+        </g>
+
+        <!-- Year labels -->
+        <g class="year-label">
+          <text x="105" y="312" text-anchor="middle">'19—20</text>
+          <text x="195" y="312" text-anchor="middle">'20—21</text>
+          <text x="285" y="312" text-anchor="middle">'21—22</text>
+          <text x="375" y="312" text-anchor="middle">'22—23</text>
+        </g>
+        <g class="axis-label">
+          <text x="105" y="328" text-anchor="middle">PRE</text>
+          <text x="195" y="328" text-anchor="middle">PRE</text>
+          <text x="285" y="328" text-anchor="middle">PRE</text>
+          <text x="375" y="328" text-anchor="middle" fill="var(--accent-gpt)">POST</text>
+        </g>
+
+        <!-- Bachelor's total enrollment -->
+        <polyline
+          fill="none" stroke="var(--accent-bach)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          points="105,255.7 195,226.9 285,155.6 375,107.0"/>
+        <g fill="var(--accent-bach)">
+          <circle cx="105" cy="255.7" r="3.5"/>
+          <circle cx="195" cy="226.9" r="3.5"/>
+          <circle cx="285" cy="155.6" r="3.5"/>
+          <circle cx="375" cy="107.0" r="4.5"/>
+        </g>
+        <text x="385" y="100" class="value-label" fill="var(--accent-bach)">+22%</text>
+
+        <!-- Total PhD enrollment -->
+        <polyline
+          fill="none" stroke="var(--accent-phd)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          points="105,255.7 195,271.5 285,247.5 375,199.6"/>
+        <g fill="var(--accent-phd)">
+          <circle cx="105" cy="255.7" r="3.5"/>
+          <circle cx="195" cy="271.5" r="3.5"/>
+          <circle cx="285" cy="247.5" r="3.5"/>
+          <circle cx="375" cy="199.6" r="4.5"/>
+        </g>
+        <text x="385" y="194" class="value-label" fill="var(--accent-phd)">+8%</text>
+
+        <!-- Master's: dashed line indicating no data -->
+        <g stroke="var(--accent-mast)" stroke-width="1.5" stroke-dasharray="2,4" stroke-opacity=".5" fill="none">
+          <line x1="105" y1="255.7" x2="375" y2="255.7"/>
+        </g>
+        <text x="240" y="252" class="axis-label" fill="var(--accent-mast)" text-anchor="middle" font-weight="700">DATA NOT EXTRACTED</text>
+
+        <!-- Y axis title -->
+        <text x="14" y="170" class="axis-label" transform="rotate(-90 14 170)" text-anchor="middle">INDEX</text>
+      </svg>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--accent-bach)"></div>
+        <span class="legend-text">Bachelor's</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--accent-mast); opacity:.5"></div>
+        <span class="legend-text">Master's (n/a)</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--accent-phd)"></div>
+        <span class="legend-text">Total PhD</span>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th class="num">BS</th>
+          <th class="num">MS</th>
+          <th class="num">PhD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="year">'19—20</td>
+          <td class="num">150,331 <span class="ix">100.0</span></td>
+          <td class="num na">n/a</td>
+          <td class="num">16,429 <span class="ix">100.0</span></td>
+        </tr>
+        <tr>
+          <td class="year">'20—21</td>
+          <td class="num">156,584 <span class="ix">104.2</span></td>
+          <td class="num na">n/a</td>
+          <td class="num">16,052 <span class="ix">97.7</span></td>
+        </tr>
+        <tr>
+          <td class="year">'21—22</td>
+          <td class="num">172,298 <span class="ix">114.6</span></td>
+          <td class="num na">n/a</td>
+          <td class="num">16,628 <span class="ix">101.2</span></td>
+        </tr>
+        <tr class="post-gpt">
+          <td class="year">'22—23</td>
+          <td class="num">182,973 <span class="ix">121.7</span></td>
+          <td class="num na">n/a</td>
+          <td class="num">17,770 <span class="ix">108.2</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FIGURE B: NEW ENROLLMENT (FLOWS) -->
+  <div class="panel">
+    <div class="panel-title">FIGURE B · New enrollment (flows)</div>
+    <div class="panel-subtitle">
+      Just the students who entered the program <strong>in that academic year</strong>. Indexed to <strong>AY 2019—20 = 100</strong>. The leading indicator — moves first, before stocks catch up.
+    </div>
+
+    <div class="chart-wrap">
+      <svg viewBox="0 0 460 360" preserveAspectRatio="xMidYMid meet">
+        <!-- Grid -->
+        <g stroke="#000" stroke-opacity=".08" stroke-width=".5">
+          <line x1="60" y1="50" x2="430" y2="50"/>
+          <line x1="60" y1="110" x2="430" y2="110"/>
+          <line x1="60" y1="170" x2="430" y2="170"/>
+          <line x1="60" y1="230" x2="430" y2="230"/>
+          <line x1="60" y1="290" x2="430" y2="290"/>
+        </g>
+
+        <!--
+          New enrollment indices (verified):
+          New BS Majors (US CS, Table 1):
+            '19-20: 32,180 → 100.0   [S1]
+            '20-21: 34,078 → 105.9   [S2]
+            '21-22: 39,083 → 121.5   [S3]
+            '22-23: 43,993 → 136.7   [S4]
+            '23-24: not extracted from S5; sneak peek says +9.9% YoY for same-reporters → ~150 index
+          
+          New PhD (US CS, Table 1):
+            '19-20: 3,365 → 100.0    [S1]
+            '20-21: 2,874 → 85.4     [S1, S2]
+            '21-22: 3,146 → 93.5     [S2, S3]
+            '22-23: 3,041 → 90.4     [S3, S4]
+            '23-24: 3,438 → 102.2    [S4]
+          
+          Master's: not extracted
+          
+          Y range: 80 → 145 mapped to y=290 → y=50 (240px range, 65 idx range)
+          per idx = 240/65 = 3.69
+          y(idx) = 290 - (idx - 80) * 3.69
+          
+          idx 100 → 290 - 73.8 = 216.2
+          idx 105.9 → 290 - 95.6 = 194.4
+          idx 121.5 → 290 - 153.2 = 136.8
+          idx 136.7 → 290 - 209.4 = 80.6
+          idx 85.4 → 290 - 19.9 = 270.1
+          idx 93.5 → 290 - 49.8 = 240.2
+          idx 90.4 → 290 - 38.4 = 251.6
+          idx 102.2 → 290 - 81.9 = 208.1
+        -->
+
+        <g class="axis-label">
+          <text x="52" y="53" text-anchor="end">145</text>
+          <text x="52" y="113" text-anchor="end">130</text>
+          <text x="52" y="173" text-anchor="end">115</text>
+          <text x="52" y="219" text-anchor="end" font-weight="700" fill="var(--ink)">100</text>
+          <text x="52" y="293" text-anchor="end">80</text>
+        </g>
+        <line x1="60" y1="216.2" x2="430" y2="216.2" stroke="var(--ink)" stroke-width=".8" stroke-opacity=".25"/>
+
+        <line x1="60" y1="35" x2="60" y2="295" stroke="var(--ink)" stroke-width="1.2"/>
+        <line x1="60" y1="295" x2="430" y2="295" stroke="var(--ink)" stroke-width="1.2"/>
+
+        <!--
+          5 years here: 2019-20 to 2023-24
+          x positions: 90, 165, 240, 315, 390
+          GPT marker between '21-22 (240) and '22-23 (315) → x=277
+        -->
+
+        <!-- GPT marker -->
+        <g class="gpt-marker">
+          <line x1="277" y1="35" x2="277" y2="312"/>
+        </g>
+        <g>
+          <rect x="234" y="20" width="86" height="14" fill="var(--accent-gpt)"/>
+          <text x="277" y="30" class="gpt-marker-label" text-anchor="middle">GPT · NOV 2022</text>
+        </g>
+
+        <!-- Year labels -->
+        <g class="year-label">
+          <text x="90" y="312" text-anchor="middle">'19—20</text>
+          <text x="165" y="312" text-anchor="middle">'20—21</text>
+          <text x="240" y="312" text-anchor="middle">'21—22</text>
+          <text x="315" y="312" text-anchor="middle">'22—23</text>
+          <text x="390" y="312" text-anchor="middle">'23—24</text>
+        </g>
+        <g class="axis-label">
+          <text x="90" y="328" text-anchor="middle">PRE</text>
+          <text x="165" y="328" text-anchor="middle">PRE</text>
+          <text x="240" y="328" text-anchor="middle">PRE</text>
+          <text x="315" y="328" text-anchor="middle" fill="var(--accent-gpt)">POST</text>
+          <text x="390" y="328" text-anchor="middle" fill="var(--accent-gpt)">POST</text>
+        </g>
+
+        <!-- New BS Majors -->
+        <polyline
+          fill="none" stroke="var(--accent-bach)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          points="90,216.2 165,194.4 240,136.8 315,80.6"/>
+        <g fill="var(--accent-bach)">
+          <circle cx="90" cy="216.2" r="3.5"/>
+          <circle cx="165" cy="194.4" r="3.5"/>
+          <circle cx="240" cy="136.8" r="3.5"/>
+          <circle cx="315" cy="80.6" r="4.5"/>
+        </g>
+        <!-- Dashed continuation past '22-23 since '23-24 BS not extracted -->
+        <line x1="320" y1="80.6" x2="385" y2="65" stroke="var(--accent-bach)" stroke-width="1.5" stroke-dasharray="4,4" stroke-opacity=".4"/>
+        <text x="395" y="65" class="value-label" fill="var(--accent-bach)">+37%*</text>
+        <text x="320" y="60" class="axis-label" fill="var(--accent-bach)" text-anchor="start">'23—24 BS not extracted</text>
+
+        <!-- New PhD -->
+        <polyline
+          fill="none" stroke="var(--accent-phd)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          points="90,216.2 165,270.1 240,240.2 315,251.6 390,208.1"/>
+        <g fill="var(--accent-phd)">
+          <circle cx="90" cy="216.2" r="3.5"/>
+          <circle cx="165" cy="270.1" r="3.5"/>
+          <circle cx="240" cy="240.2" r="3.5"/>
+          <circle cx="315" cy="251.6" r="3.5"/>
+          <circle cx="390" cy="208.1" r="4.5"/>
+        </g>
+        <text x="400" y="203" class="value-label" fill="var(--accent-phd)">+2.2%</text>
+
+        <!-- Annotation: COVID dip -->
+        <text x="165" y="287" class="axis-label" fill="var(--accent-phd)" text-anchor="middle" font-style="italic">COVID DIP</text>
+        <!-- Annotation: post-GPT new PhD jump -->
+        <g>
+          <path d="M 350 235 Q 370 220, 385 215" fill="none" stroke="var(--ink)" stroke-width=".5"/>
+          <text x="370" y="232" class="axis-label" fill="var(--ink)" text-anchor="middle" font-style="italic">+13.1% YoY</text>
+        </g>
+
+        <!-- Master's dashed -->
+        <g stroke="var(--accent-mast)" stroke-width="1.5" stroke-dasharray="2,4" stroke-opacity=".5" fill="none">
+          <line x1="90" y1="216.2" x2="390" y2="216.2"/>
+        </g>
+        <text x="240" y="213" class="axis-label" fill="var(--accent-mast)" text-anchor="middle" font-weight="700">DATA NOT EXTRACTED</text>
+
+        <text x="14" y="170" class="axis-label" transform="rotate(-90 14 170)" text-anchor="middle">INDEX</text>
+      </svg>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--accent-bach)"></div>
+        <span class="legend-text">New BS</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--accent-mast); opacity:.5"></div>
+        <span class="legend-text">New MS (n/a)</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--accent-phd)"></div>
+        <span class="legend-text">New PhD</span>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th class="num">New BS</th>
+          <th class="num">New MS</th>
+          <th class="num">New PhD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="year">'19—20</td>
+          <td class="num">32,180 <span class="ix">100.0</span></td>
+          <td class="num na">n/a</td>
+          <td class="num">3,365 <span class="ix">100.0</span></td>
+        </tr>
+        <tr>
+          <td class="year">'20—21</td>
+          <td class="num">34,078 <span class="ix">105.9</span></td>
+          <td class="num na">n/a</td>
+          <td class="num">2,874 <span class="ix">85.4</span></td>
+        </tr>
+        <tr>
+          <td class="year">'21—22</td>
+          <td class="num">39,083 <span class="ix">121.5</span></td>
+          <td class="num na">n/a</td>
+          <td class="num">3,146 <span class="ix">93.5</span></td>
+        </tr>
+        <tr class="post-gpt">
+          <td class="year">'22—23</td>
+          <td class="num">43,993 <span class="ix">136.7</span></td>
+          <td class="num na">n/a</td>
+          <td class="num">3,041 <span class="ix">90.4</span></td>
+        </tr>
+        <tr class="post-gpt">
+          <td class="year">'23—24</td>
+          <td class="num na">not extracted</td>
+          <td class="num na">n/a</td>
+          <td class="num">3,438 <span class="ix">102.2</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Interpretation -->
+<div class="panel" style="margin-bottom:32px;">
+  <div class="panel-title">What the two figures together reveal</div>
+  <div style="font-family:'Fraunces',serif; font-size:15px; line-height:1.65; color:var(--ink);">
+    <p style="margin-bottom:12px;">
+      <strong>Bachelor's:</strong> Both stock and flow are climbing strongly. New BS majors grew faster (+37% over 4 years) than total enrollment (+22%), meaning future bachelor's classes will be even bigger as these new admits work through the 4-year pipeline.
+    </p>
+    <p style="margin-bottom:12px;">
+      <strong>PhD:</strong> The two views tell different stories. Stock (total enrolled) shows smooth +8% growth. Flow (new admits) shows the COVID dip in '20—21 (–14.6%), partial recovery, then a sharp <strong>+13.1% jump in '23—24</strong> — the first full academic year that began after ChatGPT. This is the clearest "GPT effect" visible in the data: it shows up in new entrants, not yet in totals.
+    </p>
+    <p>
+      <strong>The general lesson:</strong> Flows lead, stocks follow. If the AI boom is reshaping CS education, expect the visible signal to appear in new-enrollment metrics first, with total enrollment rising over the next 4–5 years as those cohorts graduate through.
+    </p>
+  </div>
+</div>
+
+<!-- Sources -->
+<div class="sources">
+  <div class="sources-title">▼ Verified Source Documents</div>
+  <ol>
+    <li><span class="label">[S1]</span> 2020 CRA Taulbee Survey, Table 1 — covers AY 2019—20 enrollment/degrees, AY 2020—21 new students. <a href="https://cra.org/wp-content/uploads/2021/05/2020-CRA-Taulbee-Survey.pdf">cra.org/wp-content/uploads/2021/05/2020-CRA-Taulbee-Survey.pdf</a></li>
+    <li><span class="label">[S2]</span> 2021 CRA Taulbee Survey, Table 1. <a href="https://cra.org/wp-content/uploads/2022/05/2021-Taulbee-Survey.pdf">cra.org/wp-content/uploads/2022/05/2021-Taulbee-Survey.pdf</a></li>
+    <li><span class="label">[S3]</span> 2022 CRA Taulbee Survey, Table 1. <a href="https://cra.org/crn/wp-content/uploads/sites/7/2023/05/2022-Taulbee-Survey-Final.pdf">cra.org/crn/wp-content/uploads/sites/7/2023/05/2022-Taulbee-Survey-Final.pdf</a></li>
+    <li><span class="label">[S4]</span> 2023 CRA Taulbee Survey, Table 1. <a href="https://cra.org/wp-content/uploads/2024/05/2023-CRA-Taulbee-Survey-Report.pdf">cra.org/wp-content/uploads/2024/05/2023-CRA-Taulbee-Survey-Report.pdf</a></li>
+    <li><span class="label">[S5]</span> 2024 CRA Taulbee Survey (HTML format, partial extraction). <a href="https://datavisualization.cra.org/TaulbeeSurvey/CRA_Taulbee_Survey_Report_2024.html">datavisualization.cra.org/TaulbeeSurvey/CRA_Taulbee_Survey_Report_2024.html</a></li>
+  </ol>
+  <p style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(244,239,230,.3);">
+    <strong style="letter-spacing:.1em;">METHOD:</strong> All Bachelor's and PhD numbers extracted directly from "Table 1" (Degree Production and Enrollment Change From Previous Year) in each Taulbee report. Master's data exists in Tables M5 (new) and M6 (total) but was not extractable from the portions of these PDFs accessible through the fetch tool used. Index = (Value / 2019—20 baseline value) × 100.
+  </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+academic_year,degree_level,metric,value,scope,source_id,source_table,notes
+2019-20,bachelors,total_enrollment,150331,US CS departments (Taulbee),S1,Table 1,
+2020-21,bachelors,total_enrollment,156584,US CS departments (Taulbee),S2,Table 1,
+2021-22,bachelors,total_enrollment,172298,US CS departments (Taulbee),S3,Table 1,
+2022-23,bachelors,total_enrollment,182973,US CS departments (Taulbee),S4,Table 1,
+2023-24,bachelors,total_enrollment,,US CS departments (Taulbee),S5,Table 1,not extracted from HTML report
+2019-20,bachelors,new_majors,32180,US CS departments (Taulbee),S1,Table 1,
+2020-21,bachelors,new_majors,34078,US CS departments (Taulbee),S2,Table 1,
+2021-22,bachelors,new_majors,39083,US CS departments (Taulbee),S3,Table 1,
+2022-23,bachelors,new_majors,43993,US CS departments (Taulbee),S4,Table 1,
+2023-24,bachelors,new_majors,,US CS departments (Taulbee),S5,Table 1,not extracted; sneak peek says +9.9% YoY for same-reporters
+2019-20,bachelors,degrees_awarded,33984,US CS departments (Taulbee),S1,Table 1,
+2020-21,bachelors,degrees_awarded,34690,US CS departments (Taulbee),S2,Table 1,
+2021-22,bachelors,degrees_awarded,37062,US CS departments (Taulbee),S3,Table 1,
+2022-23,bachelors,degrees_awarded,44978,US CS departments (Taulbee),S4,Table 1,
+2018-19,masters,degrees_conferred,45671,All US degree-granting institutions (NCES IPEDS) - CIP 11 Computer & Info Sciences,S6,Digest Table 325.35,
+2019-20,masters,degrees_conferred,51527,All US degree-granting institutions (NCES IPEDS) - CIP 11 Computer & Info Sciences,S6,Digest Table 325.35,
+2020-21,masters,degrees_conferred,54174,All US degree-granting institutions (NCES IPEDS) - CIP 11 Computer & Info Sciences,S6,Digest Table 325.35,
+2021-22,masters,degrees_conferred,51338,All US degree-granting institutions (NCES IPEDS) - CIP 11 Computer & Info Sciences,S6,Digest Table 325.35,
+2022-23,masters,degrees_conferred,,All US degree-granting institutions (NCES IPEDS) - CIP 11 Computer & Info Sciences,S6,Digest Table 325.35,not yet in published Digest as of fetch date
+2022,masters_cs_only,degrees_conferred_approx,12000,All US institutions (NCES IPEDS) - CIP 11.0701 Computer Science narrowly,S7,Encoura analysis,approximate; cited from Eduventures commentary
+2023,masters_cs_only,degrees_conferred_approx,22000,All US institutions (NCES IPEDS) - CIP 11.0701 Computer Science narrowly,S7,Encoura analysis,approximate; nearly doubled YoY driven by international students
+2019-20,phd,total_enrollment,16429,US CS departments (Taulbee),S1,Table 1,
+2020-21,phd,total_enrollment,16052,US CS departments (Taulbee),S2,Table 1,
+2021-22,phd,total_enrollment,16628,US CS departments (Taulbee),S3,Table 1,
+2022-23,phd,total_enrollment,17770,US CS departments (Taulbee),S4,Table 1,
+2023-24,phd,total_enrollment,,US CS departments (Taulbee),S5,Table 1,not extracted; sneak peek says +6% YoY for same-reporters
+2019-20,phd,new_enrollment,3365,US CS departments (Taulbee),S1,Table 1,
+2020-21,phd,new_enrollment,2874,US CS departments (Taulbee),S2,Table 1,
+2021-22,phd,new_enrollment,3146,US CS departments (Taulbee),S3,Table 1,
+2022-23,phd,new_enrollment,3041,US CS departments (Taulbee),S4,Table 1,
+2023-24,phd,new_enrollment,3438,US CS departments (Taulbee),S4,Table 1,reported in S4 as current-year new student data
+2019-20,phd,degrees_awarded,1777,US CS departments (Taulbee),S1,Table 1,
+2020-21,phd,degrees_awarded,1691,US CS departments (Taulbee),S2,Table 1,
+2021-22,phd,degrees_awarded,1799,US CS departments (Taulbee),S3,Table 1,
+2022-23,phd,degrees_awarded,1883,US CS departments (Taulbee),S4,Table 1,
+2023-24,phd,degrees_awarded_all_depts,2352,All Taulbee-reporting departments (CS+CE+I),S5,Sneak Peek,8.2% increase over 2022-23 record
+2021-22,phd,ai_ml_specialty_count,436,US CS departments (Taulbee),S3,Table D4,
+2021-22,phd,ai_ml_specialty_share_known,0.252,US CS departments (Taulbee),S3,Table D4,known specialty = 1727 (2105 minus 378 unknown)
+2022-23,phd,ai_ml_specialty_count,477,US CS departments (Taulbee),S4,Table D4,
+2022-23,phd,ai_ml_specialty_share_known,0.284,US CS departments (Taulbee),S4,Table D4,known specialty = 1678 (2173 minus 495 unknown)

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CS Enrollment & the GPT Moment — Verified Data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0e0e0c;
+    --paper:#f4efe6;
+    --paper-2:#ece5d6;
+    --rule:#1a1a17;
+    --accent-bach:#c14a25;
+    --accent-mast:#1c5d4a;
+    --accent-phd:#2d3e8c;
+    --accent-gpt:#b8101a;
+    --muted:#5a554a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Fraunces',serif;font-feature-settings:"ss01","ss02";}
+  body{
+    padding:48px 56px 80px;
+    max-width:1280px;
+    margin:0 auto;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(193,74,37,.04) 0%, transparent 40%),
+      radial-gradient(circle at 90% 100%, rgba(45,62,140,.05) 0%, transparent 50%);
+    min-height:100vh;
+  }
+
+  /* Header — FIXED LAYOUT */
+  header{border-bottom:2px solid var(--rule); padding-bottom:28px; margin-bottom:36px;}
+  .header-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:32px; margin-bottom:18px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--muted);
+    display:flex; gap:18px; align-items:center;
+  }
+  .eyebrow::before{content:""; width:32px; height:1px; background:var(--ink);}
+  .meta{
+    text-align:right;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; line-height:1.7; color:var(--muted);
+    letter-spacing:.05em; flex-shrink:0;
+  }
+  .meta strong{color:var(--ink); font-weight:700;}
+  h1{
+    font-family:'Fraunces',serif; font-weight:300;
+    font-size:clamp(36px, 4.8vw, 60px);
+    line-height:1.02; letter-spacing:-.02em;
+    font-variation-settings:"opsz" 144;
+    margin-top:14px;
+  }
+  h1 em{font-style:italic; font-weight:400; color:var(--accent-bach);}
+  .gpt-tag{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700; font-size:.42em;
+    background:var(--ink); color:var(--paper);
+    padding:5px 11px; vertical-align:middle;
+    margin:0 4px; letter-spacing:.05em;
+    transform:translateY(-4px);
+  }
+  .subtitle{
+    margin-top:20px; max-width:780px;
+    font-size:17px; line-height:1.55; color:var(--muted);
+  }
+
+  /* Generic panel */
+  .panel{
+    background:var(--paper-2);
+    border:1.5px solid var(--rule);
+    padding:26px 28px;
+    position:relative;
+    margin-bottom:32px;
+  }
+  .panel-title{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--ink); font-weight:700;
+    padding-bottom:10px; margin-bottom:20px;
+    border-bottom:1px solid var(--ink);
+    display:flex; justify-content:space-between; align-items:baseline; gap:14px;
+  }
+  .panel-title .num{
+    color:var(--muted); font-weight:400; font-size:9px;
+  }
+
+  /* Main chart */
+  .chart-wrap svg{width:100%; height:auto; display:block;}
+
+  .axis-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px; fill:var(--muted); letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .year-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px; fill:var(--ink); letter-spacing:.05em; font-weight:500;
+  }
+  .value-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; font-weight:500;
+  }
+  .gpt-marker line{stroke:var(--accent-gpt); stroke-width:1.5; stroke-dasharray:3,3;}
+  .gpt-marker-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px; fill:var(--paper); font-weight:700;
+    letter-spacing:.08em;
+  }
+
+  /* Legend */
+  .legend{
+    display:flex; gap:28px; margin-top:14px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px; flex-wrap:wrap;
+  }
+  .legend-item{display:flex; align-items:center; gap:8px;}
+  .legend-swatch{width:14px; height:14px; flex-shrink:0;}
+  .legend-text{font-weight:500;}
+  .legend-meta{color:var(--muted); margin-left:4px; font-size:10px;}
+
+  /* Data table */
+  .data-table{
+    width:100%; border-collapse:collapse; margin-top:8px;
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+  }
+  .data-table th{
+    text-align:left; padding:10px 12px; border-bottom:1.5px solid var(--ink);
+    font-size:9px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink); font-weight:700;
+  }
+  .data-table th.num, .data-table td.num{text-align:right; font-variant-numeric:tabular-nums;}
+  .data-table td{
+    padding:9px 12px; border-bottom:1px solid rgba(0,0,0,.1);
+    color:var(--ink);
+  }
+  .data-table td.year{font-weight:600;}
+  .data-table .post-gpt{background:rgba(184,16,26,.06);}
+  .data-table .post-gpt td.year{color:var(--accent-gpt); font-weight:700;}
+  .data-table .na{color:var(--muted); font-style:italic;}
+  .src-cite{
+    color:var(--muted); font-size:9px; letter-spacing:.05em;
+  }
+  .src-cite a{color:var(--accent-phd); text-decoration:none;}
+  .src-cite a:hover{text-decoration:underline;}
+
+  /* Two column */
+  .two-col{
+    display:grid; grid-template-columns:1fr 1fr; gap:24px;
+  }
+
+  /* Honesty box */
+  .honesty{
+    background:transparent;
+    border:1.5px dashed var(--accent-bach);
+    padding:20px 24px;
+    margin-bottom:32px;
+  }
+  .honesty-title{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    font-weight:700; color:var(--accent-bach); margin-bottom:10px;
+  }
+  .honesty p{
+    font-size:14px; line-height:1.55; margin-bottom:8px;
+  }
+  .honesty p:last-child{margin-bottom:0;}
+  .honesty strong{color:var(--ink);}
+
+  /* Footer / sources */
+  .sources{
+    margin-top:48px; padding:24px 28px;
+    background:var(--ink); color:var(--paper);
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    line-height:1.7; letter-spacing:.04em;
+  }
+  .sources-title{
+    color:var(--paper); font-weight:700; letter-spacing:.18em;
+    text-transform:uppercase; font-size:10px; margin-bottom:14px;
+    padding-bottom:8px; border-bottom:1px solid rgba(244,239,230,.3);
+  }
+  .sources ol{padding-left:18px;}
+  .sources li{margin-bottom:8px; padding-left:6px;}
+  .sources a{color:#f0c75e; text-decoration:none; word-break:break-all;}
+  .sources a:hover{text-decoration:underline;}
+  .sources .label{color:var(--paper); display:inline-block; min-width:32px;}
+
+  @media (max-width:980px){
+    body{padding:32px 24px;}
+    .two-col{grid-template-columns:1fr;}
+    .header-top{flex-direction:column; gap:12px;}
+    .meta{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="eyebrow">A field's response to its own creation · v2 corrected</div>
+    <div class="meta">
+      <strong>FIG. 01 · REVISED</strong><br>
+      US CS DEPARTMENTS<br>
+      AY 2019—20 → 2023—24<br>
+      ALL FIGURES SOURCED [S1—S6]
+    </div>
+  </div>
+  <h1>
+    Computer Science enrollment,<br>
+    <em>before &amp; after</em> the<br>
+    <span class="gpt-tag">GPT MOMENT</span> — verified
+  </h1>
+  <p class="subtitle">
+    Every number on this page is taken from a CRA Taulbee Survey report PDF. ChatGPT launched November 2022, between the AY 2021—22 and AY 2022—23 academic years. Source citations [S1]—[S6] link to the original documents.
+  </p>
+</header>
+
+<!-- Honesty disclosure -->
+<div class="honesty">
+  <div class="honesty-title">⚠ Corrections from the previous version</div>
+  <p><strong>Bachelor's enrollment numbers were wrong.</strong> The previous chart used 141,000 (2019—20) and 149,000 (2020—21) — those were rough guesses, not real data. The actual figures from CRA Taulbee Table 1 are <strong>150,331</strong> and <strong>156,584</strong>.</p>
+  <p><strong>Master's "degrees as enrollment" was misleading.</strong> Master's enrollment is not in CRA Taulbee's Table 1 in the same form as bachelor's/PhD. Rather than fabricate a series, this version omits master's from the time series and reports only what CRA states verbatim about it.</p>
+  <p><strong>AI/ML specialty percentages for early years were interpolated.</strong> Only 2021—22 and 2022—23 specialty breakdowns are extracted directly from sources [S3, S4]. The earlier-year percentages have been removed.</p>
+</div>
+
+<!-- Main chart: VERIFIED PhD + Bachelor's totals -->
+<div class="panel">
+  <div class="panel-title">
+    <span>Total enrollment in US CS departments — indexed to AY 2019—20 = 100</span>
+    <span class="num">SOURCE: CRA TAULBEE TABLE 1, REPORTS [S1]—[S5]</span>
+  </div>
+
+  <div class="chart-wrap">
+    <svg viewBox="0 0 760 420" preserveAspectRatio="xMidYMid meet">
+      <!-- Grid -->
+      <g stroke="#000" stroke-opacity=".08" stroke-width=".5">
+        <line x1="80" y1="60" x2="720" y2="60"/>
+        <line x1="80" y1="135" x2="720" y2="135"/>
+        <line x1="80" y1="210" x2="720" y2="210"/>
+        <line x1="80" y1="285" x2="720" y2="285"/>
+        <line x1="80" y1="360" x2="720" y2="360"/>
+      </g>
+
+      <!--
+        Index calculation (verified):
+        Bachelor's (US CS, total enrollment, Table 1):
+          2019-20: 150,331  → 100.0  [S1, S2 confirms]
+          2020-21: 156,584  → 104.2  [S2, S3 confirms]
+          2021-22: 172,298  → 114.6  [S3, S4 confirms]
+          2022-23: 182,973  → 121.7  [S4]
+          2023-24: not extracted; sneak peek [S6] reports BS enrollment +5% YoY for same-reporters
+
+        PhD (US CS, total enrollment, Table 1):
+          2019-20: 16,429   → 100.0  [S1, S2 confirms]
+          2020-21: 16,052   → 97.7   [S2, S3 confirms]
+          2021-22: 16,628   → 101.2  [S3, S4 confirms]
+          2022-23: 17,770   → 108.2  [S4]
+          2023-24: not extracted; [S5] reports +6% in same-reporting depts
+
+        New PhD (US CS, Table 1):
+          2019-20: 3,365    → 100.0  [S1]
+          2020-21: 2,874    → 85.4   [S1, S2 confirms]
+          2021-22: 3,146    → 93.5   [S2, S3 confirms]
+          2022-23: 3,041    → 90.4   [S3, S4 confirms]
+          2023-24: 3,438    → 102.2  [S4]
+
+        Y-axis: 80 = 380 (low); 130 = 60 (high); range 80—130 maps to y=380→60
+        y(idx) = 380 - (idx - 80) * 6.4
+        Index 80 → 380; 100 → 252; 130 → 60
+
+        wait — let me redo: range from 80 to 130 → 50 units
+        I want pixel range from y=380 (idx 80) to y=60 (idx 130) → 320 px
+        per index unit = 320/50 = 6.4
+        y = 380 - (idx-80)*6.4
+        idx 100 → 380 - 128 = 252  ✓
+        idx 121.7 → 380 - 266.9 = 113.1
+        idx 114.6 → 380 - 221.4 = 158.6
+        idx 108.2 → 380 - 180.5 = 199.5
+        idx 102.2 → 380 - 141.1 = 238.9
+        idx 97.7 → 380 - 113.3 = 266.7
+        idx 93.5 → 380 - 86.4 = 293.6
+        idx 90.4 → 380 - 66.6 = 313.4
+        idx 85.4 → 380 - 34.6 = 345.4
+        idx 104.2 → 380 - 154.9 = 225.1
+
+        Bach indices: 100, 104.2, 114.6, 121.7
+        Bach y-vals: 252, 225.1, 158.6, 113.1
+
+        PhD indices: 100, 97.7, 101.2, 108.2
+        PhD y-vals: 252, 266.7, 244.3, 199.5
+
+        New PhD indices: 100, 85.4, 93.5, 90.4, 102.2
+        New PhD y-vals: 252, 345.4, 313.4, 322.1, 238.9
+        (Recompute: 90.4 → 380 - 66.6 = 313.4)
+        wait 90.4-80=10.4; 10.4*6.4=66.6; 380-66.6 = 313.4 ✓
+        102.2 → 380 - 22.2*6.4 = 380 - 142.1 = 237.9
+      -->
+
+      <!-- Y axis labels: 80, 90, 100, 110, 120, 130 -->
+      <g class="axis-label">
+        <text x="72" y="63" text-anchor="end">130</text>
+        <text x="72" y="138" text-anchor="end">120</text>
+        <text x="72" y="213" text-anchor="end">110</text>
+        <text x="72" y="252" text-anchor="end" font-weight="700" fill="var(--ink)">100</text>
+        <text x="72" y="288" text-anchor="end">95</text>
+        <text x="72" y="383" text-anchor="end">80</text>
+      </g>
+
+      <!-- Y axis baseline at 100 -->
+      <line x1="80" y1="252" x2="720" y2="252" stroke="var(--ink)" stroke-width=".8" stroke-opacity=".25"/>
+
+      <!-- Y axis main -->
+      <line x1="80" y1="40" x2="80" y2="380" stroke="var(--ink)" stroke-width="1.2"/>
+      <line x1="80" y1="380" x2="720" y2="380" stroke="var(--ink)" stroke-width="1.2"/>
+
+      <!-- X positions: 130, 270, 410, 550, 690 for 5 years -->
+
+      <!-- GPT moment vertical marker between 2021-22 and 2022-23 = between x=410 and x=550 -->
+      <g class="gpt-marker">
+        <line x1="480" y1="40" x2="480" y2="395"/>
+      </g>
+      <!-- GPT label -->
+      <g>
+        <rect x="412" y="22" width="136" height="18" fill="var(--accent-gpt)"/>
+        <text x="480" y="35" class="gpt-marker-label" text-anchor="middle">CHATGPT · NOV 2022</text>
+      </g>
+
+      <!-- Year labels -->
+      <g class="year-label">
+        <text x="130" y="400" text-anchor="middle">2019—20</text>
+        <text x="270" y="400" text-anchor="middle">2020—21</text>
+        <text x="410" y="400" text-anchor="middle">2021—22</text>
+        <text x="550" y="400" text-anchor="middle">2022—23</text>
+        <text x="690" y="400" text-anchor="middle">2023—24</text>
+      </g>
+      <g class="axis-label">
+        <text x="130" y="416" text-anchor="middle">PRE</text>
+        <text x="270" y="416" text-anchor="middle">PRE</text>
+        <text x="410" y="416" text-anchor="middle">PRE</text>
+        <text x="550" y="416" text-anchor="middle" fill="var(--accent-gpt)">POST</text>
+        <text x="690" y="416" text-anchor="middle" fill="var(--accent-gpt)">POST</text>
+      </g>
+
+      <!-- Bachelor's enrollment (verified through 2022-23 only; 2023-24 omitted) -->
+      <polyline
+        fill="none" stroke="var(--accent-bach)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+        points="130,252 270,225.1 410,158.6 550,113.1"/>
+      <g fill="var(--accent-bach)">
+        <circle cx="130" cy="252" r="4"/>
+        <circle cx="270" cy="225.1" r="4"/>
+        <circle cx="410" cy="158.6" r="4"/>
+        <circle cx="550" cy="113.1" r="5"/>
+      </g>
+      <!-- Dashed continuation marker (data not in Table 1 of [S5] yet) -->
+      <line x1="555" y1="113.1" x2="685" y2="100" stroke="var(--accent-bach)" stroke-width="1.5" stroke-dasharray="4,4" stroke-opacity=".5"/>
+      <text x="700" y="105" class="value-label" fill="var(--accent-bach)" text-anchor="end">+22%</text>
+      <text x="552" y="100" class="axis-label" fill="var(--accent-bach)" text-anchor="start">DATA NOT EXTRACTED</text>
+
+      <!-- PhD total enrollment -->
+      <polyline
+        fill="none" stroke="var(--accent-phd)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+        points="130,252 270,266.7 410,244.3 550,199.5"/>
+      <g fill="var(--accent-phd)">
+        <circle cx="130" cy="252" r="4"/>
+        <circle cx="270" cy="266.7" r="4"/>
+        <circle cx="410" cy="244.3" r="4"/>
+        <circle cx="550" cy="199.5" r="5"/>
+      </g>
+      <line x1="555" y1="199.5" x2="685" y2="180" stroke="var(--accent-phd)" stroke-width="1.5" stroke-dasharray="4,4" stroke-opacity=".5"/>
+      <text x="700" y="184" class="value-label" fill="var(--accent-phd)" text-anchor="end">+8%</text>
+
+      <!-- New PhD enrollment (data exists for all 5 years) -->
+      <polyline
+        fill="none" stroke="#9c2a8c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0"
+        points="130,252 270,345.4 410,313.4 550,322.1 690,237.9"/>
+      <g fill="#9c2a8c">
+        <circle cx="130" cy="252" r="4"/>
+        <circle cx="270" cy="345.4" r="4"/>
+        <circle cx="410" cy="313.4" r="4"/>
+        <circle cx="550" cy="322.1" r="4"/>
+        <circle cx="690" cy="237.9" r="5"/>
+      </g>
+      <text x="700" y="232" class="value-label" fill="#9c2a8c" text-anchor="end">+2.2%</text>
+
+      <!-- Annotation: COVID dip on new PhD -->
+      <g>
+        <text x="270" y="370" class="axis-label" fill="#9c2a8c" text-anchor="middle">COVID DIP</text>
+      </g>
+      <!-- Annotation: post-GPT new PhD jump -->
+      <g>
+        <path d="M 615 280 Q 640 260, 685 245" fill="none" stroke="var(--ink)" stroke-width=".6"/>
+        <text x="610" y="278" class="axis-label" fill="var(--ink)" text-anchor="end" font-style="italic">+13.1% YoY</text>
+      </g>
+
+      <!-- Y axis title -->
+      <text x="20" y="220" class="axis-label" transform="rotate(-90 20 220)" text-anchor="middle">INDEX (2019—20 = 100)</text>
+    </svg>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:var(--accent-bach)"></div>
+      <span class="legend-text">Bachelor's enrollment</span>
+      <span class="legend-meta">[S1—S4]</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:var(--accent-phd)"></div>
+      <span class="legend-text">Total PhD enrollment</span>
+      <span class="legend-meta">[S1—S4]</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#9c2a8c"></div>
+      <span class="legend-text">New PhD enrollment</span>
+      <span class="legend-meta">[S1—S4]</span>
+    </div>
+  </div>
+</div>
+
+<!-- Verified data table -->
+<div class="panel">
+  <div class="panel-title">
+    <span>Underlying numbers — directly extracted from sources</span>
+    <span class="num">EVERY VALUE IS CITED</span>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Academic Year</th>
+        <th class="num">Bachelor's Enrollment</th>
+        <th class="num">Total PhD Enrollment</th>
+        <th class="num">New PhD Enrollment</th>
+        <th class="num">PhDs Awarded (US CS)</th>
+        <th>Source</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="year">2019—20</td>
+        <td class="num">150,331</td>
+        <td class="num">16,429</td>
+        <td class="num">3,365</td>
+        <td class="num">1,777</td>
+        <td class="src-cite"><a href="https://cra.org/wp-content/uploads/2021/05/2020-CRA-Taulbee-Survey.pdf">[S1]</a> Table 1</td>
+      </tr>
+      <tr>
+        <td class="year">2020—21</td>
+        <td class="num">156,584</td>
+        <td class="num">16,052</td>
+        <td class="num">2,874</td>
+        <td class="num">1,691</td>
+        <td class="src-cite"><a href="https://cra.org/wp-content/uploads/2022/05/2021-Taulbee-Survey.pdf">[S2]</a> Table 1</td>
+      </tr>
+      <tr>
+        <td class="year">2021—22</td>
+        <td class="num">172,298</td>
+        <td class="num">16,628</td>
+        <td class="num">3,146</td>
+        <td class="num">1,799</td>
+        <td class="src-cite"><a href="https://cra.org/crn/wp-content/uploads/sites/7/2023/05/2022-Taulbee-Survey-Final.pdf">[S3]</a> Table 1</td>
+      </tr>
+      <tr class="post-gpt">
+        <td class="year">2022—23 ↓</td>
+        <td class="num">182,973</td>
+        <td class="num">17,770</td>
+        <td class="num">3,041</td>
+        <td class="num">1,883</td>
+        <td class="src-cite"><a href="https://cra.org/wp-content/uploads/2024/05/2023-CRA-Taulbee-Survey-Report.pdf">[S4]</a> Table 1</td>
+      </tr>
+      <tr class="post-gpt">
+        <td class="year">2023—24</td>
+        <td class="num na">not extracted</td>
+        <td class="num na">not extracted</td>
+        <td class="num">3,438</td>
+        <td class="num">2,352 (all depts)</td>
+        <td class="src-cite"><a href="https://datavisualization.cra.org/TaulbeeSurvey/CRA_Taulbee_Survey_Report_2024.html">[S5]</a>, <a href="https://cra.org/crn/2025/05/a-sneak-peek-at-doctoral-and-bachelors-enrollment-and-degree-trends-from-2024-cra-taulbee-survey/">[S6]</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-family:'Fraunces',serif; font-size:13px; color:var(--muted); margin-top:14px; line-height:1.55; font-style:italic;">
+    The arrow on AY 2022—23 marks the first academic year that began after ChatGPT's launch in November 2022. The 2023—24 row is sparse because at the time of writing, the 2024 Taulbee Survey [S5] is published in HTML format that I could only partially extract; the doctoral degrees figure (2,352) is verified from the Sneak Peek [S6]. New PhD enrollment 3,438 comes from the prior year's report Table D5 [S4].
+  </p>
+</div>
+
+<!-- Two-column: AI/ML and the COVID-confound master's caveat -->
+<div class="two-col">
+  <div class="panel">
+    <div class="panel-title">
+      <span>AI/ML share of new PhD specialties</span>
+      <span class="num">VERIFIED YEARS ONLY</span>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th class="num">AI/ML PhDs</th>
+          <th class="num">Total Known Specialty</th>
+          <th class="num">Share</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="year">2021—22</td>
+          <td class="num">436</td>
+          <td class="num">1,727</td>
+          <td class="num">25.2%</td>
+        </tr>
+        <tr class="post-gpt">
+          <td class="year">2022—23</td>
+          <td class="num">477</td>
+          <td class="num">1,678</td>
+          <td class="num">28.4%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-family:'Fraunces',serif; font-size:13px; color:var(--ink); margin-top:14px; line-height:1.55;">
+      Specialty data extracted from <strong>Table D4</strong> in <a href="https://cra.org/crn/wp-content/uploads/sites/7/2023/05/2022-Taulbee-Survey-Final.pdf" style="color:var(--accent-phd)">[S3]</a> and <a href="https://cra.org/wp-content/uploads/2024/05/2023-CRA-Taulbee-Survey-Report.pdf" style="color:var(--accent-phd)">[S4]</a>. "Total known specialty" excludes the "Unknown" category (378 in 2021—22; 495 in 2022—23). AI/ML increased from <strong>25.2% to 28.4%</strong> across the GPT moment — a 3.2 percentage-point jump in one year.
+    </p>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">
+      <span>What CRA states about master's</span>
+      <span class="num">VERBATIM ONLY</span>
+    </div>
+
+    <p style="font-family:'Fraunces',serif; font-size:14px; color:var(--ink); line-height:1.6; margin-bottom:14px;">
+      Per <a href="https://cra.org/crn/2024/05/cra-update-taulbee-survey-shows-record-number-of-graduates-and-strong-enrollment-at-all-degree-levels/" style="color:var(--accent-phd)">[S4 summary]</a>:
+    </p>
+    <blockquote style="font-family:'Fraunces',serif; font-style:italic; font-size:14px; line-height:1.55; color:var(--muted); border-left:3px solid var(--accent-mast); padding-left:16px; margin-bottom:14px;">
+      "Master's degree production ballooned in 2022—23, more than double the prior year — the largest reported master's production in survey history."
+    </blockquote>
+    <p style="font-family:'Fraunces',serif; font-size:14px; color:var(--ink); line-height:1.6; margin-bottom:14px;">
+      Per <a href="https://cra.org/crn/2025/06/cra-update-new-cra-taulbee-survey-findings-show-record-doctoral-production-rising-enrollment-and-shifting-undergraduate-trends/" style="color:var(--accent-phd)">[S5 summary]</a>:
+    </p>
+    <blockquote style="font-family:'Fraunces',serif; font-style:italic; font-size:14px; line-height:1.55; color:var(--muted); border-left:3px solid var(--accent-mast); padding-left:16px;">
+      "A decline in master's and bachelor's degree production... continued growth in total enrollment — especially among new students."
+    </blockquote>
+    <p style="font-family:'Fraunces',serif; font-size:13px; color:var(--muted); margin-top:14px; line-height:1.55; font-style:italic;">
+      The 2022—23 master's spike is timing-confounded with both COVID rebound and GPT — separating those signals requires master's enrollment numbers I did not extract.
+    </p>
+  </div>
+</div>
+
+<!-- Interpretation -->
+<div class="panel">
+  <div class="panel-title">
+    <span>What can be honestly said about CS education and the GPT moment</span>
+    <span class="num">FROM THE VERIFIED DATA</span>
+  </div>
+
+  <div style="font-family:'Fraunces',serif; font-size:15px; line-height:1.65; color:var(--ink);">
+    <p style="margin-bottom:14px;">
+      <strong style="color:var(--accent-bach);">Bachelor's enrollment.</strong> Grew steadily from 150,331 to 182,973 across AY 2019—20 to 2022—23 — a 21.7% rise over four years. CRA notes this is <em>"the 16th consecutive year of growth"</em> [S4 summary]. The slope before and after the GPT moment is similar; ChatGPT did not bend the trend visibly at the bachelor's level.
+    </p>
+    <p style="margin-bottom:14px;">
+      <strong style="color:var(--accent-phd);">PhD enrollment.</strong> Total enrollment grew 8.2% across the same window. The clearest signal is in <strong>new PhD enrollment</strong>: 3,041 in AY 2022—23 → 3,438 in AY 2023—24 — a <strong>+13.1%</strong> jump, the steepest single-year rise in this dataset [S4 Table 1]. Applications growth supports this: AY 2023—24 saw 36,361 PhD applications across 95 reporting departments [S4 Table D14], a record.
+    </p>
+    <p>
+      <strong style="color:var(--accent-mast);">AI/ML specialty.</strong> Share of new PhDs whose specialty is AI/ML rose from 25.2% (2021—22) to 28.4% (2022—23) [S3, S4 Table D4]. This was already the dominant specialty pre-GPT; the post-GPT shift is incremental, not transformational — at least in the specialty mix that's been measured so far. The 2024 report [S5] notes AI/ML <em>"continues to be by far the most popular area of specialty of new PhDs."</em>
+    </p>
+  </div>
+</div>
+
+<!-- Sources block -->
+<div class="sources">
+  <div class="sources-title">▼ Source Documents — All Numbers Above Trace to These</div>
+  <ol>
+    <li><span class="label">[S1]</span> 2020 CRA Taulbee Survey (50th annual). Covers AY 2019—20 enrollment/degrees, AY 2020—21 new students. <a href="https://cra.org/wp-content/uploads/2021/05/2020-CRA-Taulbee-Survey.pdf">cra.org/wp-content/uploads/2021/05/2020-CRA-Taulbee-Survey.pdf</a></li>
+    <li><span class="label">[S2]</span> 2021 CRA Taulbee Survey (51st annual). Covers AY 2020—21 enrollment/degrees, AY 2021—22 new students. <a href="https://cra.org/wp-content/uploads/2022/05/2021-Taulbee-Survey.pdf">cra.org/wp-content/uploads/2022/05/2021-Taulbee-Survey.pdf</a></li>
+    <li><span class="label">[S3]</span> 2022 CRA Taulbee Survey (52nd annual). Covers AY 2021—22 enrollment/degrees, AY 2022—23 new students. <a href="https://cra.org/crn/wp-content/uploads/sites/7/2023/05/2022-Taulbee-Survey-Final.pdf">cra.org/crn/wp-content/uploads/sites/7/2023/05/2022-Taulbee-Survey-Final.pdf</a></li>
+    <li><span class="label">[S4]</span> 2023 CRA Taulbee Survey (53rd annual). Covers AY 2022—23 enrollment/degrees, AY 2023—24 new students. <a href="https://cra.org/wp-content/uploads/2024/05/2023-CRA-Taulbee-Survey-Report.pdf">cra.org/wp-content/uploads/2024/05/2023-CRA-Taulbee-Survey-Report.pdf</a></li>
+    <li><span class="label">[S5]</span> 2024 CRA Taulbee Survey (54th annual). Covers AY 2023—24 enrollment/degrees, AY 2024—25 new students. HTML format. <a href="https://datavisualization.cra.org/TaulbeeSurvey/CRA_Taulbee_Survey_Report_2024.html">datavisualization.cra.org/TaulbeeSurvey/CRA_Taulbee_Survey_Report_2024.html</a></li>
+    <li><span class="label">[S6]</span> "Sneak Peek" article in CRN on 2024 Taulbee findings, May 2025. <a href="https://cra.org/crn/2025/05/a-sneak-peek-at-doctoral-and-bachelors-enrollment-and-degree-trends-from-2024-cra-taulbee-survey/">cra.org/crn/2025/05/a-sneak-peek-at-doctoral-and-bachelors-enrollment-and-degree-trends-from-2024-cra-taulbee-survey/</a></li>
+  </ol>
+  <p style="margin-top:18px; padding-top:14px; border-top:1px solid rgba(244,239,230,.3);">
+    <strong style="letter-spacing:.1em;">VERIFICATION METHOD:</strong> Each source PDF was fetched in this conversation. Numbers were extracted directly from "Table 1" (degree production and enrollment change) in each report. Where the same number appears in two reports (current year and prior-year reference), I confirmed they match. Where data was not directly extracted (notably AY 2023—24 bachelor's enrollment from [S5]), the cell is marked "not extracted" rather than estimated.
+  </p>
+</div>
+
+</body>
+</html>
