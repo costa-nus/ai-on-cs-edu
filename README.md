@@ -8,15 +8,13 @@ Tracking how the post-ChatGPT period (Nov 2022 onward) has shown up in U.S. comp
 .
 ├── README.md                     # this file
 ├── SOURCES.md                    # all source URLs and what was extracted from each
-├── data/
-│   └── cs-enrollment-verified.csv  # primary dataset, every cell traceable to a source
-└── dashboards/
-    ├── cs-enrollment-stocks-vs-flows-v4.html   # latest two-panel dashboard (recommended)
-    ├── cs-enrollment-stocks-vs-flows.html      # earlier two-panel version
-    └── cs-enrollment-gpt-moment-v2.html        # combined dashboard with GPT marker
+├── index.html                    # two-panel stocks-vs-flows dashboard (self-contained)
+├── .nojekyll                     # disables Jekyll on GitHub Pages
+└── data/
+    └── cs-enrollment-verified.csv  # primary dataset, every cell traceable to a source
 ```
 
-Open any `.html` file in a browser — they are self-contained, no build step.
+Open `index.html` in a browser — it is self-contained, no build step. The repo is also deployable as-is to GitHub Pages (settings → Pages → deploy from `main` branch, root).
 
 ## What the data shows
 
@@ -41,14 +39,14 @@ The chart series are indexed to AY 2019-20 = 100 because absolute scales differ 
 
 ## Updating the data
 
-When new source documents are published, add rows to `data/cs-enrollment-verified.csv` and a citation line to `SOURCES.md`. The dashboards have hardcoded numbers — update the SVG `points` attributes and table cells accordingly.
+When new source documents are published, add rows to `data/cs-enrollment-verified.csv` and a citation line to `SOURCES.md`. The dashboard has hardcoded numbers — update the SVG `points` attributes and table cells in `index.html` accordingly.
 
 See `SOURCES.md` for which specific tables in each Taulbee report and NCES Digest page contain which numbers.
 
 ## Conversation log
 
-This dataset and the dashboards were built collaboratively in a Claude conversation. The methodology emphasis was on traceability over completeness: every number must trace to a primary source, and missing data is marked "not extracted" rather than estimated.
+This dataset and the dashboard were built collaboratively in a Claude conversation. The methodology emphasis was on traceability over completeness: every number must trace to a primary source, and missing data is marked "not extracted" rather than estimated.
 
 ## License
 
-Source data is from CRA (Taulbee Survey, public publications) and U.S. Department of Education NCES (IPEDS, public domain). The dashboards and CSV in this repo are released under the MIT License.
+Source data is from CRA (Taulbee Survey, public publications) and U.S. Department of Education NCES (IPEDS, public domain). The dashboard and CSV in this repo are released under the MIT License.
