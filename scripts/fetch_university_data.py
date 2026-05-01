@@ -21,15 +21,28 @@ Schools currently included (limited by what enrollment data is publicly
 available):
     - Georgia Tech (College of Computing — UG/MS/PhD, 10 years)
     - Michigan State University (CS B.S. — Fall 2021-2025)
+    - Carnegie Mellon (School of Computer Science — UG/MS/PhD, Fall 2020-2024)
+    - University of Wisconsin–Madison (CS major in L&S, B.S. only — Fall 2016-2025;
+      values extracted manually from DAPIR's public Tableau viz)
 
 Schools intentionally excluded:
-    - CMU: IRA publishes degrees-granted PDFs but no per-CS-Dept enrollment.
     - UIUC: DMI Statistical Abstract PDFs only contain degrees-by-CIP, not
       enrollment-by-CIP. The separate enrollment HTML is by-curriculum and
       multi-year coverage is not stable.
     - UMD: The cited department article only quotes degrees, not enrollment.
     - UC Berkeley: EECS "By the Numbers" page reports a single Fall snapshot
       with no multi-year history.
+
+Notes on previously-excluded schools that were re-evaluated:
+    - CMU was originally excluded because the IRA degrees-granted PDFs are
+      the only ones indexed from cmu.edu/ira/degrees-granted/. The IRA
+      *Enrollment* series (cmu.edu/ira/Enrollment/) is a separate page tree
+      that DOES publish per-SCS Fall enrollment headcount tables.
+    - UW–Madison was originally listed as Tableau-only (which is true for the
+      Department Planning Profiles, gated behind WiscVPN). But DAPIR's PUBLIC
+      "Trends in Student Enrollments" Tableau viz exposes a Crosstab
+      download — values for the Computer Sciences major were extracted that
+      way; see collect_uw_madison() below.
 
 Run:
     python3 scripts/fetch_university_data.py
@@ -251,6 +264,269 @@ def collect_gatech() -> None:
 
 
 # ──────────────────────────────────────────────────────────────────────────────
+# Carnegie Mellon — School of Computer Science Fall enrollment, by degree level
+# Source: CMU Office of Institutional Research & Analysis (IRA) — annual
+# "School of Computer Science Enrollment by Degree Level, Sex, and
+# Race/Citizenship" PDF, posted under cmu.edu/ira/Enrollment/pdf/fall-YYYY-pdfs/.
+#
+# Each PDF reports the current Fall and the prior Fall side-by-side (so the
+# Fall 2024 PDF gives both Fall 2024 and Fall 2023). We parse all four PDFs
+# (Fall 2021–2024) and dedupe; values must agree across the two PDFs that
+# contain them, which is a built-in consistency check.
+#
+# Scope caveat: the row label is "Total" for the WHOLE School of Computer
+# Science, which at CMU is a multi-department college (CS, AI, ML, HCI,
+# Robotics, Computational Biology, Software Research, Language Technologies).
+# This is broader than just the CS major — comparable in spirit to Georgia
+# Tech's College of Computing total, NOT to a CS-major-only count like MSU's.
+# We surface this in the scope string. Note: unlike Georgia Tech, CMU SCS
+# does NOT include an OMSCS-style mass-online-MS program, so master's growth
+# here is mostly residential.
+#
+# A small "Other" column (non-degree-seeking students) appears Fall 2023+;
+# we do not include it in any of the bachelors/masters/phd series.
+
+CMU_SCS_PDFS = {
+    # fall_year -> (url, local_filename)
+    2021: ("https://www.cmu.edu/ira/Enrollment/pdf/fall-2021-pdfs/scs-enrollment-10.28.2021.pdf",  "cmu-scs-f21.pdf"),
+    2022: ("https://www.cmu.edu/ira/Enrollment/pdf/fall-2022-pdfs/scs-enrollment_f22_2.9.2023.pdf", "cmu-scs-f22.pdf"),
+    2023: ("https://www.cmu.edu/ira/Enrollment/pdf/fall-2023-pdfs/scs-enrollment-f23-06oct2023.pdf", "cmu-scs-f23.pdf"),
+    2024: ("https://www.cmu.edu/ira/Enrollment/pdf/fall-2024-pdfs/scs-f24-enrollmet-08nov2024.pdf",  "cmu-scs-f24.pdf"),
+}
+
+CMU_SCS_INDEX_URL = "https://www.cmu.edu/ira/Enrollment/index.html"
+
+
+def parse_cmu_scs_pdf(pdf_path: Path, current_year: int) -> dict[int, dict[str, int]]:
+    """Returns {fall_year: {'bachelors': n, 'masters': n, 'phd': n}}.
+
+    The PDF has a single "Total" row near the bottom. The columns are, in
+    order: Total, Undergrad, Master's, PhD, [Other], (then the same group
+    again for the prior year). The Fall 2021 PDF omits the "Other" column.
+    """
+    txt = pdftotext(pdf_path)
+    m = re.search(r"^\s*Total\s+([\d,\s]+?)\s*$", txt, re.M)
+    if not m:
+        raise RuntimeError(f"Could not find Total row in {pdf_path.name}")
+    nums = [int(n.replace(",", "")) for n in re.findall(r"[\d,]+", m.group(1))]
+
+    # Decide whether the PDF has a 5-col-per-year layout (with "Other") or
+    # 4-col-per-year (no "Other"). Fall 2021 PDF uses the older 4-col layout.
+    if len(nums) == 8:
+        per_year = 4
+    elif len(nums) == 10:
+        per_year = 5
+    else:
+        raise RuntimeError(
+            f"Unexpected Total row column count ({len(nums)}) in {pdf_path.name}: {nums}"
+        )
+
+    cur = nums[0:per_year]
+    prv = nums[per_year:per_year * 2]
+
+    def unpack(g: list[int]) -> dict[str, int]:
+        # g = [Total, Undergrad, Master's, PhD, (Other)?]
+        return {"bachelors": g[1], "masters": g[2], "phd": g[3]}
+
+    return {
+        current_year: unpack(cur),
+        current_year - 1: unpack(prv),
+    }
+
+
+def collect_cmu() -> None:
+    label = "CMU IRA — School of Computer Science Enrollment by Degree Level (annual Fall PDF)"
+    scope = (
+        "School of Computer Science (whole college) — includes CS, AI, ML, "
+        "HCI, Robotics, Computational Biology, Software Research, and "
+        "Language Technologies departments. This is broader than just the "
+        "CS major (analogous to Georgia Tech's College of Computing); but "
+        "unlike Georgia Tech, the master's series here does NOT include a "
+        "mass-online-MS program. \"Other\" (non-degree-seeking) students "
+        "are excluded from the bachelors/masters/phd breakdown."
+    )
+
+    # fall_year -> {level -> (value, source_url)}
+    seen: dict[int, dict[str, tuple[int, str]]] = {}
+    for fall_year, (url, fname) in CMU_SCS_PDFS.items():
+        path = RAW / fname
+        if not path.exists():
+            fetch(url, path)
+        parsed = parse_cmu_scs_pdf(path, fall_year)
+        for yr, levels in parsed.items():
+            for level, value in levels.items():
+                prior = seen.get(yr, {}).get(level)
+                if prior is not None and prior[0] != value:
+                    raise RuntimeError(
+                        f"CMU SCS Fall {yr} {level} mismatch: "
+                        f"{prior[0]} (from {prior[1]}) vs {value} (from {url})"
+                    )
+                # Prefer the PDF whose "current" year matches yr (richer detail
+                # and matches the file that originated the value); fall back
+                # to the first PDF that contained it.
+                if prior is None or yr == fall_year:
+                    seen.setdefault(yr, {})[level] = (value, url)
+
+    for fall_year in sorted(seen):
+        ay = f"{fall_year}-{str(fall_year + 1)[-2:]}"
+        for level in ("bachelors", "masters", "phd"):
+            value, src_url = seen[fall_year][level]
+            rows.append(Row(
+                university="Carnegie Mellon",
+                csrankings_tier="top5",
+                academic_year=ay,
+                degree_level=level,
+                metric="total_enrollment",
+                value=value,
+                scope=scope,
+                source_url=src_url,
+                source_label=label,
+                notes="Fall census-date headcount; index page lists the latest term only — historical PDFs verified via Wayback Machine.",
+            ))
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# University of Wisconsin–Madison — Computer Sciences major Fall enrollment
+# Source: UW–Madison DAPIR (Data, Academic Planning & Institutional Research)
+# public Tableau dashboard "Trends in Student Enrollments" → "Degree-Major
+# Enrollment Comparison" sheet.
+#
+# Tableau viz URL (canonical):
+#   https://viz.wisc.edu/#/views/TrendsinStudentEnrollments/Degree-MajorEnrollmentComparison
+#
+# Collection method: we cannot fetch this dashboard with urllib — it's a
+# rendered Tableau viz. The values were extracted via Chrome by setting
+# Major=Computer Sciences, Term=Fall, Time Period=Last 10 Years, then
+# Tableau's "Download Crosstab as CSV" with five filter passes:
+#   (1) Academic Level=Undergraduate                          → UG
+#   (2) Academic Level=Graduate                               → Grad combined
+#   (3) Academic Level=(All)                                  → Total
+#   (4) Academic Level=Graduate × Degree Level of Major=Master's          → MS
+#   (5) Academic Level=Graduate × Degree Level of Major=Research Doctorate → PhD
+# All five CSVs are checked into data/raw/ and parsed here.
+#
+# Cross-checks (both run at parse time):
+#   - PRIMARY:   UG + Grad == Total                exactly (Academic-Level partition).
+#   - SECONDARY: 0 ≤ (MS + PhD) − Grad ≤ 25       per year. MS + PhD exceeds
+#     Grad by 6–21 students/year because UW–Madison classifies some PhD
+#     students as concurrently Master's-degree-seeking (a known artifact of
+#     the "MS en route to PhD" pattern). The Degree-Level-of-Major slices
+#     therefore double-count those students. The bound rejects re-exports
+#     where the overlap blows up, which would signal a filter-state error.
+#
+# Scope: UW–Madison's CS major is housed in the College of Letters & Science
+# (NOT the College of Engineering). The "Computer Sciences" major covers the
+# B.S./B.A., M.S., and Ph.D. tracks. UW–Madison also has separate "Computer
+# Engineering" and "Electrical and Computer Engineering" majors (in the CoE)
+# which we EXCLUDE.
+
+UW_MADISON_VIZ_URL = "https://viz.wisc.edu/#/views/TrendsinStudentEnrollments/Degree-MajorEnrollmentComparison"
+UW_MADISON_UG_CSV  = ROOT / "data" / "raw" / "uw-madison-cs-undergrad-fall2016-2025.csv"
+UW_MADISON_GR_CSV  = ROOT / "data" / "raw" / "uw-madison-cs-graduate-fall2016-2025.csv"
+UW_MADISON_ALL_CSV = ROOT / "data" / "raw" / "uw-madison-cs-all-levels-fall2016-2025.csv"
+UW_MADISON_MS_CSV  = ROOT / "data" / "raw" / "uw-madison-cs-masters-fall2016-2025.csv"
+UW_MADISON_PHD_CSV = ROOT / "data" / "raw" / "uw-madison-cs-research-doctorate-fall2016-2025.csv"
+
+
+def parse_uw_tableau_crosstab(path: Path) -> dict[int, int]:
+    """Parse a Tableau-exported Computer Sciences crosstab.
+
+    The export is UTF-16 with tab separators. Row 1 is "Fall" repeated; row 2
+    has years; row 3 is the Computer Sciences data row. Returns
+    {fall_year: count}.
+    """
+    text = path.read_bytes().decode("utf-16")
+    lines = [ln.split("\t") for ln in text.splitlines() if ln.strip()]
+    if len(lines) < 3:
+        raise RuntimeError(f"Unexpected layout in {path.name}: {lines!r}")
+    years_row = lines[1]
+    data_row = lines[2]
+    if data_row[0].strip() != "Computer Sciences":
+        raise RuntimeError(
+            f"{path.name} first data row is {data_row[0]!r}, expected 'Computer Sciences'"
+        )
+    out: dict[int, int] = {}
+    for year_cell, val_cell in zip(years_row[1:], data_row[1:]):
+        try:
+            yr = int(year_cell.strip())
+        except ValueError:
+            continue
+        out[yr] = int(val_cell.strip().replace(",", ""))
+    return out
+
+
+def collect_uw_madison() -> None:
+    label = "UW–Madison DAPIR — Trends in Student Enrollments (public Tableau viz, Computer Sciences major)"
+    scope = (
+        "University of Wisconsin–Madison Computer Sciences major (College of "
+        "Letters & Science — NOT the College of Engineering). Source is "
+        "DAPIR's public 'Degree-Major Enrollment Comparison' Tableau viz, "
+        "filtered to Major=\"Computer Sciences\". Excludes the separate "
+        "\"Computer Engineering\" and \"Electrical and Computer Engineering\" "
+        "majors. Master's and Ph.D. (Research Doctorate) come from the "
+        "Degree-Level-of-Major filter and slightly overlap (6–21 students/year) "
+        "because UW–Madison classifies some PhD students as concurrently "
+        "Master's-degree-seeking ('MS en route to PhD'). The PhD line here is "
+        "Research Doctorate — Clinical Doctorate students (none expected for "
+        "CS) are excluded."
+    )
+    notes_common = (
+        "Values extracted via Chrome from the Tableau Crosstab download on "
+        "2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds "
+        "Grad-combined by 6–21 students/year due to MS-en-route-to-PhD double-"
+        "classification."
+    )
+
+    ug    = parse_uw_tableau_crosstab(UW_MADISON_UG_CSV)
+    gr    = parse_uw_tableau_crosstab(UW_MADISON_GR_CSV)
+    total = parse_uw_tableau_crosstab(UW_MADISON_ALL_CSV)
+    ms    = parse_uw_tableau_crosstab(UW_MADISON_MS_CSV)
+    phd   = parse_uw_tableau_crosstab(UW_MADISON_PHD_CSV)
+
+    OVERLAP_BOUND = 25
+    for yr in sorted(set(ug) | set(gr) | set(total) | set(ms) | set(phd)):
+        # PRIMARY: UG + Grad == Total exactly (Academic-Level partition).
+        if ug.get(yr, 0) + gr.get(yr, 0) != total.get(yr, 0):
+            raise RuntimeError(
+                f"UW–Madison {yr} primary check failed: "
+                f"UG ({ug.get(yr)}) + Grad ({gr.get(yr)}) "
+                f"!= Total ({total.get(yr)}); re-export the CSVs."
+            )
+        # SECONDARY: 0 ≤ (MS + PhD) − Grad ≤ OVERLAP_BOUND (Degree-Level slices
+        # may double-count MS-en-route-to-PhD students; bound caps that overlap).
+        delta = ms.get(yr, 0) + phd.get(yr, 0) - gr.get(yr, 0)
+        if not (0 <= delta <= OVERLAP_BOUND):
+            raise RuntimeError(
+                f"UW–Madison {yr} secondary check failed: "
+                f"(MS + PhD) − Grad = {delta}, expected 0..{OVERLAP_BOUND}; "
+                f"check whether the Academic-Level filter was set correctly "
+                f"when the MS/PhD CSVs were exported."
+            )
+
+    by_level = {"bachelors": ug, "masters": ms, "phd": phd}
+    src_per_level = {
+        "bachelors": str(UW_MADISON_UG_CSV.relative_to(ROOT)),
+        "masters":   str(UW_MADISON_MS_CSV.relative_to(ROOT)),
+        "phd":       str(UW_MADISON_PHD_CSV.relative_to(ROOT)),
+    }
+    for level, series in by_level.items():
+        for fall_year, count in sorted(series.items()):
+            ay = f"{fall_year}-{str(fall_year + 1)[-2:]}"
+            rows.append(Row(
+                university="University of Wisconsin–Madison",
+                csrankings_tier="top30",
+                academic_year=ay,
+                degree_level=level,
+                metric="total_enrollment",
+                value=count,
+                scope=scope,
+                source_url=UW_MADISON_VIZ_URL,
+                source_label=label,
+                notes=f"{notes_common} Local raw CSV: {src_per_level[level]}.",
+            ))
+
+
+# ──────────────────────────────────────────────────────────────────────────────
 # main
 
 def write_csv(rows: list[Row]) -> None:
@@ -301,6 +577,8 @@ def write_js(rows: list[Row]) -> None:
 def main() -> None:
     collect_gatech()
     collect_msu()
+    collect_cmu()
+    collect_uw_madison()
     write_csv(rows)
     write_js(rows)
 

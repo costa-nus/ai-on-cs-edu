@@ -9,4 +9,10 @@ node_modules/
 # scripts/fetch_university_data.py. Don't commit these (they're heavy,
 # their URLs are recorded in data/university-cs-enrollment.csv, and
 # anyone can re-download by running the script).
-data/raw/
+data/raw/*
+# Exception: UW–Madison CSVs are extracted manually from a Tableau viz
+# (see collect_uw_madison() in scripts/fetch_university_data.py) and
+# cannot be re-fetched via urllib. They are tiny (~400 B each) and
+# essential to reproduce the build, so they ARE tracked.
+# (Negation requires `data/raw/*` glob, not `data/raw/` directory exclude.)
+!data/raw/uw-madison-cs-*.csv

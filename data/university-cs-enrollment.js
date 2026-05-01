@@ -199,5 +199,296 @@ window.UNIVERSITY_CS_DATA = {
         }
       }
     }
+  },
+  "Carnegie Mellon": {
+    "tier": "top5",
+    "scope": "School of Computer Science (whole college) \u2014 includes CS, AI, ML, HCI, Robotics, Computational Biology, Software Research, and Language Technologies departments. This is broader than just the CS major (analogous to Georgia Tech's College of Computing); but unlike Georgia Tech, the master's series here does NOT include a mass-online-MS program. \"Other\" (non-degree-seeking) students are excluded from the bachelors/masters/phd breakdown.",
+    "sources": [
+      {
+        "label": "CMU IRA \u2014 School of Computer Science Enrollment by Degree Level (annual Fall PDF)",
+        "url": "https://www.cmu.edu/ira/Enrollment/pdf/fall-2021-pdfs/scs-enrollment-10.28.2021.pdf"
+      },
+      {
+        "label": "CMU IRA \u2014 School of Computer Science Enrollment by Degree Level (annual Fall PDF)",
+        "url": "https://www.cmu.edu/ira/Enrollment/pdf/fall-2022-pdfs/scs-enrollment_f22_2.9.2023.pdf"
+      },
+      {
+        "label": "CMU IRA \u2014 School of Computer Science Enrollment by Degree Level (annual Fall PDF)",
+        "url": "https://www.cmu.edu/ira/Enrollment/pdf/fall-2023-pdfs/scs-enrollment-f23-06oct2023.pdf"
+      },
+      {
+        "label": "CMU IRA \u2014 School of Computer Science Enrollment by Degree Level (annual Fall PDF)",
+        "url": "https://www.cmu.edu/ira/Enrollment/pdf/fall-2024-pdfs/scs-f24-enrollmet-08nov2024.pdf"
+      }
+    ],
+    "series": {
+      "2020-21": {
+        "bachelors": {
+          "total_enrollment": 895,
+          "source_idx": 0,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        },
+        "masters": {
+          "total_enrollment": 831,
+          "source_idx": 0,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        },
+        "phd": {
+          "total_enrollment": 659,
+          "source_idx": 0,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        }
+      },
+      "2021-22": {
+        "bachelors": {
+          "total_enrollment": 984,
+          "source_idx": 0,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        },
+        "masters": {
+          "total_enrollment": 971,
+          "source_idx": 0,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        },
+        "phd": {
+          "total_enrollment": 692,
+          "source_idx": 0,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        }
+      },
+      "2022-23": {
+        "bachelors": {
+          "total_enrollment": 982,
+          "source_idx": 1,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        },
+        "masters": {
+          "total_enrollment": 1189,
+          "source_idx": 1,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        },
+        "phd": {
+          "total_enrollment": 707,
+          "source_idx": 1,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        }
+      },
+      "2023-24": {
+        "bachelors": {
+          "total_enrollment": 1019,
+          "source_idx": 2,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        },
+        "masters": {
+          "total_enrollment": 1165,
+          "source_idx": 2,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        },
+        "phd": {
+          "total_enrollment": 740,
+          "source_idx": 2,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        }
+      },
+      "2024-25": {
+        "bachelors": {
+          "total_enrollment": 1073,
+          "source_idx": 3,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        },
+        "masters": {
+          "total_enrollment": 1124,
+          "source_idx": 3,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        },
+        "phd": {
+          "total_enrollment": 763,
+          "source_idx": 3,
+          "notes": "Fall census-date headcount; index page lists the latest term only \u2014 historical PDFs verified via Wayback Machine."
+        }
+      }
+    }
+  },
+  "University of Wisconsin\u2013Madison": {
+    "tier": "top30",
+    "scope": "University of Wisconsin\u2013Madison Computer Sciences major (College of Letters & Science \u2014 NOT the College of Engineering). Source is DAPIR's public 'Degree-Major Enrollment Comparison' Tableau viz, filtered to Major=\"Computer Sciences\". Excludes the separate \"Computer Engineering\" and \"Electrical and Computer Engineering\" majors. Master's and Ph.D. (Research Doctorate) come from the Degree-Level-of-Major filter and slightly overlap (6\u201321 students/year) because UW\u2013Madison classifies some PhD students as concurrently Master's-degree-seeking ('MS en route to PhD'). The PhD line here is Research Doctorate \u2014 Clinical Doctorate students (none expected for CS) are excluded.",
+    "sources": [
+      {
+        "label": "UW\u2013Madison DAPIR \u2014 Trends in Student Enrollments (public Tableau viz, Computer Sciences major)",
+        "url": "https://viz.wisc.edu/#/views/TrendsinStudentEnrollments/Degree-MajorEnrollmentComparison"
+      }
+    ],
+    "series": {
+      "2016-17": {
+        "bachelors": {
+          "total_enrollment": 1052,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-undergrad-fall2016-2025.csv."
+        },
+        "masters": {
+          "total_enrollment": 203,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-masters-fall2016-2025.csv."
+        },
+        "phd": {
+          "total_enrollment": 167,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-research-doctorate-fall2016-2025.csv."
+        }
+      },
+      "2017-18": {
+        "bachelors": {
+          "total_enrollment": 1315,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-undergrad-fall2016-2025.csv."
+        },
+        "masters": {
+          "total_enrollment": 217,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-masters-fall2016-2025.csv."
+        },
+        "phd": {
+          "total_enrollment": 149,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-research-doctorate-fall2016-2025.csv."
+        }
+      },
+      "2018-19": {
+        "bachelors": {
+          "total_enrollment": 1565,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-undergrad-fall2016-2025.csv."
+        },
+        "masters": {
+          "total_enrollment": 222,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-masters-fall2016-2025.csv."
+        },
+        "phd": {
+          "total_enrollment": 143,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-research-doctorate-fall2016-2025.csv."
+        }
+      },
+      "2019-20": {
+        "bachelors": {
+          "total_enrollment": 1820,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-undergrad-fall2016-2025.csv."
+        },
+        "masters": {
+          "total_enrollment": 217,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-masters-fall2016-2025.csv."
+        },
+        "phd": {
+          "total_enrollment": 166,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-research-doctorate-fall2016-2025.csv."
+        }
+      },
+      "2020-21": {
+        "bachelors": {
+          "total_enrollment": 1849,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-undergrad-fall2016-2025.csv."
+        },
+        "masters": {
+          "total_enrollment": 179,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-masters-fall2016-2025.csv."
+        },
+        "phd": {
+          "total_enrollment": 218,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-research-doctorate-fall2016-2025.csv."
+        }
+      },
+      "2021-22": {
+        "bachelors": {
+          "total_enrollment": 2000,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-undergrad-fall2016-2025.csv."
+        },
+        "masters": {
+          "total_enrollment": 226,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-masters-fall2016-2025.csv."
+        },
+        "phd": {
+          "total_enrollment": 231,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-research-doctorate-fall2016-2025.csv."
+        }
+      },
+      "2022-23": {
+        "bachelors": {
+          "total_enrollment": 2207,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-undergrad-fall2016-2025.csv."
+        },
+        "masters": {
+          "total_enrollment": 273,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-masters-fall2016-2025.csv."
+        },
+        "phd": {
+          "total_enrollment": 265,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-research-doctorate-fall2016-2025.csv."
+        }
+      },
+      "2023-24": {
+        "bachelors": {
+          "total_enrollment": 2487,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-undergrad-fall2016-2025.csv."
+        },
+        "masters": {
+          "total_enrollment": 229,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-masters-fall2016-2025.csv."
+        },
+        "phd": {
+          "total_enrollment": 318,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-research-doctorate-fall2016-2025.csv."
+        }
+      },
+      "2024-25": {
+        "bachelors": {
+          "total_enrollment": 2606,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-undergrad-fall2016-2025.csv."
+        },
+        "masters": {
+          "total_enrollment": 226,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-masters-fall2016-2025.csv."
+        },
+        "phd": {
+          "total_enrollment": 321,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-research-doctorate-fall2016-2025.csv."
+        }
+      },
+      "2025-26": {
+        "bachelors": {
+          "total_enrollment": 2513,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-undergrad-fall2016-2025.csv."
+        },
+        "masters": {
+          "total_enrollment": 199,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-masters-fall2016-2025.csv."
+        },
+        "phd": {
+          "total_enrollment": 320,
+          "source_idx": 0,
+          "notes": "Values extracted via Chrome from the Tableau Crosstab download on 2026-05-01. UG + Grad-combined = Total exactly. MS + PhD exceeds Grad-combined by 6\u201321 students/year due to MS-en-route-to-PhD double-classification. Local raw CSV: data/raw/uw-madison-cs-research-doctorate-fall2016-2025.csv."
+        }
+      }
+    }
   }
 };
