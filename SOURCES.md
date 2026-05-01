@@ -115,6 +115,16 @@ enrollment in a stable parseable form are excluded; the dead-ends are
 documented below so they're not re-explored.
 
 ### [U1] Georgia Tech — Institutional Research & Planning Fact Book
+**OMSCS-excluded master's series — checked and unavailable as a clean primary series.**
+The IRP fact book reports College-of-Computing MS as a single combined number (residential + OMSCS, with no breakout). To construct a residential-only series we would need an authoritative year-by-year OMSCS Fall headcount. Sources surveyed:
+- OMSCS Annual Reports (`omscs.gatech.edu/{2024,2025}-omscs-annual-report`) publish current-Fall stats as **infographics/images** with no extractable text totals for prior Falls.
+- The "Stats (as of Fall 2021)" PDF (`omscs.gatech.edu/sites/default/files/documents/2023/The Numbers-Enrollment and Demographic Stats 2021.pdf`) gives only a single year (Fall 2021 = 11,537).
+- Press articles quote isolated single-year figures (e.g. cc.gatech.edu — Fall 2022 = 11,487; iblnews.org — early 2019 ≈ 8,672) but no two snapshots come from the same source under the same definition.
+- The "Ten Years, Ten Trends" L@S 2024 paper by Joyner & Duncan reportedly contains a year-by-year series but is paywalled (DOI 10.1145/3657604.3662038 returns 403 unauthenticated).
+
+Constructing residential-only MS = Total MS − OMSCS by stitching these scattered snapshots would mix definitions and violate the project's "every cell traces to one primary source; never estimate or impute" rule. Dashboard handles this by (1) tagging the GT master's line in-figure with `(incl. OMSCS)` and (2) keeping the loud OMSCS warning in the per-school SCOPE meta box. To unlock a residential-only line, find a single authoritative source that publishes a multi-year residential-MS-only or OMSCS-only Fall headcount table.
+
+
 - Office: Georgia Tech IRP
 - Annual fact book PDF: https://irp.gatech.edu/files/FactBook/2025_FactBook_Final.pdf
 - Tables used:

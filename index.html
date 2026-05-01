@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CS Enrollment — Stocks vs Flows (with verified master's)</title>
+<title>CS Enrollment — Stocks vs Flows</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -345,7 +345,7 @@
     How did the <em>ChatGPT moment</em> change U.S. computer science education?
   </h1>
   <p class="post-lede">
-    Three academic years after ChatGPT's November 2022 debut, the verified national data show two clear shifts: <strong>U.S. bachelor's CS enrollment has climbed every year, and the PhD pipeline just posted its first sharp post-GPT jump.</strong> A third &mdash; the master's market &mdash; cannot be measured at the same standard, because no national CS-field enrollment series exists. We flag that gap rather than fill it with a different metric.
+    Three academic years after ChatGPT's November 2022 debut, the verified national data show two clear shifts: <strong>U.S. bachelor's CS enrollment has climbed every year.</strong>
   </p>
   <div class="post-divider"></div>
 </header>
@@ -357,19 +357,7 @@
     <li><strong>Bachelor's total enrollment up 22%</strong> from AY 2019&mdash;20 to AY 2022&mdash;23 (150,331 &rarr; 182,973). <em>Source: CRA Taulbee Survey, Table 1, ~144 U.S. CS-PhD-granting departments [S1&ndash;S4].</em></li>
     <li><strong>New bachelor's majors up 37%</strong> over the same window (32,180 &rarr; 43,993) &mdash; the wave has not yet fully reached upper-class enrollment. <em>Source: Taulbee Table 1 [S1&ndash;S4].</em></li>
     <li><strong>New PhD students +13.1% year-over-year in AY 2023&mdash;24</strong> (3,041 &rarr; 3,438), the first full academic year that began after ChatGPT &mdash; the cleanest "GPT-era" signal in the verified data. <em>Source: Taulbee Survey 2024 [S5].</em></li>
-    <li><strong>Master's: a coverage gap.</strong> CRA Taulbee does not break out master's enrollment, and no other national series tracks U.S. CS-field master's <em>enrollment</em> at a comparable standard. We omit the master's series rather than substitute a different metric.</li>
   </ul>
-</div>
-
-<!-- ── Methodology / data sources (precision matters) ── -->
-<div class="data-source-note">
-  <div class="data-source-note-title">▌ Methodology &mdash; one source, two metrics</div>
-  <p>
-    <strong>All values come from the CRA Taulbee Survey, Table 1.</strong> Scope: U.S. CS-PhD-granting departments only (~144 reporting institutions). The Survey distinguishes <em>total Fall enrollment</em> (a stock &mdash; who is currently in the program) from <em>new students that year</em> (a flow &mdash; who entered). The two are kept on separate panels and never combined.
-  </p>
-  <p style="font-size:13px; color:var(--muted);">
-    <strong>What we deliberately do not show &middot;</strong> CRA Taulbee does not publish master's enrollment, and no other open national source tracks CS-field master's enrollment at a comparable standard. Rather than substitute a different metric (e.g. degrees conferred from a broader institutional scope), the master's line is omitted. Better an honest gap.
-  </p>
 </div>
 
 <div class="figures-grid">
@@ -378,7 +366,7 @@
   <div class="panel">
     <div class="panel-title">Figure A &middot; Stocks &mdash; who's enrolled now</div>
     <div class="panel-subtitle">
-      <strong>Total Fall enrollment headcount</strong>, Bachelor's and PhD only (CRA Taulbee Table 1, U.S. CS-PhD-granting departments). Indexed to <strong>AY 2019&mdash;20 = 100</strong>. Master's is <strong>omitted</strong>: no verified national CS-field enrollment series exists, and we do not substitute a different metric as a proxy.
+      <strong>Total Fall enrollment headcount</strong>, Bachelor's and PhD (CRA Taulbee Table 1, U.S. CS-PhD-granting departments). Indexed to <strong>AY 2019&mdash;20 = 100</strong>.
     </div>
 
     <div class="chart-wrap">
@@ -404,11 +392,6 @@
             '20-21: 16,052  → 97.7
             '21-22: 16,628  → 101.2
             '22-23: 17,770  → 108.2
-
-          MASTER'S OMITTED. CRA Taulbee does not publish master's enrollment,
-          and no other open national source tracks CS-field master's enrollment
-          at a comparable standard. Per project rule — "honest gap over metric
-          substitution" — we do not draw a master's line here.
 
           Y range: 95 → 130; pixels: 290 → 50; per idx = 240/35 = 6.857
           y(idx) = 290 - (idx - 95) * 6.857
@@ -462,10 +445,6 @@
         </g>
         <text x="385" y="100" class="value-label" fill="var(--accent-bach)">+22%</text>
 
-        <!-- Master's omitted — no verified national CS enrollment series. -->
-        <text x="245" y="80" class="axis-label" fill="var(--accent-mast)" text-anchor="middle" font-weight="700" font-style="italic">No comparable national</text>
-        <text x="245" y="93" class="axis-label" fill="var(--accent-mast)" text-anchor="middle" font-weight="700" font-style="italic">CS master's enrollment series</text>
-
         <!-- PhD: 100→97.7→101.2→108.2 -->
         <!-- y: 255.7, 271.5, 247.5, 199.6 -->
         <polyline
@@ -491,10 +470,6 @@
       <div class="legend-item">
         <div class="legend-swatch" style="background:var(--accent-phd)"></div>
         <span class="legend-text">PhD enrollment [Taulbee]</span>
-      </div>
-      <div class="legend-item" style="opacity:.55;">
-        <div class="legend-swatch" style="background:var(--accent-mast); opacity:.4; border:1.5px dashed var(--accent-mast);"></div>
-        <span class="legend-text">Master's &mdash; <em>omitted (no verified series)</em></span>
       </div>
     </div>
 
@@ -538,7 +513,7 @@
   <div class="panel">
     <div class="panel-title">Figure B &middot; Flows &mdash; who entered this year</div>
     <div class="panel-subtitle">
-      <strong>First-time (new) students by academic year</strong>, Bachelor's and PhD only (CRA Taulbee Table 1). Indexed to <strong>AY 2019&mdash;20 = 100</strong>. Master's first-time enrollment is not published at the CS-field level in any verified national source &mdash; <strong>omitted</strong>, not proxied.
+      <strong>First-time (new) students by academic year</strong>, Bachelor's and PhD (CRA Taulbee Table 1). Indexed to <strong>AY 2019&mdash;20 = 100</strong>.
     </div>
 
     <div class="chart-wrap">
@@ -639,10 +614,6 @@
           <text x="370" y="232" class="axis-label" fill="var(--ink)" text-anchor="middle" font-style="italic">+13.1% YoY</text>
         </g>
 
-        <!-- Master's: omitted -->
-        <text x="240" y="170" class="axis-label" fill="var(--accent-mast)" text-anchor="middle" font-weight="700" font-style="italic">No comparable</text>
-        <text x="240" y="183" class="axis-label" fill="var(--accent-mast)" text-anchor="middle" font-weight="700" font-style="italic">national CS first-time series</text>
-
         <text x="14" y="170" class="axis-label" transform="rotate(-90 14 170)" text-anchor="middle">INDEX</text>
       </svg>
     </div>
@@ -655,10 +626,6 @@
       <div class="legend-item">
         <div class="legend-swatch" style="background:var(--accent-phd)"></div>
         <span class="legend-text">New PhD [Taulbee]</span>
-      </div>
-      <div class="legend-item" style="opacity:.55;">
-        <div class="legend-swatch" style="background:var(--accent-mast); opacity:.4; border:1.5px dashed var(--accent-mast);"></div>
-        <span class="legend-text">New Master's &mdash; <em>omitted (no verified series)</em></span>
       </div>
     </div>
 
@@ -699,7 +666,7 @@
       </tbody>
     </table>
     <div class="figure-caption">
-      <strong>SOURCE</strong> &middot; CRA Taulbee Survey Table 1 [S1&ndash;S5]. <strong>METRIC</strong> &middot; First-time (new) student count, by academic year (a flow). <strong>SCOPE</strong> &middot; ~144 reporting U.S. CS-PhD-granting departments. Master's omitted &mdash; no published national first-time CS master's enrollment series.
+      <strong>SOURCE</strong> &middot; CRA Taulbee Survey Table 1 [S1&ndash;S5]. <strong>METRIC</strong> &middot; First-time (new) student count, by academic year (a flow). <strong>SCOPE</strong> &middot; ~144 reporting U.S. CS-PhD-granting departments.
     </div>
   </div>
 </div>
@@ -722,38 +689,21 @@
   </p>
 </section>
 
-<section class="story-section" style="border-left:4px solid var(--accent-mast); padding-left:22px;">
-  <h2><span class="kicker">Master's &middot; a coverage gap, not a flat line</span>What we cannot say from verified data</h2>
-  <p class="story-para">
-    CRA Taulbee does not break out master's enrollment, and no other open national source tracks U.S. CS-field master's <strong>enrollment</strong> head-to-head with Taulbee's BS and PhD counts. Rather than substitute a different metric &mdash; degrees conferred, on a broader institutional scope &mdash; we leave the line out. The post-ChatGPT shift in master's enrollment is real but, as of this update, not measurable from public sources at the same standard as the panels above.
-  </p>
-</section>
-
 <!-- Per-university section -->
 <section class="uni-section" id="uni-section">
   <div class="eyebrow" style="margin-bottom:10px;">Per-University View &middot; Total Enrollment &middot; Indexed</div>
   <h2>What does the shift look like at a single school?</h2>
   <p class="lede">
-    Same idea as the national figures, but at one school at a time. Each value below was downloaded by <code style="font-family:JetBrains Mono,monospace; font-size:13px;">scripts/fetch_university_data.py</code> from the linked university institutional-research source — no third-party aggregators. <strong>Click any value's <span style="color:var(--accent-phd);">[src]</span> to open the document it came from.</strong>
+    <strong>Total Fall enrollment headcount</strong>, indexed to each school's earliest available year (= 100). Coverage is limited to schools whose own institutional-research pages publish multi-year CS enrollment in a parseable form &mdash; see <a href="https://github.com/CoSTA-NUS/ai-on-cs-edu#per-university-view" style="color:var(--accent-phd);">README</a> for methodology, included/excluded schools, and the per-school scope notes.
   </p>
-  <p class="lede" style="margin-top:10px;">
-    The <strong style="color:var(--ink);">y-axis</strong> shows an <strong>index</strong>: the school's earliest available year is set to 100, and every later year is scaled relative to that. The underlying measure is <strong>total enrollment headcount</strong> at the start of each Fall term — i.e. the count of students currently in the program (bachelor's, master's, or PhD), <em>not</em> degrees conferred and <em>not</em> first-time enrollment.
-  </p>
-  <div style="background:rgba(155,31,36,.07); border-left:3px solid var(--accent-gpt); padding:14px 18px; margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.7;">
-    <strong style="color:var(--accent-gpt); letter-spacing:.1em;">⚠ COVERAGE GAP — READ ME</strong><br>
-    <span style="font-family:'Fraunces',serif; font-size:13px; line-height:1.55;">
-      Per-school <strong>enrollment</strong> data is hard to find as open primary sources. Most institutional-research offices publish degrees conferred (federally required for IPEDS) but not per-CS-major enrollment in a stable, parseable form. So this view <strong>only includes schools whose own IR/department pages publish multi-year CS enrollment headcounts</strong>: currently Carnegie Mellon (IRA School-of-Computer-Science PDFs), Georgia Tech (College of Computing fact book), Michigan State (CSE Department page), UW–Madison (DAPIR's public "Trends in Student Enrollments" Tableau viz, Crosstab-extracted), and UMass Amherst (UAIR factbook "Students by Major" PDFs).
-      The following schools were checked and <strong>excluded</strong> because their public sources do not publish enrollment in a usable form: <strong>Stanford, U Washington, U Michigan, UIUC, UMD, UC Berkeley, Purdue, UCSD, UC Irvine, Penn State, Princeton, Cornell, Penn, NC State (post-2020), USC, Ohio State, Texas A&amp;M, Virginia Tech, U Minnesota–Twin Cities, UNC Chapel Hill, U Pittsburgh</strong>. Adding any of them requires finding a different primary source — see <code>SOURCES.md</code> for the dead-ends already explored.
-    </span>
-  </div>
   <div class="uni-controls" id="uni-controls" role="tablist" aria-label="Select a university"></div>
-
-  <div class="uni-meta" id="uni-meta"></div>
 
   <div class="uni-chart-wrap">
     <svg id="uni-chart" viewBox="0 0 500 360" preserveAspectRatio="xMidYMid meet"></svg>
     <div class="legend" id="uni-legend"></div>
   </div>
+
+  <div class="uni-meta" id="uni-meta"></div>
 
   <table class="uni-table" id="uni-table"></table>
 </section>
@@ -773,6 +723,14 @@
     bachelors: "Bachelor's",
     masters:   "Master's",
     phd:       "PhD",
+  };
+  // Per-school chart annotations keyed by degree level. Surfaced as italic
+  // SVG text under the value label, so the caveat stays "in the figure"
+  // rather than only in the meta box.
+  const CHART_NOTES = {
+    'Georgia Tech': {
+      masters: '(+online)',
+    },
   };
   const data = window.UNIVERSITY_CS_DATA || {};
 
@@ -955,6 +913,15 @@
         x: last.x + 8, y: last.y + 3,
         class: 'value-label', fill: COLORS[L],
       }, sign + pctChange + '%'));
+      // optional in-chart caveat (e.g. GT master's "incl. OMSCS")
+      const note = CHART_NOTES[uniName]?.[L];
+      if (note) {
+        svg.appendChild(mk('text', {
+          x: last.x + 8, y: last.y + 15,
+          class: 'value-label', fill: COLORS[L],
+          'font-style': 'italic', 'font-weight': 400, 'font-size': 9,
+        }, note));
+      }
     });
 
     // ── legend
@@ -1024,7 +991,7 @@
     <li><span class="label">[U4]</span> <strong>UW–Madison DAPIR</strong> — "Trends in Student Enrollments" → Degree-Major Enrollment Comparison (public Tableau viz). Computer Sciences major in the College of Letters &amp; Science, full UG / MS / PhD breakdown via 5 Crosstab passes — UG, Grad-combined, all-levels, Master's, Research Doctorate — with two integrity checks. MS + PhD slightly overlap (6–21 students/year) due to MS-en-route-to-PhD students. <a href="https://viz.wisc.edu/#/views/TrendsinStudentEnrollments/Degree-MajorEnrollmentComparison">viz.wisc.edu/.../Degree-MajorEnrollmentComparison</a></li>
   </ol>
   <p style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(244,239,230,.3);">
-    <strong style="letter-spacing:.1em;">METHOD:</strong> Index = (Value / 2019—20 baseline) × 100. National panels (Figures A &amp; B) draw exclusively from CRA Taulbee Table 1 (U.S. CS-PhD-granting departments, ~144 reporting). Master's enrollment is omitted, not proxied. Per-university values come from each school's own institutional-research source — see [U#] above.
+    Full methodology, scope rules, and update procedure: <a href="https://github.com/CoSTA-NUS/ai-on-cs-edu#readme" style="color:var(--link-gold);">README.md</a>.
   </p>
 </div>
 
