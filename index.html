@@ -178,20 +178,79 @@
     .header-top{flex-direction:column; gap:12px;}
     .meta{text-align:left;}
   }
+
+  /* ── per-university section ── */
+  .uni-section{margin-top:48px; padding-top:32px; border-top:2px solid var(--rule);}
+  .uni-section h2{
+    font-family:'Fraunces',serif; font-weight:300;
+    font-size:clamp(28px, 3.4vw, 40px);
+    line-height:1.1; letter-spacing:-.02em; margin-bottom:8px;
+  }
+  .uni-section h2 em{font-style:italic; font-weight:400; color:var(--accent-bach);}
+  .uni-section .lede{
+    margin-top:8px; max-width:780px;
+    font-size:15px; line-height:1.55; color:var(--muted);
+  }
+  .uni-controls{
+    margin-top:24px; margin-bottom:18px;
+    display:flex; flex-wrap:wrap; gap:8px;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .uni-pill{
+    border:1.2px solid var(--rule);
+    background:var(--paper-2);
+    color:var(--ink);
+    padding:8px 14px;
+    font-size:11px; letter-spacing:.06em;
+    cursor:pointer; transition:all .12s ease;
+    font-family:inherit;
+  }
+  .uni-pill:hover{background:var(--ink); color:var(--paper);}
+  .uni-pill.active{background:var(--ink); color:var(--paper); font-weight:700;}
+  .uni-pill .tier{
+    font-size:9px; opacity:.65; margin-left:8px; letter-spacing:.1em;
+  }
+  .uni-pill.active .tier{opacity:.85;}
+
+  .uni-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px; color:var(--ink); letter-spacing:.02em;
+    line-height:1.7; margin-bottom:14px;
+    padding:14px 18px; border-left:3px solid var(--accent-gpt);
+    background:rgba(184,16,26,.04);
+  }
+  .uni-meta strong{color:var(--accent-gpt); font-weight:700; letter-spacing:.1em;}
+  .uni-meta a{color:var(--accent-phd); word-break:break-all;}
+  .uni-meta .scope-text{font-family:'Fraunces',serif; font-size:13px; line-height:1.55;}
+
+  .uni-chart-wrap{background:var(--paper-2); border:1.5px solid var(--rule); padding:24px 26px; margin-bottom:18px;}
+  .uni-chart-wrap svg{width:100%; height:auto; display:block;}
+
+  .uni-table{
+    width:100%; border-collapse:collapse;
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+  }
+  .uni-table th{
+    text-align:left; padding:8px 8px; border-bottom:1.5px solid var(--ink);
+    font-size:8px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink); font-weight:700;
+  }
+  .uni-table th.num, .uni-table td.num{text-align:right; font-variant-numeric:tabular-nums;}
+  .uni-table td{
+    padding:7px 8px; border-bottom:1px solid rgba(0,0,0,.1); color:var(--ink);
+  }
+  .uni-table td.year{font-weight:600;}
+  .uni-table td a{color:var(--accent-phd); text-decoration:none;}
+  .uni-table td a:hover{text-decoration:underline;}
+  .uni-table .src-cell{font-size:9px; color:var(--muted);}
+  .uni-table .post-gpt{background:rgba(184,16,26,.06);}
+  .uni-table .post-gpt td.year{color:var(--accent-gpt); font-weight:700;}
+  .uni-table .na{color:var(--muted); font-style:italic;}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-top">
-    <div class="eyebrow">Stocks &amp; flows · v4 · master's added</div>
-    <div class="meta">
-      <strong>FIG. 03 · TWO-PANEL</strong><br>
-      US, NATIONAL DATA<br>
-      AY 2018—19 → 2022—23<br>
-      CRA TAULBEE + NCES IPEDS
-    </div>
-  </div>
   <h1>
     <em>Total</em> enrollment vs <em>new</em> enrollment<br>
     Bachelor's, Master's, and PhD in CS
@@ -580,6 +639,291 @@
   </div>
 </div>
 
+<!-- Per-university section -->
+<section class="uni-section" id="uni-section">
+  <div class="eyebrow" style="margin-bottom:10px;">Per-university view · total enrollment · indexed</div>
+  <h2><em>Pick a university.</em> See how its CS pipeline shifted post-GPT.</h2>
+  <p class="lede">
+    Same idea as the national figures, but at one school at a time. Each value below was downloaded by <code style="font-family:JetBrains Mono,monospace; font-size:13px;">scripts/fetch_university_data.py</code> from the linked university institutional-research source — no third-party aggregators. <strong>Click any value's <span style="color:var(--accent-phd);">[src]</span> to open the document it came from.</strong>
+  </p>
+  <p class="lede" style="margin-top:10px;">
+    The <strong style="color:var(--ink);">y-axis</strong> shows an <strong>index</strong>: the school's earliest available year is set to 100, and every later year is scaled relative to that. The underlying measure is <strong>total enrollment headcount</strong> at the start of each Fall term — i.e. the count of students currently in the program (bachelor's, master's, or PhD), <em>not</em> degrees conferred and <em>not</em> first-time enrollment.
+  </p>
+  <div style="background:rgba(184,16,26,.06); border-left:3px solid var(--accent-gpt); padding:14px 18px; margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.7;">
+    <strong style="color:var(--accent-gpt); letter-spacing:.1em;">⚠ COVERAGE GAP — READ ME</strong><br>
+    <span style="font-family:'Fraunces',serif; font-size:13px; line-height:1.55;">
+      Per-school <strong>enrollment</strong> data is hard to find as open primary sources. Most institutional-research offices publish degrees conferred (federally required for IPEDS) but not per-CS-major enrollment in a stable, parseable form. So this view <strong>only includes schools whose own IR/department pages publish multi-year CS enrollment headcounts</strong>: currently Georgia Tech (College of Computing fact book) and Michigan State (CSE Department page).
+      The following schools were checked and <strong>excluded</strong> because their public sources do not publish enrollment in a usable form: <strong>CMU, UIUC, UMD, UC Berkeley</strong>. Adding any of them requires finding a different primary source — see <code>SOURCES.md</code> for the dead-ends already explored.
+    </span>
+  </div>
+  <p class="lede" style="margin-top:10px;">
+    The <strong style="color:var(--ink);">≈ RANK</strong> label on each pill is an <em>approximate</em> tier from <a href="https://csrankings.org/" target="_blank" rel="noopener" style="color:var(--accent-phd);">CSRankings</a> — specifically the AI-areas index (<code style="font-family:JetBrains Mono,monospace; font-size:12px;">ai + vision + mlmining + nlp + inforet</code>, 2014—2024 window). Schools are bucketed into ≈ rank 5 / 10 / 30 / 50, not given exact ranks; the <code style="font-family:JetBrains Mono,monospace; font-size:12px;">≈</code> glyph signals the imprecision. Tier assignment is hardcoded in <code style="font-family:JetBrains Mono,monospace; font-size:12px;">scripts/fetch_university_data.py</code> per school — it does not update automatically when CSRankings recomputes.
+  </p>
+
+  <div class="uni-controls" id="uni-controls" role="tablist" aria-label="Select a university"></div>
+
+  <div class="uni-meta" id="uni-meta"></div>
+
+  <div class="uni-chart-wrap">
+    <svg id="uni-chart" viewBox="0 0 500 360" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="legend" id="uni-legend"></div>
+  </div>
+
+  <table class="uni-table" id="uni-table"></table>
+</section>
+
+<!-- University data: generated by scripts/fetch_university_data.py.
+     Bump ?v= when the data file changes so browsers don't keep a stale copy. -->
+<script src="data/university-cs-enrollment.js?v=4"></script>
+<script>
+(function() {
+  'use strict';
+  const COLORS = {
+    bachelors: 'var(--accent-bach)',
+    masters:   'var(--accent-mast)',
+    phd:       'var(--accent-phd)',
+  };
+  const LEVEL_LABEL = {
+    bachelors: "Bachelor's",
+    masters:   "Master's",
+    phd:       "PhD",
+  };
+  const TIER_LABEL = {top5:'≈ RANK 5', top10:'≈ RANK 10', top30:'≈ RANK 30', top50:'≈ RANK 50'};
+  const data = window.UNIVERSITY_CS_DATA || {};
+
+  // Order universities by tier (top5 first), then alphabetically.
+  const tierOrder = {top5:0, top10:1, top30:2, top50:3};
+  const unis = Object.keys(data).sort((a, b) => {
+    const ta = tierOrder[data[a].tier] ?? 9;
+    const tb = tierOrder[data[b].tier] ?? 9;
+    if (ta !== tb) return ta - tb;
+    return a.localeCompare(b);
+  });
+
+  // ── pill controls
+  const controls = document.getElementById('uni-controls');
+  unis.forEach((u, i) => {
+    const b = document.createElement('button');
+    b.className = 'uni-pill' + (i === 0 ? ' active' : '');
+    b.dataset.uni = u;
+    b.setAttribute('role', 'tab');
+    b.innerHTML = u + '<span class="tier">' + (TIER_LABEL[data[u].tier] || '') + '</span>';
+    b.addEventListener('click', () => render(u));
+    controls.appendChild(b);
+  });
+
+  // ── chart sizing
+  const VB = {w: 500, h: 360};
+  const M = {top: 50, right: 70, bottom: 60, left: 70};
+  const PLOT = {
+    x0: M.left, x1: VB.w - M.right,
+    y0: M.top,  y1: VB.h - M.bottom,
+  };
+  // Index range — adjusted per university so high-growth lines don't clip.
+  let Y_MIN = 50, Y_MAX = 200;
+  const yOf = idx => PLOT.y1 - ((idx - Y_MIN) / (Y_MAX - Y_MIN)) * (PLOT.y1 - PLOT.y0);
+
+  function render(uniName) {
+    document.querySelectorAll('.uni-pill').forEach(p => {
+      p.classList.toggle('active', p.dataset.uni === uniName);
+    });
+
+    const uni = data[uniName];
+    const years = Object.keys(uni.series).sort();          // ascending
+    const yearCount = years.length;
+
+    // Single metric across all schools: total enrollment (Fall headcount).
+    const levels = ['bachelors', 'masters', 'phd'];
+    const metricUsed = 'total_enrollment';
+    // For each level, list only the years where enrollment data exists.
+    const present = {};
+    levels.forEach(L => {
+      const yrs = years.filter(y => uni.series[y][L]?.[metricUsed] != null);
+      if (yrs.length) present[L] = yrs;
+    });
+
+    // x positions — equal spacing along x-axis, regardless of year gaps
+    const xOf = i => yearCount === 1
+      ? (PLOT.x0 + PLOT.x1) / 2
+      : PLOT.x0 + (i / (yearCount - 1)) * (PLOT.x1 - PLOT.x0);
+
+    // Auto-fit Y range based on actual indexed values across all available levels.
+    let maxIdx = 100, minIdx = 100;
+    Object.keys(present).forEach(L => {
+      const yrs = present[L];
+      const baseRow = uni.series[yrs[0]][L];
+      const baseVal = baseRow[metricUsed];
+      yrs.forEach(y => {
+        const r = uni.series[y][L];
+        const v = r[metricUsed];
+        const idx = (v / baseVal) * 100;
+        if (idx > maxIdx) maxIdx = idx;
+        if (idx < minIdx) minIdx = idx;
+      });
+    });
+    Y_MAX = Math.max(150, Math.ceil((maxIdx + 10) / 50) * 50);
+    Y_MIN = Math.min(80,  Math.floor((minIdx - 10) / 10) * 10);
+
+    // ── meta box
+    const sourcesList = uni.sources.map(s =>
+      `<a href="${s.url}" target="_blank" rel="noopener">${s.url.replace(/^https?:\/\//,'').slice(0,80)}…</a>`
+    ).join('<br>');
+    document.getElementById('uni-meta').innerHTML =
+      `<strong>SCOPE</strong> <span class="scope-text">${escapeHtml(uni.scope)}</span>` +
+      `<br><strong>METRIC</strong> · total enrollment headcount (Fall snapshot) ` +
+      `<br><strong>SOURCES</strong> · ${sourcesList}`;
+
+    // ── build SVG
+    const svg = document.getElementById('uni-chart');
+    svg.innerHTML = '';
+    const NS = 'http://www.w3.org/2000/svg';
+    const mk = (tag, attrs, text) => {
+      const e = document.createElementNS(NS, tag);
+      for (const k in attrs) e.setAttribute(k, attrs[k]);
+      if (text != null) e.textContent = text;
+      return e;
+    };
+
+    // gridlines — pick a step that yields ~5 ticks across the range
+    const range = Y_MAX - Y_MIN;
+    const step = range > 600 ? 200 : range > 300 ? 100 : 50;
+    const gridTicks = [];
+    for (let t = Math.ceil(Y_MIN / step) * step; t <= Y_MAX; t += step) gridTicks.push(t);
+    if (!gridTicks.includes(100)) gridTicks.push(100);
+    gridTicks.sort((a, b) => a - b);
+    gridTicks.forEach(idx => {
+      svg.appendChild(mk('line', {
+        x1: PLOT.x0, x2: PLOT.x1, y1: yOf(idx), y2: yOf(idx),
+        stroke: '#000', 'stroke-opacity': idx === 100 ? 0.25 : 0.08,
+        'stroke-width': idx === 100 ? 0.8 : 0.5,
+      }));
+      svg.appendChild(mk('text', {
+        x: PLOT.x0 - 8, y: yOf(idx) + 3, 'text-anchor': 'end',
+        class: 'axis-label',
+        'font-weight': idx === 100 ? 700 : 400,
+        fill: idx === 100 ? 'var(--ink)' : 'var(--muted)',
+      }, idx));
+    });
+
+    // axes
+    svg.appendChild(mk('line', {x1: PLOT.x0, x2: PLOT.x0, y1: PLOT.y0 - 15, y2: PLOT.y1, stroke: 'var(--ink)', 'stroke-width': 1.2}));
+    svg.appendChild(mk('line', {x1: PLOT.x0, x2: PLOT.x1, y1: PLOT.y1, y2: PLOT.y1, stroke: 'var(--ink)', 'stroke-width': 1.2}));
+    svg.appendChild(mk('text', {x: 14, y: (PLOT.y0 + PLOT.y1) / 2, transform: `rotate(-90 14 ${(PLOT.y0 + PLOT.y1)/2})`, 'text-anchor': 'middle', class: 'axis-label'}, 'INDEX (BASE YR = 100)'));
+
+    // year labels
+    years.forEach((y, i) => {
+      const x = xOf(i);
+      // Display "'18-19" style — strip the leading "20" from the first half
+      const yLabel = "'" + y.slice(2);
+      svg.appendChild(mk('text', {x, y: PLOT.y1 + 17, 'text-anchor': 'middle', class: 'year-label'}, yLabel));
+      const yrInt = parseInt(y.split('-')[0], 10);
+      const isPost = yrInt >= 2022;  // AY 22-23 starts Aug 2022, post-GPT in Nov 2022
+      svg.appendChild(mk('text', {
+        x, y: PLOT.y1 + 33, 'text-anchor': 'middle', class: 'axis-label',
+        fill: isPost ? 'var(--accent-gpt)' : 'var(--muted)',
+      }, isPost ? 'POST' : 'PRE'));
+    });
+
+    // GPT marker — between AY 21-22 and AY 22-23 if both present, else just before first POST year
+    const postIdx = years.findIndex(y => parseInt(y.split('-')[0], 10) >= 2022);
+    if (postIdx > 0) {
+      const gx = (xOf(postIdx - 1) + xOf(postIdx)) / 2;
+      svg.appendChild(mk('line', {x1: gx, x2: gx, y1: PLOT.y0 - 15, y2: PLOT.y1 + 12, stroke: 'var(--accent-gpt)', 'stroke-width': 1.5, 'stroke-dasharray': '3,3'}));
+      const w = 86;
+      svg.appendChild(mk('rect', {x: gx - w/2, y: PLOT.y0 - 35, width: w, height: 14, fill: 'var(--accent-gpt)'}));
+      svg.appendChild(mk('text', {x: gx, y: PLOT.y0 - 25, 'text-anchor': 'middle', class: 'gpt-marker-label'}, 'GPT · NOV 2022'));
+    } else if (postIdx === 0 && yearCount === 1) {
+      // single point in post-GPT — just label the year as POST
+    }
+
+    // draw lines per available level
+    Object.keys(present).forEach(L => {
+      const yrs = present[L];
+      if (yrs.length === 0) return;
+      const baseRow = uni.series[yrs[0]][L];
+      const baseVal = baseRow[metricUsed];
+      const pts = yrs.map(y => {
+        const r = uni.series[y][L];
+        const v = r[metricUsed];
+        const idx = (v / baseVal) * 100;
+        const xi = years.indexOf(y);
+        return {x: xOf(xi), y: yOf(Math.max(Y_MIN, Math.min(Y_MAX, idx))), idx, v, year: y};
+      });
+      if (pts.length > 1) {
+        svg.appendChild(mk('polyline', {
+          fill: 'none',
+          stroke: COLORS[L],
+          'stroke-width': 2.5,
+          'stroke-linecap': 'round', 'stroke-linejoin': 'round',
+          points: pts.map(p => p.x + ',' + p.y).join(' '),
+        }));
+      }
+      pts.forEach((p, i) => {
+        const isLast = i === pts.length - 1;
+        svg.appendChild(mk('circle', {cx: p.x, cy: p.y, r: isLast ? 4.5 : 3.5, fill: COLORS[L]}));
+      });
+      // value label on last point
+      const last = pts[pts.length - 1];
+      const pctChange = ((last.idx - 100)).toFixed(0);
+      const sign = pctChange > 0 ? '+' : '';
+      svg.appendChild(mk('text', {
+        x: last.x + 8, y: last.y + 3,
+        class: 'value-label', fill: COLORS[L],
+      }, sign + pctChange + '%'));
+    });
+
+    // ── legend
+    const lg = document.getElementById('uni-legend');
+    lg.innerHTML = '';
+    Object.keys(present).forEach(L => {
+      const div = document.createElement('div');
+      div.className = 'legend-item';
+      div.innerHTML =
+        `<div class="legend-swatch" style="background:${COLORS[L]}"></div>` +
+        `<span class="legend-text">${LEVEL_LABEL[L]} (enrollment)</span>`;
+      lg.appendChild(div);
+    });
+
+    // ── data table
+    const t = document.getElementById('uni-table');
+    const cols = Object.keys(present);
+    let html = '<thead><tr><th>YEAR</th>';
+    cols.forEach(L => { html += `<th class="num">${LEVEL_LABEL[L]}</th>`; });
+    html += '<th class="num">SOURCE</th></tr></thead><tbody>';
+    years.forEach(y => {
+      const yrInt = 2000 + parseInt(y.slice(0,2),10);
+      const isPost = yrInt >= 2022;
+      html += `<tr class="${isPost ? 'post-gpt' : ''}"><td class="year">'${y.slice(2)}</td>`;
+      let srcUrl = null;
+      cols.forEach(L => {
+        const r = uni.series[y][L];
+        if (r && r[metricUsed] != null) {
+          const v = r[metricUsed];
+          const baseRow = uni.series[present[L][0]][L];
+          const baseVal = baseRow[metricUsed];
+          const idx = ((v / baseVal) * 100).toFixed(1);
+          html += `<td class="num">${v.toLocaleString()} <span class="ix">${idx}</span></td>`;
+          if (srcUrl == null && r.source_idx != null) srcUrl = uni.sources[r.source_idx].url;
+        } else {
+          html += '<td class="num na">—</td>';
+        }
+      });
+      html += `<td class="num src-cell">${srcUrl ? `<a href="${srcUrl}" target="_blank" rel="noopener">[src]</a>` : '—'}</td>`;
+      html += '</tr>';
+    });
+    html += '</tbody>';
+    t.innerHTML = html;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  }
+
+  // initial render
+  if (unis.length) render(unis[0]);
+})();
+</script>
+
 <!-- Sources -->
 <div class="sources">
   <div class="sources-title">▼ Verified Source Documents</div>
@@ -591,6 +935,8 @@
     <li><span class="label">[S5]</span> 2024 CRA Taulbee Survey (HTML format, partial extraction). <a href="https://datavisualization.cra.org/TaulbeeSurvey/CRA_Taulbee_Survey_Report_2024.html">datavisualization.cra.org/TaulbeeSurvey/CRA_Taulbee_Survey_Report_2024.html</a></li>
     <li><span class="label">[S6]</span> <strong>NCES IPEDS Digest of Education Statistics 2023, Table 325.35</strong> — Degrees in computer and information sciences conferred, 1964—65 through 2021—22. Master's series for CIP 11. <a href="https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp">nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp</a></li>
     <li><span class="label">[S7]</span> Encoura/Eduventures, "How International Students Are Saving Master's Enrollment" (Oct 2024) — references IPEDS conferral data for CIP 11.0701 showing CS master's nearly doubled 2022→2023. <a href="https://www.encoura.org/resources/wake-up-call/how-international-students-are-saving-masters-enrollment/">encoura.org/resources/wake-up-call/how-international-students-are-saving-masters-enrollment/</a></li>
+    <li><span class="label">[U1]</span> <strong>Georgia Tech IRP, 2025 Fact Book</strong> — Fall Enrollment by College, Ten-Year History (UG, MS, PhD). <a href="https://irp.gatech.edu/files/FactBook/2025_FactBook_Final.pdf">irp.gatech.edu/files/FactBook/2025_FactBook_Final.pdf</a></li>
+    <li><span class="label">[U2]</span> <strong>MSU College of Engineering, CSE Department</strong> — Computer Science (B.S.) Fall enrollment headcount, 4th-week census. <a href="https://engineering.msu.edu/academics/undergraduate/enrollment-data">engineering.msu.edu/academics/undergraduate/enrollment-data</a></li>
   </ol>
   <p style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(244,239,230,.3);">
     <strong style="letter-spacing:.1em;">METHOD:</strong> Index = (Value / 2019—20 baseline) × 100. Bachelor's & PhD use Taulbee Table 1 (US CS departments, ~144 reporting). Master's uses NCES IPEDS Digest Table 325.35 (all U.S. degree-granting institutions, CIP 11 = "Computer and Information Sciences"). Scope is broader for master's than for BS/PhD; level shifts are not directly comparable but year-over-year changes are meaningful.

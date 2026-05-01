@@ -99,3 +99,60 @@ To reproduce or update:
 When CRA publishes the next Taulbee report (typically May), append rows to the CSV
 with the new academic year's numbers. NCES typically publishes its updated Digest
 table in late summer/fall of the year following the academic year covered.
+
+## Per-university sources (enrollment only)
+
+These power the per-university chart and table at the bottom of `index.html`.
+Every row in `data/university-cs-enrollment.csv` carries its own `source_url`.
+`scripts/fetch_university_data.py` downloads each source and writes the CSV +
+`data/university-cs-enrollment.js`. Run with `--verify` to print every value
+with its source URL for spot-checking.
+
+**Scope:** total Fall enrollment headcount (a stock — students currently in
+the program), not degrees conferred (a flow — graduates per year). Schools
+whose institutional-research offices do not publish multi-year per-CS
+enrollment in a stable parseable form are excluded; the dead-ends are
+documented below so they're not re-explored.
+
+### [U1] Georgia Tech — Institutional Research & Planning Fact Book
+- Office: Georgia Tech IRP
+- Annual fact book PDF: https://irp.gatech.edu/files/FactBook/2025_FactBook_Final.pdf
+- Tables used:
+  - "Undergraduate Enrollment by College, Fall Term History" (College of Computing row, 10 columns)
+  - "Graduate Enrollment by College and Degree, Fall Term History" (College of Computing × {MS, PhD})
+- Scope: **College of Computing — all schools/programs combined**, including CS, Cybersecurity & Privacy, Interactive Computing, and Computational Science & Engineering. The master's series **includes the Online MS in CS (OMSCS)**, launched 2014, which scaled past 10,000 students; master's growth is dominated by OMSCS and is not directly comparable to residential master's elsewhere.
+- Coverage: Fall 2016 → Fall 2025 (10 years of UG, MS, PhD).
+- Year mapping: column headers are calendar years naming the Fall term, e.g. "2023" = Fall 2023 = AY 2023-24.
+
+### [U2] Michigan State University — College of Engineering, CSE Department
+- Office: MSU College of Engineering, Computer Science and Engineering Department
+- Page: https://engineering.msu.edu/academics/undergraduate/enrollment-data
+- Scope: **Computer Science (B.S.) major** specifically — Fall 4th-week census headcount as reported to ASEE.
+- Coverage: Fall 2021 → Fall 2025 (5 years, undergraduate only).
+
+## Schools checked and excluded
+
+Documented here so they're not re-attempted from the same dead-end source. To
+add any of these, find a different primary source.
+
+- **Carnegie Mellon (CMU)** — IRA publishes per-school *degrees-granted* PDFs (https://www.cmu.edu/ira/degrees-granted/) but the IRA index does not link any per-CS-Department or per-SCS-school *enrollment* PDFs. CDS would be university-level only.
+- **University of Illinois Urbana-Champaign (UIUC)** — DMI Statistical Abstract `statsfa{YY}.pdf` only contains "Degrees granted by 2-digit CIP code" — no enrollment-by-CIP table in those abstracts. The separate enrollment HTML (`enrfa{YY}.htm`) lists by *curriculum* (many "Computer Science & X" combined-major rows); aggregating to a CS-major series across years requires a stable HTML structure that has not held across years.
+- **University of Maryland (UMD)** — The cited departmental article (cs.umd.edu/article/2025/10/...) only quotes degrees-conferred endpoints (FY2018, FY2023). UMD's diversity/reports pages publish PNG charts that are not extractable as text.
+- **UC Berkeley** — EECS "By the Numbers" (https://eecs.berkeley.edu/about/by-the-numbers/) reports a single Fall snapshot (currently Fall 2023). No multi-year history. Older Wayback snapshots use a different format and don't carry these specific numbers.
+
+## CSRankings tier coverage
+
+The user-facing pill selector groups schools by approximate CSRankings AI-areas
+rank (ai + vision + mlmining + nlp + inforet, 2014-2024 window from CSRankings).
+Tier labels in the UI: ≈ RANK 5, ≈ RANK 10, ≈ RANK 30, ≈ RANK 50.
+
+Current coverage:
+
+- ≈ rank 10: Georgia Tech (≈ 7-10)
+- ≈ rank 50: Michigan State University (≈ 40-60)
+
+Tiers ≈ rank 5 and ≈ rank 30 currently have no schools because the candidates
+explored (CMU, UIUC, UMD, UC Berkeley) don't publish per-CS enrollment in a
+parseable form. Filling these tiers requires finding a different primary
+source — Stanford IRDS, U Washington OPB, UCSD, or Penn IRA would be the next
+candidates if their pages publish CS-program enrollment headcount.
