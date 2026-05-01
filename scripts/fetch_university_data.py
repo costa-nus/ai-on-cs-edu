@@ -24,6 +24,8 @@ available):
     - Carnegie Mellon (School of Computer Science — UG/MS/PhD, Fall 2020-2024)
     - University of Wisconsin–Madison (CS major in L&S, B.S. only — Fall 2016-2025;
       values extracted manually from DAPIR's public Tableau viz)
+    - UMass Amherst (CS major in CICS — UG/MS/PhD, Fall 2016-2025; UAIR factbook
+      "Students by Major" PDFs, one per degree level)
 
 Schools intentionally excluded:
     - UIUC: DMI Statistical Abstract PDFs only contain degrees-by-CIP, not
@@ -527,6 +529,114 @@ def collect_uw_madison() -> None:
 
 
 # ──────────────────────────────────────────────────────────────────────────────
+# UMass Amherst — Computer Science major Fall enrollment, by degree level
+# Source: UMass Amherst University Analytics and Institutional Research (UAIR)
+# annual factbook — three "Students by Major" PDFs (one each for UG, MS, PhD),
+# each containing a 10-year Fall history. Files are served at stable
+# media/<id>/download URLs that UAIR overwrites yearly with the latest factbook.
+#
+# Each PDF lays out School/College sections; under "College of Information and
+# Computer Sciences" (CICS) several rows appear:
+#   UG:  Computer Science | Exploratory Track | Informatics
+#   MS:  Computer Science | Computer Science (UWW)
+#   PhD: Computer Science
+#
+# Scope choice: we extract the "Computer Science" row ONLY. We exclude:
+#   - Informatics (separate CICS major, distinct curriculum)
+#   - Exploratory Track (CICS undergraduate undeclared students)
+#   - Computer Science (UWW) (UMass University Without Walls — small online
+#     professional master's; ~10% of MS headcount in 2025). Excluded so the
+#     master's series is residential-only and apples-to-apples with
+#     UW–Madison and CMU's residential MS series.
+# This is the strictest reading of "the CS program," consistent with how
+# UW–Madison's CS major is reported. The CICS column total is therefore
+# NOT what we record.
+
+UMASS_PDFS = {
+    # degree_level -> (url, local filename)
+    "bachelors": ("https://www.umass.edu/uair/media/973/download", "umass-ug-by-major.pdf"),
+    "masters":   ("https://www.umass.edu/uair/media/970/download", "umass-ms-by-major.pdf"),
+    "phd":       ("https://www.umass.edu/uair/media/967/download", "umass-phd-by-major.pdf"),
+}
+
+
+def parse_umass_factbook(pdf_path: Path) -> dict[int, int]:
+    """Parse a UAIR factbook 'Students by Major' PDF; return {fall_year: count}
+    for the 'Computer Science' row under 'College of Information and Computer
+    Sciences'. The lookahead `[\\d,\\-]` after the whitespace prevents matching
+    the 'Computer Science (UWW)' row whose first non-whitespace token is '('."""
+    txt = pdftotext(pdf_path)
+
+    yr_header = re.search(r"((?:Fall\s+\d{4}\s*){5,})", txt)
+    if not yr_header:
+        raise RuntimeError(f"No 'Fall YYYY' header in {pdf_path.name}")
+    years = [int(y) for y in re.findall(r"Fall\s+(\d{4})", yr_header.group(1))]
+
+    cics = re.search(r"College of Information and Computer Sciences\b[^\n]*\n", txt)
+    if not cics:
+        raise RuntimeError(f"No CICS section in {pdf_path.name}")
+    block = txt[cics.end(): cics.end() + 1500]
+
+    cs_row = re.search(
+        r"^[ \t]+Computer Science[ \t]+([\d,\-][\d,\-\s]*?)$",
+        block, re.M,
+    )
+    if not cs_row:
+        raise RuntimeError(f"No 'Computer Science' row under CICS in {pdf_path.name}")
+
+    tokens = cs_row.group(1).split()
+    if len(tokens) < len(years):
+        raise RuntimeError(
+            f"{pdf_path.name}: got {len(tokens)} CS values but expected {len(years)} years"
+        )
+    out: dict[int, int] = {}
+    for y, t in zip(years, tokens[:len(years)]):
+        t = t.replace(",", "")
+        if t == "-":
+            continue
+        out[y] = int(t)
+    return out
+
+
+def collect_umass_amherst() -> None:
+    label = "UMass Amherst UAIR — Annual Factbook, 'Students by Major' (UG/MS/PhD, 10-year Fall history)"
+    scope = (
+        "University of Massachusetts Amherst Computer Science major in the "
+        "Manning College of Information & Computer Sciences (CICS). EXCLUDES "
+        "the separate Informatics major (also in CICS), the Exploratory Track "
+        "(undergraduate undeclared CICS students), and the small online "
+        "'Computer Science (UWW)' professional master's program (~10% of "
+        "CICS MS headcount in Fall 2025) so the master's series is "
+        "residential-only. Values are Fall census-date headcount of "
+        "degree-seeking students."
+    )
+    notes = (
+        "UAIR overwrites each factbook PDF at the same media/<id>/download URL "
+        "annually; the current file is the 2025-2026 factbook covering "
+        "Fall 2016 to Fall 2025."
+    )
+    for level, (url, fname) in UMASS_PDFS.items():
+        path = RAW / fname
+        if not path.exists():
+            fetch(url, path)
+        series = parse_umass_factbook(path)
+        for fall_year, count in sorted(series.items()):
+            ay = f"{fall_year}-{str(fall_year + 1)[-2:]}"
+            rows.append(Row(
+                university="UMass Amherst",
+                csrankings_tier="top30",
+                academic_year=ay,
+                degree_level=level,
+                metric="total_enrollment",
+                value=count,
+                scope=scope,
+                source_url=url,
+                source_label=label,
+                notes=notes,
+            ))
+
+
+# ──────────────────────────────────────────────────────────────────────────────
 # main
 
 def write_csv(rows: list[Row]) -> None:
@@ -579,6 +689,7 @@ def main() -> None:
     collect_msu()
     collect_cmu()
     collect_uw_madison()
+    collect_umass_amherst()
     write_csv(rows)
     write_js(rows)
 

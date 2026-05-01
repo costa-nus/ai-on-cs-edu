@@ -162,6 +162,20 @@ documented below so they're not re-explored.
 - Older PDFs (Fall 2021–2023) discovered via Wayback Machine snapshots of the IRA index page; the live index links only the latest term.
 - Note: a small "Other" (non-degree-seeking) column appears Fall 2023+. We do not include it in any of the bachelors/masters/phd series.
 
+### [U5] UMass Amherst — UAIR Annual Factbook, "Students by Major"
+- Office: UMass Amherst University Analytics and Institutional Research (UAIR)
+- Index: https://www.umass.edu/uair/data/factsheets-data-tables
+- Three PDFs (one per degree level), each a 10-year Fall history table:
+  - Undergraduate: https://www.umass.edu/uair/media/973/download
+  - Master's:      https://www.umass.edu/uair/media/970/download
+  - Doctoral:      https://www.umass.edu/uair/media/967/download
+- Title (each PDF): "Factbook 2025-2026 — Enrollment, [UG | Master's | Doctoral] Students by Major, Fall 2016 to Fall 2025"
+- Scope: **Computer Science major** in the Manning College of Information & Computer Sciences (CICS), residential. **Excludes** the Informatics major (a separate CICS degree), the Exploratory Track (CICS-undeclared UG), and the small "Computer Science (UWW)" online professional master's program (~10% of CICS MS in Fall 2025) — so the MS series here is residential-only and apples-to-apples with UW–Madison and CMU.
+- Coverage: Fall 2016 → Fall 2025 (10 years, **UG / MS / PhD all populated**).
+- Year mapping: column headers are calendar years naming the Fall term, e.g. "Fall 2024" = AY 2024-25.
+- URL stability: UAIR overwrites each PDF at the same `media/<id>/download` URL annually; the current download is the 2025-2026 factbook. Older factbook editions exist as separate `media/<id>` slugs (visible in directory listings — e.g. media/707, media/527, media/283) but the per-major PDFs are not separately archived under stable URLs in those older bundles.
+- Note: a separate `Computer Science (UWW)` row appears in the master's factbook starting Fall 2021 (10 students; growing to 60 by Fall 2025). The parser deliberately skips it via a regex lookahead — to include it, change `parse_umass_factbook` to capture both rows and sum.
+
 ## Schools checked and excluded
 
 Documented here so they're not re-attempted from the same dead-end source. To
@@ -176,6 +190,10 @@ add any of these, find a different primary source.
 - **UC Irvine (Bren School ICS)** — IR data is published only via Tableau Public (`public.tableau.com/.../EnrollmentDashboard_17/...`) and the iframe URL is sandboxed from JS access, blocking automated extraction in this codebase. The "New Students" view is the default; an Enrollment-by-major view exists but values are not exposed via the rendered DOM.
 - **Penn State** — `datadigest.psu.edu/student-enrollment` embeds a Microsoft PowerBI dashboard (no static crosstab export equivalent to Tableau's was found), no direct CSV/PDF for major-level series.
 - **Purdue CS, UCSD CSE, USC Viterbi, Ohio State CSE, Texas A&M CSE, Princeton, Cornell Bowers, Penn IRA, NC State CS (post-2020)** — public dept/IR pages show only single-snapshot or aggregate-college figures, or multi-year data is gated behind Tableau dashboards. NC State CS specifically: the legacy `report.isa.ncsu.edu/IR/Students/EnrollmentData/fYYenrol/enrd141901.htm` URL pattern (CS dept code 141901) covers Fall 2009–2020 in stable HTML, but post-2020 reports moved to a non-scrapeable Tableau factbook on `uda.ncsu.edu`.
+- **Virginia Tech** — the University DataCommons (`udc.vt.edu/irdata/data/students/enrollment/index`) renders enrollment-by-major in a Tableau dashboard with no static export discovered in this pass. The College of Engineering's "Student Facts & Figures" page (`eng.vt.edu/about/student-facts-and-figures.html`) shows only the most recent Fall (Fall 2025), no historical series.
+- **University of Minnesota–Twin Cities** — IDR's "Enrollments" report (`idr.umn.edu/reports-by-topic-enrollment/enrollments`) is a Tableau dashboard with no per-major static breakdown. The Twin Cities Common Data Set PDFs (`idr.umn.edu/sites/idr.umn.edu/files/cds_YYYY_YYYY_tc.pdf`) follow the standard CDS layout, which reports degrees-conferred and aggregate enrollment but not enrollment by CIP / major.
+- **UNC Chapel Hill** — OIRA's analytic reports (`oira.unc.edu/reports/`) include "Headcount and FTE Enrollment by School, Education Level and Residency" (Excel + PDF), but the smallest unit is *school* not *department*; CS-specific enrollment is not separately reported in the public series.
+- **University of Pittsburgh (SCI / CS Dept)** — SCI's "At A Glance" page reports a single recent term ("over 900 pre-CS/CS majors" prose-style, not tabular), and Pitt IR's `ir.pitt.edu` factbooks publish only school-level enrollment, not departmental.
 
 ## CSRankings tier coverage
 
@@ -187,8 +205,17 @@ Current coverage:
 
 - ≈ rank 5: Carnegie Mellon (≈ 1-5)
 - ≈ rank 10: Georgia Tech (≈ 7-10)
-- ≈ rank 30: University of Wisconsin–Madison (≈ 20-25)
+- ≈ rank 30: University of Wisconsin–Madison (≈ 20-25), UMass Amherst (≈ 25-30)
 - ≈ rank 50: Michigan State University (≈ 40-60)
+
+UMass Amherst was added as a second school in the rank-30 tier because the
+true rank-30-to-50 candidates (Virginia Tech, University of Minnesota–Twin
+Cities, UNC Chapel Hill, University of Pittsburgh) all gate per-major
+enrollment behind Tableau/PowerBI dashboards or only report at the
+school-not-department grain in static form. UAIR's annual factbook PDFs
+publish a clean, parseable 10-year-by-major Fall history for all three
+degree levels, making UMass the only viable static-source candidate found
+in this rank band during this pass.
 
 UW–Madison was added by extracting values from DAPIR's public Tableau viz
 via Chrome — the first non-`urllib` collector in the project. The pattern

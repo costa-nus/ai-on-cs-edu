@@ -490,5 +490,195 @@ window.UNIVERSITY_CS_DATA = {
         }
       }
     }
+  },
+  "UMass Amherst": {
+    "tier": "top30",
+    "scope": "University of Massachusetts Amherst Computer Science major in the Manning College of Information & Computer Sciences (CICS). EXCLUDES the separate Informatics major (also in CICS), the Exploratory Track (undergraduate undeclared CICS students), and the small online 'Computer Science (UWW)' professional master's program (~10% of CICS MS headcount in Fall 2025) so the master's series is residential-only. Values are Fall census-date headcount of degree-seeking students.",
+    "sources": [
+      {
+        "label": "UMass Amherst UAIR \u2014 Annual Factbook, 'Students by Major' (UG/MS/PhD, 10-year Fall history)",
+        "url": "https://www.umass.edu/uair/media/973/download"
+      },
+      {
+        "label": "UMass Amherst UAIR \u2014 Annual Factbook, 'Students by Major' (UG/MS/PhD, 10-year Fall history)",
+        "url": "https://www.umass.edu/uair/media/970/download"
+      },
+      {
+        "label": "UMass Amherst UAIR \u2014 Annual Factbook, 'Students by Major' (UG/MS/PhD, 10-year Fall history)",
+        "url": "https://www.umass.edu/uair/media/967/download"
+      }
+    ],
+    "series": {
+      "2016-17": {
+        "bachelors": {
+          "total_enrollment": 873,
+          "source_idx": 0,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "masters": {
+          "total_enrollment": 148,
+          "source_idx": 1,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "phd": {
+          "total_enrollment": 169,
+          "source_idx": 2,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        }
+      },
+      "2017-18": {
+        "bachelors": {
+          "total_enrollment": 950,
+          "source_idx": 0,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "masters": {
+          "total_enrollment": 305,
+          "source_idx": 1,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "phd": {
+          "total_enrollment": 199,
+          "source_idx": 2,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        }
+      },
+      "2018-19": {
+        "bachelors": {
+          "total_enrollment": 1074,
+          "source_idx": 0,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "masters": {
+          "total_enrollment": 339,
+          "source_idx": 1,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "phd": {
+          "total_enrollment": 245,
+          "source_idx": 2,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        }
+      },
+      "2019-20": {
+        "bachelors": {
+          "total_enrollment": 1131,
+          "source_idx": 0,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "masters": {
+          "total_enrollment": 369,
+          "source_idx": 1,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "phd": {
+          "total_enrollment": 256,
+          "source_idx": 2,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        }
+      },
+      "2020-21": {
+        "bachelors": {
+          "total_enrollment": 1260,
+          "source_idx": 0,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "masters": {
+          "total_enrollment": 333,
+          "source_idx": 1,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "phd": {
+          "total_enrollment": 258,
+          "source_idx": 2,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        }
+      },
+      "2021-22": {
+        "bachelors": {
+          "total_enrollment": 1499,
+          "source_idx": 0,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "masters": {
+          "total_enrollment": 386,
+          "source_idx": 1,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "phd": {
+          "total_enrollment": 281,
+          "source_idx": 2,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        }
+      },
+      "2022-23": {
+        "bachelors": {
+          "total_enrollment": 1590,
+          "source_idx": 0,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "masters": {
+          "total_enrollment": 495,
+          "source_idx": 1,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "phd": {
+          "total_enrollment": 284,
+          "source_idx": 2,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        }
+      },
+      "2023-24": {
+        "bachelors": {
+          "total_enrollment": 1534,
+          "source_idx": 0,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "masters": {
+          "total_enrollment": 579,
+          "source_idx": 1,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "phd": {
+          "total_enrollment": 297,
+          "source_idx": 2,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        }
+      },
+      "2024-25": {
+        "bachelors": {
+          "total_enrollment": 1535,
+          "source_idx": 0,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "masters": {
+          "total_enrollment": 584,
+          "source_idx": 1,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "phd": {
+          "total_enrollment": 319,
+          "source_idx": 2,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        }
+      },
+      "2025-26": {
+        "bachelors": {
+          "total_enrollment": 1470,
+          "source_idx": 0,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "masters": {
+          "total_enrollment": 542,
+          "source_idx": 1,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        },
+        "phd": {
+          "total_enrollment": 290,
+          "source_idx": 2,
+          "notes": "UAIR overwrites each factbook PDF at the same media/<id>/download URL annually; the current file is the 2025-2026 factbook covering Fall 2016 to Fall 2025."
+        }
+      }
+    }
   }
 };
