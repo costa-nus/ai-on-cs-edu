@@ -1,9 +1,17 @@
 academic_year,degree_level,metric,value,scope,source_id,source_table,notes
+2015-16,bachelors,total_enrollment,114607,US CS departments (Taulbee),S8,Table 1,current-year col in 2016 Taulbee
+2016-17,bachelors,total_enrollment,127739,US CS departments (Taulbee),S9,Table 1,current-year col in 2017 Taulbee; agrees with 2018 Taulbee prior-year col
+2017-18,bachelors,total_enrollment,141259,US CS departments (Taulbee),S10,Table 1,current-year col in 2018 Taulbee; agrees with 2019 Taulbee prior-year col
+2018-19,bachelors,total_enrollment,143457,US CS departments (Taulbee),S11,Table 1,current-year col in 2019 Taulbee
 2019-20,bachelors,total_enrollment,150331,US CS departments (Taulbee),S1,Table 1,
 2020-21,bachelors,total_enrollment,156584,US CS departments (Taulbee),S2,Table 1,
 2021-22,bachelors,total_enrollment,172298,US CS departments (Taulbee),S3,Table 1,
 2022-23,bachelors,total_enrollment,182973,US CS departments (Taulbee),S4,Table 1,
 2023-24,bachelors,total_enrollment,,US CS departments (Taulbee),S5,Table 1,not extracted from HTML report
+2015-16,bachelors,new_majors,25256,US CS departments (Taulbee),S8,Table 1,prior-year col in 2016 Taulbee
+2016-17,bachelors,new_majors,27266,US CS departments (Taulbee),S9,Table 1,prior-year col in 2017 Taulbee; agrees with 2016 Taulbee current-year col
+2017-18,bachelors,new_majors,30734,US CS departments (Taulbee),S10,Table 1,prior-year col in 2018 Taulbee; agrees with 2017 Taulbee current-year col
+2018-19,bachelors,new_majors,35245,US CS departments (Taulbee),S11,Table 1,prior-year col in 2019 Taulbee; agrees with 2018 Taulbee current-year col
 2019-20,bachelors,new_majors,32180,US CS departments (Taulbee),S1,Table 1,
 2020-21,bachelors,new_majors,34078,US CS departments (Taulbee),S2,Table 1,
 2021-22,bachelors,new_majors,39083,US CS departments (Taulbee),S3,Table 1,
@@ -20,11 +28,19 @@ academic_year,degree_level,metric,value,scope,source_id,source_table,notes
 2022-23,masters,degrees_conferred,,All US degree-granting institutions (NCES IPEDS) - CIP 11 Computer & Info Sciences,S6,Digest Table 325.35,not yet in published Digest as of fetch date
 2022,masters_cs_only,degrees_conferred_approx,12000,All US institutions (NCES IPEDS) - CIP 11.0701 Computer Science narrowly,S7,Encoura analysis,approximate; cited from Eduventures commentary
 2023,masters_cs_only,degrees_conferred_approx,22000,All US institutions (NCES IPEDS) - CIP 11.0701 Computer Science narrowly,S7,Encoura analysis,approximate; nearly doubled YoY driven by international students
+2015-16,phd,total_enrollment,13243,US CS departments (Taulbee),S8,Table 1,current-year col in 2016 Taulbee
+2016-17,phd,total_enrollment,13856,US CS departments (Taulbee),S9,Table 1,current-year col in 2017 Taulbee; agrees with 2018 Taulbee prior-year col
+2017-18,phd,total_enrollment,14992,US CS departments (Taulbee),S10,Table 1,current-year col in 2018 Taulbee; agrees with 2019 Taulbee prior-year col
+2018-19,phd,total_enrollment,15621,US CS departments (Taulbee),S11,Table 1,current-year col in 2019 Taulbee
 2019-20,phd,total_enrollment,16429,US CS departments (Taulbee),S1,Table 1,
 2020-21,phd,total_enrollment,16052,US CS departments (Taulbee),S2,Table 1,
 2021-22,phd,total_enrollment,16628,US CS departments (Taulbee),S3,Table 1,
 2022-23,phd,total_enrollment,17770,US CS departments (Taulbee),S4,Table 1,
 2023-24,phd,total_enrollment,,US CS departments (Taulbee),S5,Table 1,not extracted; sneak peek says +6% YoY for same-reporters
+2015-16,phd,new_enrollment,2475,US CS departments (Taulbee),S8,Table 1,prior-year col in 2016 Taulbee
+2016-17,phd,new_enrollment,2672,US CS departments (Taulbee),S9,Table 1,prior-year col in 2017 Taulbee
+2017-18,phd,new_enrollment,2875,US CS departments (Taulbee),S10,Table 1,prior-year col in 2018 Taulbee
+2018-19,phd,new_enrollment,3395,US CS departments (Taulbee),S11,Table 1,prior-year col in 2019 Taulbee
 2019-20,phd,new_enrollment,3365,US CS departments (Taulbee),S1,Table 1,
 2020-21,phd,new_enrollment,2874,US CS departments (Taulbee),S2,Table 1,
 2021-22,phd,new_enrollment,3146,US CS departments (Taulbee),S3,Table 1,

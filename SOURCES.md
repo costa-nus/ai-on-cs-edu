@@ -37,6 +37,31 @@ against two consecutive Taulbee reports.
 - Covers: AY 2022-23 enrollment/degrees, AY 2023-24 new students
 - Also used for: Table D4 PhD specialty data (AI/ML count for 2022-23)
 
+### [S8] 2016 CRA Taulbee Survey — 46th annual
+- URL: https://cra.org/crn/wp-content/uploads/sites/7/2017/05/2016-Taulbee-Survey.pdf
+- Released: May 2017
+- Covers: AY 2015-16 enrollment/degrees, AY 2016-17 new students
+- Used for: Bachelor's & PhD totals for AY 2015-16; new BS/PhD students for AY 2015-16 (only source — earlier reports not yet ingested)
+
+### [S9] 2017 CRA Taulbee Survey — 47th annual
+- URL: https://cra.org/wp-content/uploads/2018/05/2017-Taulbee-Survey-Report.pdf
+- Released: May 2018
+- Covers: AY 2016-17 enrollment/degrees, AY 2017-18 new students
+- Used for: Bachelor's & PhD totals for AY 2016-17; new BS/PhD students for AY 2016-17 (prior-year col, agrees with S8 current-year col)
+
+### [S10] 2018 CRA Taulbee Survey — 48th annual
+- URL: https://cra.org/wp-content/uploads/2019/05/2018_Taulbee_Survey.pdf
+- Released: May 2019
+- Covers: AY 2017-18 enrollment/degrees, AY 2018-19 new students
+- Used for: Bachelor's & PhD totals for AY 2017-18; new BS/PhD students for AY 2017-18 (prior-year col, agrees with S9 current-year col)
+
+### [S11] 2019 CRA Taulbee Survey — 49th annual
+- URL: https://cra.org/wp-content/uploads/2020/05/2019-Taulbee-Survey.pdf
+- Released: May 2020
+- Covers: AY 2018-19 enrollment/degrees, AY 2019-20 new students
+- Used for: Bachelor's & PhD totals for AY 2018-19; new BS/PhD students for AY 2018-19 (prior-year col, agrees with S10 current-year col)
+- Cross-check: S11's "current-year" new BS for AY 2019-20 = 33,184; S1's "prior-year" col gives the revised 32,180. The CSV uses S1's revised value per project convention (later report wins for new-students data).
+
 ### [S5] 2024 CRA Taulbee Survey — 54th annual
 - URL: https://datavisualization.cra.org/TaulbeeSurvey/CRA_Taulbee_Survey_Report_2024.html
 - Released: June 2025 (HTML format, redesigned)

@@ -394,7 +394,7 @@
     </ul>
   </div>
   <p class="post-lede">
-    Three academic years after ChatGPT's November 2022 debut, the verified national data show two clear shifts: <strong>U.S. bachelor's CS enrollment has climbed every year.</strong>
+    A investigation on U.S. bachelor's CS enrollment, three academic years after ChatGPT's November 2022 debut.
   </p>
   <div class="post-divider"></div>
 </header>
@@ -403,11 +403,29 @@
 <div class="takeaways">
   <div class="takeaways-title">▌ The numbers at a glance</div>
   <ul>
-    <li><strong>Bachelor's total enrollment up 22%</strong> from AY 2019&mdash;20 to AY 2022&mdash;23 (150,331 &rarr; 182,973). <em>Source: CRA Taulbee Survey, Table 1, ~144 U.S. CS-PhD-granting departments [S1&ndash;S4].</em></li>
-    <li><strong>New bachelor's majors up 37%</strong> over the same window (32,180 &rarr; 43,993) &mdash; the wave has not yet fully reached upper-class enrollment. <em>Source: Taulbee Table 1 [S1&ndash;S4].</em></li>
-    <li><strong>New PhD students +13.1% year-over-year in AY 2023&mdash;24</strong> (3,041 &rarr; 3,438), the first full academic year that began after ChatGPT &mdash; the cleanest "GPT-era" signal in the verified data. <em>Source: Taulbee Survey 2024 [S5].</em></li>
+    <li><strong>GPT did not change the national trend:</strong> bachelor's CS enrollment had already grown ~60% over the seven years <em>before</em> ChatGPT, and the post-GPT year sits squarely on that pre-existing line.</li>
+    <li><strong>The first real decline shows up in AY 2025&mdash;26, three years after the GPT trigger:</strong> bachelor's enrollment peaked at most tracked schools around 2024, then rolled over &mdash; <strong>Georgia Tech &minus;18%</strong>, <strong>Stony Brook &minus;15%</strong> from peak.</li>
   </ul>
 </div>
+
+<!-- ── Motivating quote + investigation rationale ── -->
+<div class="prose" style="max-width:780px;">
+  <blockquote>
+    &ldquo;Because I think computer science may well not be a growth industry going forward. And I&rsquo;m not sure I would recommend 18&nbsp;year olds to major in computer science.&rdquo;
+    <footer style="margin-top:8px; font-style:normal; font-size:13px; color:var(--muted);">
+      &mdash; Mike Stonebraker (Turing Award winner), <a href="https://www.developing.dev/p/turing-award-winner-postgres-disagreeing">interview on Apr, 2026</em></a>
+    </footer>
+  </blockquote>
+  <p>
+    Stonebraker's remark cuts against a decade of conventional wisdom about CS as a guaranteed growth field. If a Turing laureate is now hesitant to recommend the major, the question is empirical: <strong>has the post-ChatGPT generation actually started turning away from CS?</strong> This blog tracks U.S. CS enrollment using CRA Taulbee Survey and data reported by universities to investigate the trends.
+  </p>
+</div>
+
+<section class="uni-section" id="uni-section">
+<h2>The National Trend in CS Enrollment</h2>
+</section>
+
+<p class="lede">
 
 <div class="figures-grid">
 
@@ -431,81 +449,107 @@
         <!--
           Stock indices (verified — total Fall enrollment headcount only):
           BS Enrollment (Taulbee Table 1) US CS:
-            '19-20: 150,331  → 100.0
-            '20-21: 156,584  → 104.2
-            '21-22: 172,298  → 114.6
-            '22-23: 182,973  → 121.7
+            '15-16: 114,607 → 76.2  [S8]
+            '16-17: 127,739 → 85.0  [S9]
+            '17-18: 141,259 → 94.0  [S10]
+            '18-19: 143,457 → 95.4  [S11]
+            '19-20: 150,331 → 100.0 [S1]
+            '20-21: 156,584 → 104.2 [S2]
+            '21-22: 172,298 → 114.6 [S3]
+            '22-23: 182,973 → 121.7 [S4]
 
           PhD Enrollment (Taulbee Table 1) US CS:
-            '19-20: 16,429  → 100.0
-            '20-21: 16,052  → 97.7
-            '21-22: 16,628  → 101.2
-            '22-23: 17,770  → 108.2
+            '15-16: 13,243 → 80.6   [S8]
+            '16-17: 13,856 → 84.3   [S9]
+            '17-18: 14,992 → 91.2   [S10]
+            '18-19: 15,621 → 95.1   [S11]
+            '19-20: 16,429 → 100.0  [S1]
+            '20-21: 16,052 → 97.7   [S2]
+            '21-22: 16,628 → 101.2  [S3]
+            '22-23: 17,770 → 108.2  [S4]
 
-          Y range: 95 → 130; pixels: 290 → 50; per idx = 240/35 = 6.857
-          y(idx) = 290 - (idx - 95) * 6.857
+          Y range: 70 → 130; pixels: 290 → 50; per idx = 240/60 = 4
+          y(idx) = 290 - (idx - 70) * 4
+          Gridlines at idx 130/115/100/85/70 → y=50/110/170/230/290.
+          X positions (8 years equally spaced): 80, 127, 174, 221, 268, 315, 362, 409.
         -->
 
         <g class="axis-label">
           <text x="52" y="53" text-anchor="end">130</text>
-          <text x="52" y="113" text-anchor="end">120</text>
-          <text x="52" y="173" text-anchor="end">110</text>
-          <text x="52" y="258" text-anchor="end" font-weight="700" fill="var(--ink)">100</text>
-          <text x="52" y="293" text-anchor="end">95</text>
+          <text x="52" y="113" text-anchor="end">115</text>
+          <text x="52" y="173" text-anchor="end" font-weight="700" fill="var(--ink)">100</text>
+          <text x="52" y="233" text-anchor="end">85</text>
+          <text x="52" y="293" text-anchor="end">70</text>
         </g>
-        <line x1="60" y1="255.7" x2="430" y2="255.7" stroke="var(--ink)" stroke-width=".8" stroke-opacity=".25"/>
+        <line x1="60" y1="170" x2="430" y2="170" stroke="var(--ink)" stroke-width=".8" stroke-opacity=".25"/>
         <line x1="60" y1="35" x2="60" y2="295" stroke="var(--ink)" stroke-width="1.2"/>
         <line x1="60" y1="295" x2="430" y2="295" stroke="var(--ink)" stroke-width="1.2"/>
 
-        <!-- 4 years: x positions 105, 195, 285, 375 -->
+        <!-- 8 years: x positions 80, 127, 174, 221, 268, 315, 362, 409 -->
 
-        <!-- GPT marker -->
+        <!-- GPT marker — between '21-22 (x=362) and '22-23 (x=409): center 385.5 -->
         <g class="gpt-marker">
-          <line x1="330" y1="35" x2="330" y2="312"/>
+          <line x1="385.5" y1="35" x2="385.5" y2="312"/>
         </g>
         <g>
-          <rect x="287" y="20" width="86" height="14" fill="var(--accent-gpt)"/>
-          <text x="330" y="30" class="gpt-marker-label" text-anchor="middle">GPT · NOV 2022</text>
+          <rect x="342.5" y="20" width="86" height="14" fill="var(--accent-gpt)"/>
+          <text x="385.5" y="30" class="gpt-marker-label" text-anchor="middle">GPT · NOV 2022</text>
         </g>
 
-        <g class="year-label">
-          <text x="105" y="312" text-anchor="middle">'19—20</text>
-          <text x="195" y="312" text-anchor="middle">'20—21</text>
-          <text x="285" y="312" text-anchor="middle">'21—22</text>
-          <text x="375" y="312" text-anchor="middle">'22—23</text>
+        <g class="year-label" font-size="9">
+          <text x="80"  y="312" text-anchor="middle">'15—16</text>
+          <text x="127" y="312" text-anchor="middle">'16—17</text>
+          <text x="174" y="312" text-anchor="middle">'17—18</text>
+          <text x="221" y="312" text-anchor="middle">'18—19</text>
+          <text x="268" y="312" text-anchor="middle">'19—20</text>
+          <text x="315" y="312" text-anchor="middle">'20—21</text>
+          <text x="362" y="312" text-anchor="middle">'21—22</text>
+          <text x="409" y="312" text-anchor="middle">'22—23</text>
         </g>
         <g class="axis-label">
-          <text x="105" y="328" text-anchor="middle">PRE</text>
-          <text x="195" y="328" text-anchor="middle">PRE</text>
-          <text x="285" y="328" text-anchor="middle">PRE</text>
-          <text x="375" y="328" text-anchor="middle" fill="var(--accent-gpt)">POST</text>
+          <text x="80"  y="328" text-anchor="middle">PRE</text>
+          <text x="127" y="328" text-anchor="middle">PRE</text>
+          <text x="174" y="328" text-anchor="middle">PRE</text>
+          <text x="221" y="328" text-anchor="middle">PRE</text>
+          <text x="268" y="328" text-anchor="middle">PRE</text>
+          <text x="315" y="328" text-anchor="middle">PRE</text>
+          <text x="362" y="328" text-anchor="middle">PRE</text>
+          <text x="409" y="328" text-anchor="middle" fill="var(--accent-gpt)">POST</text>
         </g>
 
-        <!-- Bachelor's: 100→104.2→114.6→121.7 -->
-        <!-- y: 255.7, 226.9, 155.6, 107.0 -->
+        <!-- Bachelor's: 76.2 → 85.0 → 94.0 → 95.4 → 100.0 → 104.2 → 114.6 → 121.7 -->
+        <!-- y:        265.2, 230.0, 194.0, 188.4, 170.0, 153.2, 111.6, 83.2 -->
         <polyline
           fill="none" stroke="var(--accent-bach)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-          points="105,255.7 195,226.9 285,155.6 375,107.0"/>
+          points="80,265.2 127,230.0 174,194.0 221,188.4 268,170.0 315,153.2 362,111.6 409,83.2"/>
         <g fill="var(--accent-bach)">
-          <circle cx="105" cy="255.7" r="3.5"/>
-          <circle cx="195" cy="226.9" r="3.5"/>
-          <circle cx="285" cy="155.6" r="3.5"/>
-          <circle cx="375" cy="107.0" r="4.5"/>
+          <circle cx="80"  cy="265.2" r="3.5"/>
+          <circle cx="127" cy="230.0" r="3.5"/>
+          <circle cx="174" cy="194.0" r="3.5"/>
+          <circle cx="221" cy="188.4" r="3.5"/>
+          <circle cx="268" cy="170.0" r="3.5"/>
+          <circle cx="315" cy="153.2" r="3.5"/>
+          <circle cx="362" cy="111.6" r="3.5"/>
+          <circle cx="409" cy="83.2"  r="4.5"/>
         </g>
-        <text x="385" y="100" class="value-label" fill="var(--accent-bach)">+22%</text>
+        <text x="415" y="78" class="value-label" fill="var(--accent-bach)">+22%</text>
 
-        <!-- PhD: 100→97.7→101.2→108.2 -->
-        <!-- y: 255.7, 271.5, 247.5, 199.6 -->
+        <!-- PhD: 80.6 → 84.3 → 91.2 → 95.1 → 100.0 → 97.7 → 101.2 → 108.2 -->
+        <!-- y:  247.6, 232.8, 205.2, 189.6, 170.0, 179.2, 165.2, 137.2 -->
         <polyline
           fill="none" stroke="var(--accent-phd)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-          points="105,255.7 195,271.5 285,247.5 375,199.6"/>
+          points="80,247.6 127,232.8 174,205.2 221,189.6 268,170.0 315,179.2 362,165.2 409,137.2"/>
         <g fill="var(--accent-phd)">
-          <circle cx="105" cy="255.7" r="3.5"/>
-          <circle cx="195" cy="271.5" r="3.5"/>
-          <circle cx="285" cy="247.5" r="3.5"/>
-          <circle cx="375" cy="199.6" r="4.5"/>
+          <circle cx="80"  cy="247.6" r="3.5"/>
+          <circle cx="127" cy="232.8" r="3.5"/>
+          <circle cx="174" cy="205.2" r="3.5"/>
+          <circle cx="221" cy="189.6" r="3.5"/>
+          <circle cx="268" cy="170.0" r="3.5"/>
+          <circle cx="315" cy="179.2" r="3.5"/>
+          <circle cx="362" cy="165.2" r="3.5"/>
+          <circle cx="409" cy="137.2" r="4.5"/>
         </g>
-        <text x="385" y="194" class="value-label" fill="var(--accent-phd)">+8%</text>
+        <text x="415" y="132" class="value-label" fill="var(--accent-phd)">+8%</text>
 
         <text x="14" y="170" class="axis-label" transform="rotate(-90 14 170)" text-anchor="middle">INDEX</text>
       </svg>
@@ -532,6 +576,26 @@
       </thead>
       <tbody>
         <tr>
+          <td class="year">'15&mdash;16</td>
+          <td class="num">114,607 <span class="ix">76.2</span></td>
+          <td class="num">13,243 <span class="ix">80.6</span></td>
+        </tr>
+        <tr>
+          <td class="year">'16&mdash;17</td>
+          <td class="num">127,739 <span class="ix">85.0</span></td>
+          <td class="num">13,856 <span class="ix">84.3</span></td>
+        </tr>
+        <tr>
+          <td class="year">'17&mdash;18</td>
+          <td class="num">141,259 <span class="ix">94.0</span></td>
+          <td class="num">14,992 <span class="ix">91.2</span></td>
+        </tr>
+        <tr>
+          <td class="year">'18&mdash;19</td>
+          <td class="num">143,457 <span class="ix">95.4</span></td>
+          <td class="num">15,621 <span class="ix">95.1</span></td>
+        </tr>
+        <tr>
           <td class="year">'19&mdash;20</td>
           <td class="num">150,331 <span class="ix">100.0</span></td>
           <td class="num">16,429 <span class="ix">100.0</span></td>
@@ -554,7 +618,7 @@
       </tbody>
     </table>
     <div class="figure-caption">
-      <strong>SOURCE</strong> &middot; CRA Taulbee Survey Table 1 [S1&ndash;S4]. <strong>METRIC</strong> &middot; Total Fall enrollment headcount (a stock). <strong>SCOPE</strong> &middot; ~144 reporting U.S. CS-PhD-granting departments.
+      <strong>SOURCE</strong> &middot; CRA Taulbee Survey Table 1 [S8&ndash;S11, S1&ndash;S4]. <strong>METRIC</strong> &middot; Total Fall enrollment headcount (a stock). <strong>SCOPE</strong> &middot; ~144 reporting U.S. CS-PhD-granting departments.
     </div>
   </div>
 
@@ -578,89 +642,121 @@
         <!--
           Flow indices (verified Taulbee Table 1):
           New BS Majors US CS:
-            '19-20: 32,180 → 100.0
-            '20-21: 34,078 → 105.9
-            '21-22: 39,083 → 121.5
-            '22-23: 43,993 → 136.7
+            '15-16: 25,256 → 78.5  [S8]
+            '16-17: 27,266 → 84.7  [S9]
+            '17-18: 30,734 → 95.5  [S10]
+            '18-19: 35,245 → 109.5 [S11]
+            '19-20: 32,180 → 100.0 [S1]
+            '20-21: 34,078 → 105.9 [S2]
+            '21-22: 39,083 → 121.5 [S3]
+            '22-23: 43,993 → 136.7 [S4]
             '23-24: not extracted from S5
-          
+
           New PhD US CS:
-            '19-20: 3,365 → 100.0
-            '20-21: 2,874 → 85.4
-            '21-22: 3,146 → 93.5
-            '22-23: 3,041 → 90.4
-            '23-24: 3,438 → 102.2
-          
-          Y range: 80 → 145; pixels: 290 → 50; per idx = 240/65 = 3.69
-          y(idx) = 290 - (idx - 80) * 3.69
+            '15-16: 2,475 → 73.6   [S8]
+            '16-17: 2,672 → 79.4   [S9]
+            '17-18: 2,875 → 85.4   [S10]
+            '18-19: 3,395 → 100.9  [S11]
+            '19-20: 3,365 → 100.0  [S1]
+            '20-21: 2,874 → 85.4   [S2]
+            '21-22: 3,146 → 93.5   [S3]
+            '22-23: 3,041 → 90.4   [S4]
+            '23-24: 3,438 → 102.2  [S4]
+
+          Y range: 70 → 150; pixels: 290 → 50; per idx = 240/80 = 3
+          y(idx) = 290 - (idx - 70) * 3
+          Gridlines at idx 150/130/110/90/70 → y=50/110/170/230/290.
+          Baseline idx 100 lies between gridlines, at y=200 (separate marker line).
+          X positions (9 years equally spaced): 75, 116, 157, 198, 239, 280, 321, 362, 403.
         -->
 
         <g class="axis-label">
-          <text x="52" y="53" text-anchor="end">145</text>
+          <text x="52" y="53" text-anchor="end">150</text>
           <text x="52" y="113" text-anchor="end">130</text>
-          <text x="52" y="173" text-anchor="end">115</text>
-          <text x="52" y="219" text-anchor="end" font-weight="700" fill="var(--ink)">100</text>
-          <text x="52" y="293" text-anchor="end">80</text>
+          <text x="52" y="173" text-anchor="end">110</text>
+          <text x="52" y="204" text-anchor="end" font-weight="700" fill="var(--ink)">100</text>
+          <text x="52" y="233" text-anchor="end">90</text>
+          <text x="52" y="293" text-anchor="end">70</text>
         </g>
-        <line x1="60" y1="216.2" x2="430" y2="216.2" stroke="var(--ink)" stroke-width=".8" stroke-opacity=".25"/>
+        <line x1="60" y1="200" x2="430" y2="200" stroke="var(--ink)" stroke-width=".8" stroke-opacity=".25"/>
         <line x1="60" y1="35" x2="60" y2="295" stroke="var(--ink)" stroke-width="1.2"/>
         <line x1="60" y1="295" x2="430" y2="295" stroke="var(--ink)" stroke-width="1.2"/>
 
-        <!-- 5 years: x positions 90, 165, 240, 315, 390 -->
+        <!-- 9 years: x positions 75, 116, 157, 198, 239, 280, 321, 362, 403 -->
 
+        <!-- GPT marker — between '21-22 (x=321) and '22-23 (x=362): center 341.5 -->
         <g class="gpt-marker">
-          <line x1="277" y1="35" x2="277" y2="312"/>
+          <line x1="341.5" y1="35" x2="341.5" y2="312"/>
         </g>
         <g>
-          <rect x="234" y="20" width="86" height="14" fill="var(--accent-gpt)"/>
-          <text x="277" y="30" class="gpt-marker-label" text-anchor="middle">GPT · NOV 2022</text>
+          <rect x="298.5" y="20" width="86" height="14" fill="var(--accent-gpt)"/>
+          <text x="341.5" y="30" class="gpt-marker-label" text-anchor="middle">GPT · NOV 2022</text>
         </g>
 
-        <g class="year-label">
-          <text x="90" y="312" text-anchor="middle">'19—20</text>
-          <text x="165" y="312" text-anchor="middle">'20—21</text>
-          <text x="240" y="312" text-anchor="middle">'21—22</text>
-          <text x="315" y="312" text-anchor="middle">'22—23</text>
-          <text x="390" y="312" text-anchor="middle">'23—24</text>
+        <g class="year-label" font-size="9">
+          <text x="75"  y="312" text-anchor="middle">'15—16</text>
+          <text x="116" y="312" text-anchor="middle">'16—17</text>
+          <text x="157" y="312" text-anchor="middle">'17—18</text>
+          <text x="198" y="312" text-anchor="middle">'18—19</text>
+          <text x="239" y="312" text-anchor="middle">'19—20</text>
+          <text x="280" y="312" text-anchor="middle">'20—21</text>
+          <text x="321" y="312" text-anchor="middle">'21—22</text>
+          <text x="362" y="312" text-anchor="middle">'22—23</text>
+          <text x="403" y="312" text-anchor="middle">'23—24</text>
         </g>
         <g class="axis-label">
-          <text x="90" y="328" text-anchor="middle">PRE</text>
-          <text x="165" y="328" text-anchor="middle">PRE</text>
-          <text x="240" y="328" text-anchor="middle">PRE</text>
-          <text x="315" y="328" text-anchor="middle" fill="var(--accent-gpt)">POST</text>
-          <text x="390" y="328" text-anchor="middle" fill="var(--accent-gpt)">POST</text>
+          <text x="75"  y="328" text-anchor="middle">PRE</text>
+          <text x="116" y="328" text-anchor="middle">PRE</text>
+          <text x="157" y="328" text-anchor="middle">PRE</text>
+          <text x="198" y="328" text-anchor="middle">PRE</text>
+          <text x="239" y="328" text-anchor="middle">PRE</text>
+          <text x="280" y="328" text-anchor="middle">PRE</text>
+          <text x="321" y="328" text-anchor="middle">PRE</text>
+          <text x="362" y="328" text-anchor="middle" fill="var(--accent-gpt)">POST</text>
+          <text x="403" y="328" text-anchor="middle" fill="var(--accent-gpt)">POST</text>
         </g>
 
-        <!-- New BS: 100→105.9→121.5→136.7 -->
+        <!-- New BS: 78.5 → 84.7 → 95.5 → 109.5 → 100.0 → 105.9 → 121.5 → 136.7 (no '23-24) -->
+        <!-- y:    264.5, 245.9, 213.5, 171.5, 200.0, 182.3, 135.5, 89.9 -->
         <polyline
           fill="none" stroke="var(--accent-bach)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-          points="90,216.2 165,194.4 240,136.8 315,80.6"/>
+          points="75,264.5 116,245.9 157,213.5 198,171.5 239,200.0 280,182.3 321,135.5 362,89.9"/>
         <g fill="var(--accent-bach)">
-          <circle cx="90" cy="216.2" r="3.5"/>
-          <circle cx="165" cy="194.4" r="3.5"/>
-          <circle cx="240" cy="136.8" r="3.5"/>
-          <circle cx="315" cy="80.6" r="4.5"/>
+          <circle cx="75"  cy="264.5" r="3.5"/>
+          <circle cx="116" cy="245.9" r="3.5"/>
+          <circle cx="157" cy="213.5" r="3.5"/>
+          <circle cx="198" cy="171.5" r="3.5"/>
+          <circle cx="239" cy="200.0" r="3.5"/>
+          <circle cx="280" cy="182.3" r="3.5"/>
+          <circle cx="321" cy="135.5" r="3.5"/>
+          <circle cx="362" cy="89.9"  r="4.5"/>
         </g>
-        <line x1="320" y1="80.6" x2="385" y2="65" stroke="var(--accent-bach)" stroke-width="1.5" stroke-dasharray="4,4" stroke-opacity=".4"/>
-        <text x="395" y="65" class="value-label" fill="var(--accent-bach)">n/a</text>
+        <text x="370" y="85" class="value-label" fill="var(--accent-bach)">+37%</text>
 
-        <!-- New PhD: 100→85.4→93.5→90.4→102.2 -->
+        <!-- New PhD: 73.6 → 79.4 → 85.4 → 100.9 → 100.0 → 85.4 → 93.5 → 90.4 → 102.2 -->
+        <!-- y:     279.2, 261.8, 243.8, 197.3, 200.0, 243.8, 219.5, 228.8, 193.4 -->
         <polyline
           fill="none" stroke="var(--accent-phd)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-          points="90,216.2 165,270.1 240,240.2 315,251.6 390,208.1"/>
+          points="75,279.2 116,261.8 157,243.8 198,197.3 239,200.0 280,243.8 321,219.5 362,228.8 403,193.4"/>
         <g fill="var(--accent-phd)">
-          <circle cx="90" cy="216.2" r="3.5"/>
-          <circle cx="165" cy="270.1" r="3.5"/>
-          <circle cx="240" cy="240.2" r="3.5"/>
-          <circle cx="315" cy="251.6" r="3.5"/>
-          <circle cx="390" cy="208.1" r="4.5"/>
+          <circle cx="75"  cy="279.2" r="3.5"/>
+          <circle cx="116" cy="261.8" r="3.5"/>
+          <circle cx="157" cy="243.8" r="3.5"/>
+          <circle cx="198" cy="197.3" r="3.5"/>
+          <circle cx="239" cy="200.0" r="3.5"/>
+          <circle cx="280" cy="243.8" r="3.5"/>
+          <circle cx="321" cy="219.5" r="3.5"/>
+          <circle cx="362" cy="228.8" r="3.5"/>
+          <circle cx="403" cy="193.4" r="4.5"/>
         </g>
-        <text x="400" y="203" class="value-label" fill="var(--accent-phd)">+2.2%</text>
+        <text x="408" y="189" class="value-label" fill="var(--accent-phd)">+2.2%</text>
 
-        <text x="165" y="287" class="axis-label" fill="var(--accent-phd)" text-anchor="middle" font-style="italic">COVID DIP</text>
+        <!-- COVID dip annotation pointing to '20-21 PhD trough at (280, 243.8) -->
+        <text x="280" y="265" class="axis-label" fill="var(--accent-phd)" text-anchor="middle" font-style="italic">COVID DIP</text>
+        <!-- +13.1% YoY annotation: AY 22-23 (362, 228.8) → AY 23-24 (403, 193.4) -->
         <g>
-          <path d="M 350 235 Q 370 220, 385 215" fill="none" stroke="var(--ink)" stroke-width=".5"/>
-          <text x="370" y="232" class="axis-label" fill="var(--ink)" text-anchor="middle" font-style="italic">+13.1% YoY</text>
+          <path d="M 380 218 Q 396 208, 405 200" fill="none" stroke="var(--ink)" stroke-width=".5"/>
+          <text x="385" y="215" class="axis-label" fill="var(--ink)" text-anchor="middle" font-style="italic">+13.1% YoY</text>
         </g>
 
         <text x="14" y="170" class="axis-label" transform="rotate(-90 14 170)" text-anchor="middle">INDEX</text>
@@ -687,6 +783,26 @@
         </tr>
       </thead>
       <tbody>
+        <tr>
+          <td class="year">'15&mdash;16</td>
+          <td class="num">25,256 <span class="ix">78.5</span></td>
+          <td class="num">2,475 <span class="ix">73.6</span></td>
+        </tr>
+        <tr>
+          <td class="year">'16&mdash;17</td>
+          <td class="num">27,266 <span class="ix">84.7</span></td>
+          <td class="num">2,672 <span class="ix">79.4</span></td>
+        </tr>
+        <tr>
+          <td class="year">'17&mdash;18</td>
+          <td class="num">30,734 <span class="ix">95.5</span></td>
+          <td class="num">2,875 <span class="ix">85.4</span></td>
+        </tr>
+        <tr>
+          <td class="year">'18&mdash;19</td>
+          <td class="num">35,245 <span class="ix">109.5</span></td>
+          <td class="num">3,395 <span class="ix">100.9</span></td>
+        </tr>
         <tr>
           <td class="year">'19&mdash;20</td>
           <td class="num">32,180 <span class="ix">100.0</span></td>
@@ -715,7 +831,7 @@
       </tbody>
     </table>
     <div class="figure-caption">
-      <strong>SOURCE</strong> &middot; CRA Taulbee Survey Table 1 [S1&ndash;S5]. <strong>METRIC</strong> &middot; First-time (new) student count, by academic year (a flow). <strong>SCOPE</strong> &middot; ~144 reporting U.S. CS-PhD-granting departments.
+      <strong>SOURCE</strong> &middot; CRA Taulbee Survey Table 1 [S8&ndash;S11, S1&ndash;S5]. <strong>METRIC</strong> &middot; First-time (new) student count, by academic year (a flow). <strong>SCOPE</strong> &middot; ~144 reporting U.S. CS-PhD-granting departments.
     </div>
   </div>
 </div>
@@ -723,31 +839,36 @@
 <!-- ── Narrative sections (CNN-style) ── -->
 
 <section class="story-section" style="border-left:4px solid var(--accent-bach); padding-left:22px;">
-  <h2><span class="kicker">Bachelor's &middot; up 22% total, up 37% at the front door</span>A wave still building</h2>
+  <h2><span class="kicker">Bachelor's &middot; +60% over seven years, no GPT inflection</span>The wave started long before ChatGPT</h2>
   <p class="story-para">
-    Total bachelor's CS enrollment grew steadily through the GPT moment, ending AY 2022&mdash;23 at <strong>+22% above AY 2019&mdash;20</strong> (150,331 &rarr; 182,973 students). New bachelor's majors grew faster &mdash; <strong>+37%</strong> &mdash; meaning the surge has not yet fully washed through to upper-division enrollment. Expect total headcount to keep climbing on lag.
-    <span class="src">Source: <a href="#sources">CRA Taulbee Survey, Table 1 [S1&ndash;S4]</a>.</span>
+    Bachelor's CS enrollment climbed from <strong>114,607 in AY 2015&mdash;16 to 182,973 in AY 2022&mdash;23</strong> &mdash; a steady +60% over seven years, with the post-GPT year sitting squarely on the pre-existing line. New bachelor's majors had already crossed 35,000 in AY 2018&mdash;19 (35,245), well before ChatGPT, dipped through COVID, then re-broke that ceiling in AY 2022&mdash;23 (43,993).
+    <span class="src">Source: <a href="#sources">CRA Taulbee Survey, Table 1 [S8&ndash;S11, S1&ndash;S4]</a>.</span>
   </p>
 </section>
 
 <section class="story-section" style="border-left:4px solid var(--accent-phd); padding-left:22px;">
-  <h2><span class="kicker">PhD &middot; +13.1% year-over-year in AY 2023&mdash;24</span>The first clear post-ChatGPT signal</h2>
+  <h2><span class="kicker">PhD &middot; +13.1% YoY in AY 2023&mdash;24, barely past the 2018&mdash;19 peak</span>Recovery, not revolution</h2>
   <p class="story-para">
-    PhD admissions dipped in AY 2020&mdash;21 (the COVID effect: index 85.4) and recovered slowly. Then AY 2023&mdash;24 &mdash; the first full academic year whose admissions cycle ran <em>entirely</em> after ChatGPT's release &mdash; produced a <strong>+13.1% year-over-year jump in new PhD students</strong> (3,041 &rarr; 3,438), lifting the index back above its pre-pandemic baseline. This is the cleanest GPT-era signal in the verified national data.
-    <span class="src">Source: <a href="#sources">CRA Taulbee 2024 [S5]</a>.</span>
+    New PhD admissions grew through the late 2010s to a pre-COVID peak of <strong>3,395 in AY 2018&mdash;19</strong> (index 100.9), before COVID knocked them down to 2,874 (index 85.4). The much-touted <strong>+13.1% YoY jump in AY 2023&mdash;24</strong> (3,041 &rarr; 3,438) lifts the index only to 102.2 &mdash; closer to a return to the pre-pandemic trend than a GPT-induced surge.
+    <span class="src">Source: <a href="#sources">CRA Taulbee Survey, Table 1 [S8&ndash;S11, S1&ndash;S5]</a>.</span>
   </p>
 </section>
 
 <!-- Per-university section -->
 <section class="uni-section" id="uni-section">
-  <div class="eyebrow" style="margin-bottom:10px;">Per-University View &middot; Total Enrollment &middot; Indexed</div>
   <h2>Three Years After the GPT Moment -- A Subtle Decline</h2>
   <p class="lede">
-    <strong>Total Fall enrollment headcount</strong>, indexed to each school's earliest available year (= 100). Coverage is limited to schools whose own institutional-research pages publish multi-year CS enrollment in a parseable form &mdash; see <a href="https://github.com/CoSTA-NUS/ai-on-cs-edu#per-university-view" style="color:var(--accent-phd);">README</a> for methodology, included/excluded schools, and the per-school scope notes.
+    <strong>Total Fall enrollment headcount</strong>, indexed to each school's earliest available year (= 100). Coverage is limited to schools whose own institutional-research pages publish multi-year CS enrollment.
   </p>
 
   <p class="story-para" style="margin-top:18px; border-left:4px solid var(--accent-bach); padding:8px 0 8px 16px;">
-    As more schools' 2024&ndash;25 numbers arrive, the bachelor's surge looks like it has <strong>flattened</strong>: most tracked schools either plateaued or peaked that year. Where 2025&ndash;26 data is already published, the rollover is steep &mdash; <strong>Michigan State down 27%</strong> from its 2023&ndash;24 peak, <strong>Georgia Tech down 18%</strong>, <strong>Stony Brook down 15%</strong>, and <strong>UMass Amherst down 8%</strong> across what is now a four-year plateau. <strong>CMU</strong> and <strong>Wisconsin&ndash;Madison</strong> are the holdouts still growing through 2024&ndash;25. The master's and PhD lines do not show the same break, so this is a bachelor's-specific turn rather than a general retreat from CS.
+    <strong>Bachelor's</strong> &mdash; the surge has clearly rolled over at most tracked schools as AY 2025&ndash;26 numbers arrive: <strong>Michigan State &minus;27%</strong> (2,087 &rarr; 1,527), <strong>Georgia Tech &minus;18%</strong> (4,681 &rarr; 3,860), <strong>Stony Brook &minus;15%</strong> (1,129 &rarr; 954), <strong>UMass Amherst &minus;8%</strong> (1,590 &rarr; 1,470), and even <strong>UW&ndash;Madison &minus;3.6%</strong> (2,606 &rarr; 2,513) off their respective peaks. Only <strong>CMU</strong> (latest data AY 2024&ndash;25) is still clearly climbing.
+  </p>
+  <p class="story-para" style="border-left:4px solid var(--accent-mast); padding:8px 0 8px 16px;">
+    <strong>Master's</strong> &mdash; residential programs are softening on a similar curve: <strong>UMass &minus;7% YoY</strong> and <strong>UW&ndash;Madison &minus;27%</strong> off its AY 2022&ndash;23 peak. <strong>Georgia Tech</strong> is the loud exception, but its master's line is dominated by OMSCS (the online program scaling to 19,035 students in AY 2025&ndash;26), not residential demand.
+  </p>
+  <p class="story-para" style="border-left:4px solid var(--accent-phd); padding:8px 0 8px 16px;">
+    <strong>PhD</strong> &mdash; enrollment is still growing at almost every tracked school through AY 2025&ndash;26 (UMass is the lone exception, &minus;9% YoY). The break is bachelor's-led, with residential master's following on the same curve, while research-track demand looks unaffected so far.
   </p>
 
   <div class="uni-controls" id="uni-controls" role="tablist" aria-label="Select a university"></div>
@@ -1034,6 +1155,10 @@
 <div class="sources" id="sources">
   <div class="sources-title">▼ Verified Source Documents</div>
   <ol>
+    <li><span class="label">[S8]</span> 2016 CRA Taulbee Survey, Table 1 — AY 2015—16 enrollment, AY 2016—17 new students. <a href="https://cra.org/crn/wp-content/uploads/sites/7/2017/05/2016-Taulbee-Survey.pdf">cra.org/crn/wp-content/uploads/sites/7/2017/05/2016-Taulbee-Survey.pdf</a></li>
+    <li><span class="label">[S9]</span> 2017 CRA Taulbee Survey, Table 1 — AY 2016—17 enrollment, AY 2017—18 new students. <a href="https://cra.org/wp-content/uploads/2018/05/2017-Taulbee-Survey-Report.pdf">cra.org/wp-content/uploads/2018/05/2017-Taulbee-Survey-Report.pdf</a></li>
+    <li><span class="label">[S10]</span> 2018 CRA Taulbee Survey, Table 1 — AY 2017—18 enrollment, AY 2018—19 new students. <a href="https://cra.org/wp-content/uploads/2019/05/2018_Taulbee_Survey.pdf">cra.org/wp-content/uploads/2019/05/2018_Taulbee_Survey.pdf</a></li>
+    <li><span class="label">[S11]</span> 2019 CRA Taulbee Survey, Table 1 — AY 2018—19 enrollment, AY 2019—20 new students. <a href="https://cra.org/wp-content/uploads/2020/05/2019-Taulbee-Survey.pdf">cra.org/wp-content/uploads/2020/05/2019-Taulbee-Survey.pdf</a></li>
     <li><span class="label">[S1]</span> 2020 CRA Taulbee Survey, Table 1 — AY 2019—20 enrollment, AY 2020—21 new students. <a href="https://cra.org/wp-content/uploads/2021/05/2020-CRA-Taulbee-Survey.pdf">cra.org/wp-content/uploads/2021/05/2020-CRA-Taulbee-Survey.pdf</a></li>
     <li><span class="label">[S2]</span> 2021 CRA Taulbee Survey, Table 1. <a href="https://cra.org/wp-content/uploads/2022/05/2021-Taulbee-Survey.pdf">cra.org/wp-content/uploads/2022/05/2021-Taulbee-Survey.pdf</a></li>
     <li><span class="label">[S3]</span> 2022 CRA Taulbee Survey, Table 1. <a href="https://cra.org/crn/wp-content/uploads/sites/7/2023/05/2022-Taulbee-Survey-Final.pdf">cra.org/crn/wp-content/uploads/sites/7/2023/05/2022-Taulbee-Survey-Final.pdf</a></li>
