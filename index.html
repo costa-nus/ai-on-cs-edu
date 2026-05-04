@@ -101,6 +101,64 @@
   .legend-swatch{width:12px; height:12px; flex-shrink:0;}
   .legend-text{font-weight:500;}
 
+  /* Interactive data points — invisible 12px stroke widens the hit area
+     without affecting the visible 3.5–4.5px filled circle. */
+  .chart-wrap circle[data-year]{
+    cursor:pointer;
+    stroke:transparent; stroke-width:12;
+    transition:r 120ms ease;
+  }
+  .chart-wrap circle[data-year]:hover{ r:6; }
+
+  /* Tooltip card shown on point hover. Position:fixed so it follows the
+     cursor regardless of scroll; pointer-events:none so it never steals hover. */
+  .chart-tooltip{
+    position:fixed; left:0; top:0;
+    pointer-events:none;
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    padding:10px 14px;
+    font-family:'JetBrains Mono',monospace;
+    box-shadow:2px 3px 0 rgba(0,0,0,.12);
+    opacity:0; transform:translate(-9999px,-9999px);
+    transition:opacity 120ms ease;
+    z-index:9999;
+    white-space:nowrap;
+    min-width:140px;
+  }
+  .chart-tooltip.visible{ opacity:1; }
+  .chart-tooltip .tt-year{
+    font-size:9px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:6px;
+  }
+  .chart-tooltip .tt-year.post{ color:var(--accent-gpt); font-weight:700; }
+  .chart-tooltip .tt-row{
+    display:flex; align-items:center; gap:8px; margin-bottom:2px;
+  }
+  .chart-tooltip .tt-swatch{ width:8px; height:8px; flex-shrink:0; }
+  .chart-tooltip .tt-label{
+    font-size:9px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--muted);
+  }
+  .chart-tooltip .tt-value{
+    font-size:15px; font-weight:700; color:var(--ink);
+    font-variant-numeric:tabular-nums;
+  }
+  .chart-tooltip .tt-idx{
+    font-size:10px; color:var(--muted);
+    font-variant-numeric:tabular-nums; margin-top:2px;
+  }
+
+  .chart-hint{
+    margin-top:14px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; letter-spacing:.04em;
+    color:var(--muted); font-style:italic;
+  }
+  .chart-hint::before{
+    content:"↳ "; font-style:normal; color:var(--accent-gpt);
+  }
+
   .data-table{
     width:100%; border-collapse:collapse; margin-top:14px;
     font-family:'JetBrains Mono',monospace; font-size:10px;
@@ -577,57 +635,7 @@
     <br><strong>SCOPE</strong> &middot; ~144 reporting U.S. CS-PhD-granting departments.
   </div>
 
-  <table class="data-table" id="nat-table-total">
-      <thead>
-        <tr>
-          <th>Year</th>
-          <th class="num">BS Enroll</th>
-          <th class="num">PhD Enroll</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="year">'15&mdash;16</td>
-          <td class="num">114,607 <span class="ix">100.0</span></td>
-          <td class="num">13,243 <span class="ix">100.0</span></td>
-        </tr>
-        <tr>
-          <td class="year">'16&mdash;17</td>
-          <td class="num">127,739 <span class="ix">111.5</span></td>
-          <td class="num">13,856 <span class="ix">104.6</span></td>
-        </tr>
-        <tr>
-          <td class="year">'17&mdash;18</td>
-          <td class="num">141,259 <span class="ix">123.3</span></td>
-          <td class="num">14,992 <span class="ix">113.2</span></td>
-        </tr>
-        <tr>
-          <td class="year">'18&mdash;19</td>
-          <td class="num">143,457 <span class="ix">125.2</span></td>
-          <td class="num">15,621 <span class="ix">118.0</span></td>
-        </tr>
-        <tr>
-          <td class="year">'19&mdash;20</td>
-          <td class="num">150,331 <span class="ix">131.2</span></td>
-          <td class="num">16,429 <span class="ix">124.1</span></td>
-        </tr>
-        <tr>
-          <td class="year">'20&mdash;21</td>
-          <td class="num">156,584 <span class="ix">136.6</span></td>
-          <td class="num">16,052 <span class="ix">121.2</span></td>
-        </tr>
-        <tr>
-          <td class="year">'21&mdash;22</td>
-          <td class="num">172,298 <span class="ix">150.3</span></td>
-          <td class="num">16,628 <span class="ix">125.6</span></td>
-        </tr>
-        <tr class="post-gpt">
-          <td class="year">'22&mdash;23</td>
-          <td class="num">182,973 <span class="ix">159.7</span></td>
-          <td class="num">17,770 <span class="ix">134.2</span></td>
-        </tr>
-      </tbody>
-  </table>
+  <p class="chart-hint">Hover over any data point to see the underlying number.</p>
 
   <!-- FIGURE B: NEW / FLOWS -->
   <div class="uni-chart-wrap" id="nat-chart-new" style="display:none;">
@@ -783,62 +791,6 @@
     <br><strong>SCOPE</strong> &middot; ~144 reporting U.S. CS-PhD-granting departments.
   </div>
 
-  <table class="data-table" id="nat-table-new" style="display:none;">
-      <thead>
-        <tr>
-          <th>Year</th>
-          <th class="num">New BS</th>
-          <th class="num">New PhD</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="year">'15&mdash;16</td>
-          <td class="num">25,256 <span class="ix">100.0</span></td>
-          <td class="num">2,475 <span class="ix">100.0</span></td>
-        </tr>
-        <tr>
-          <td class="year">'16&mdash;17</td>
-          <td class="num">27,266 <span class="ix">108.0</span></td>
-          <td class="num">2,672 <span class="ix">108.0</span></td>
-        </tr>
-        <tr>
-          <td class="year">'17&mdash;18</td>
-          <td class="num">30,734 <span class="ix">121.7</span></td>
-          <td class="num">2,875 <span class="ix">116.2</span></td>
-        </tr>
-        <tr>
-          <td class="year">'18&mdash;19</td>
-          <td class="num">35,245 <span class="ix">139.6</span></td>
-          <td class="num">3,395 <span class="ix">137.2</span></td>
-        </tr>
-        <tr>
-          <td class="year">'19&mdash;20</td>
-          <td class="num">32,180 <span class="ix">127.4</span></td>
-          <td class="num">3,365 <span class="ix">136.0</span></td>
-        </tr>
-        <tr>
-          <td class="year">'20&mdash;21</td>
-          <td class="num">34,078 <span class="ix">134.9</span></td>
-          <td class="num">2,874 <span class="ix">116.1</span></td>
-        </tr>
-        <tr>
-          <td class="year">'21&mdash;22</td>
-          <td class="num">39,083 <span class="ix">154.7</span></td>
-          <td class="num">3,146 <span class="ix">127.1</span></td>
-        </tr>
-        <tr class="post-gpt">
-          <td class="year">'22&mdash;23</td>
-          <td class="num">43,993 <span class="ix">174.2</span></td>
-          <td class="num">3,041 <span class="ix">122.9</span></td>
-        </tr>
-        <tr class="post-gpt">
-          <td class="year">'23&mdash;24</td>
-          <td class="num na">not extracted</td>
-          <td class="num">3,438 <span class="ix">138.9</span></td>
-        </tr>
-      </tbody>
-  </table>
 </section>
 
 <script>
@@ -854,7 +806,7 @@
       buttons.forEach(x => x.classList.toggle('active', x === b));
       views.forEach(name => {
         const show = name === v;
-        ['nat-chart-', 'nat-meta-', 'nat-table-'].forEach(prefix => {
+        ['nat-chart-', 'nat-meta-'].forEach(prefix => {
           const el = document.getElementById(prefix + name);
           if (el) el.style.display = show ? '' : 'none';
         });
@@ -908,7 +860,7 @@
 
   <div class="uni-meta" id="uni-meta"></div>
 
-  <table class="uni-table" id="uni-table"></table>
+  <p class="chart-hint">Hover over any data point to see the underlying number and source.</p>
 </section>
 
 <!-- University data: generated by scripts/fetch_university_data.py.
@@ -1093,7 +1045,8 @@
         const v = r[metricUsed];
         const idx = (v / baseVal) * 100;
         const xi = years.indexOf(y);
-        return {x: xOf(xi), y: yOf(Math.max(Y_MIN, Math.min(Y_MAX, idx))), idx, v, year: y};
+        const srcUrl = (r.source_idx != null && uni.sources[r.source_idx]) ? uni.sources[r.source_idx].url : null;
+        return {x: xOf(xi), y: yOf(Math.max(Y_MIN, Math.min(Y_MAX, idx))), idx, v, year: y, srcUrl};
       });
       if (pts.length > 1) {
         svg.appendChild(mk('polyline', {
@@ -1106,7 +1059,15 @@
       }
       pts.forEach((p, i) => {
         const isLast = i === pts.length - 1;
-        svg.appendChild(mk('circle', {cx: p.x, cy: p.y, r: isLast ? 4.5 : 3.5, fill: COLORS[L]}));
+        const attrs = {
+          cx: p.x, cy: p.y, r: isLast ? 4.5 : 3.5, fill: COLORS[L],
+          'data-year': p.year,
+          'data-level': L,
+          'data-raw': p.v.toLocaleString(),
+          'data-idx': p.idx.toFixed(1),
+        };
+        if (p.srcUrl) attrs['data-src'] = p.srcUrl;
+        svg.appendChild(mk('circle', attrs));
       });
       // value label on last point
       const last = pts[pts.length - 1];
@@ -1139,35 +1100,6 @@
       lg.appendChild(div);
     });
 
-    // ── data table
-    const t = document.getElementById('uni-table');
-    const cols = Object.keys(present);
-    let html = '<thead><tr><th>YEAR</th>';
-    cols.forEach(L => { html += `<th class="num">${LEVEL_LABEL[L]}</th>`; });
-    html += '<th class="num">SOURCE</th></tr></thead><tbody>';
-    years.forEach(y => {
-      const yrInt = 2000 + parseInt(y.slice(0,2),10);
-      const isPost = yrInt >= 2022;
-      html += `<tr class="${isPost ? 'post-gpt' : ''}"><td class="year">'${y.slice(2)}</td>`;
-      let srcUrl = null;
-      cols.forEach(L => {
-        const r = uni.series[y][L];
-        if (r && r[metricUsed] != null) {
-          const v = r[metricUsed];
-          const baseRow = uni.series[present[L][0]][L];
-          const baseVal = baseRow[metricUsed];
-          const idx = ((v / baseVal) * 100).toFixed(1);
-          html += `<td class="num">${v.toLocaleString()} <span class="ix">${idx}</span></td>`;
-          if (srcUrl == null && r.source_idx != null) srcUrl = uni.sources[r.source_idx].url;
-        } else {
-          html += '<td class="num na">—</td>';
-        }
-      });
-      html += `<td class="num src-cell">${srcUrl ? `<a href="${srcUrl}" target="_blank" rel="noopener">[src]</a>` : '—'}</td>`;
-      html += '</tr>';
-    });
-    html += '</tbody>';
-    t.innerHTML = html;
   }
 
   function escapeHtml(s) {
@@ -1227,6 +1159,129 @@
     <span>CS Education Tracker · v1</span>
   </div>
 </footer>
+
+<!-- ── Hover tooltip for chart data points ── -->
+<div id="chart-tooltip" class="chart-tooltip" role="status" aria-live="polite"></div>
+<script>
+(function() {
+  'use strict';
+
+  // Source of truth for the two static national charts. Keeping it here means
+  // the SVG geometry above and these tooltip values can no longer drift apart
+  // by hand — they're tagged onto the existing <circle>s on load.
+  // Years use the academic-year format "YYYY-YY" (start year first).
+  const NAT_SERIES = {
+    'nat-chart-total': [
+      { level: 'bachelors', color: 'var(--accent-bach)',
+        years: ['2015-16','2016-17','2017-18','2018-19','2019-20','2020-21','2021-22','2022-23'],
+        raw:   [114607,127739,141259,143457,150331,156584,172298,182973],
+        idx:   [100.0,111.5,123.3,125.2,131.2,136.6,150.3,159.7] },
+      { level: 'phd', color: 'var(--accent-phd)',
+        years: ['2015-16','2016-17','2017-18','2018-19','2019-20','2020-21','2021-22','2022-23'],
+        raw:   [13243,13856,14992,15621,16429,16052,16628,17770],
+        idx:   [100.0,104.6,113.2,118.0,124.1,121.2,125.6,134.2] },
+    ],
+    'nat-chart-new': [
+      { level: 'bachelors', color: 'var(--accent-bach)',
+        years: ['2015-16','2016-17','2017-18','2018-19','2019-20','2020-21','2021-22','2022-23'],
+        raw:   [25256,27266,30734,35245,32180,34078,39083,43993],
+        idx:   [100.0,108.0,121.7,139.6,127.4,134.9,154.7,174.2] },
+      { level: 'phd', color: 'var(--accent-phd)',
+        years: ['2015-16','2016-17','2017-18','2018-19','2019-20','2020-21','2021-22','2022-23','2023-24'],
+        raw:   [2475,2672,2875,3395,3365,2874,3146,3041,3438],
+        idx:   [100.0,108.0,116.2,137.2,136.0,116.1,127.1,122.9,138.9] },
+    ],
+  };
+
+  // Tag each visible circle in the static national SVGs with the data
+  // attributes the global hover handler reads.
+  Object.keys(NAT_SERIES).forEach(chartId => {
+    const root = document.getElementById(chartId);
+    if (!root) return;
+    NAT_SERIES[chartId].forEach(s => {
+      const group = Array.from(root.querySelectorAll('g[fill]'))
+        .find(g => g.getAttribute('fill') === s.color);
+      if (!group) return;
+      const circles = group.querySelectorAll('circle');
+      circles.forEach((c, i) => {
+        if (s.years[i] == null) return;
+        c.setAttribute('data-year', s.years[i]);
+        c.setAttribute('data-level', s.level);
+        c.setAttribute('data-raw', s.raw[i].toLocaleString());
+        c.setAttribute('data-idx', s.idx[i].toFixed(1));
+      });
+    });
+  });
+
+  // Global hover tooltip — one element, shared by every chart on the page.
+  const LEVEL_LABEL = {
+    bachelors: "Bachelor's",
+    masters:   "Master's",
+    phd:       "PhD",
+  };
+  const COLOR_BY_LEVEL = {
+    bachelors: 'var(--accent-bach)',
+    masters:   'var(--accent-mast)',
+    phd:       'var(--accent-phd)',
+  };
+  const tt = document.getElementById('chart-tooltip');
+
+  function fmtYear(y) {
+    // "2022-23" → "AY 2022—23"
+    const [a, b] = y.split('-');
+    return 'AY ' + a + '—' + b;
+  }
+  function isPostGpt(y) {
+    return parseInt(y.split('-')[0], 10) >= 2022;
+  }
+
+  function show(c) {
+    const year = c.getAttribute('data-year');
+    const level = c.getAttribute('data-level');
+    const raw = c.getAttribute('data-raw');
+    const idx = c.getAttribute('data-idx');
+    const src = c.getAttribute('data-src');
+    const post = isPostGpt(year);
+    const color = COLOR_BY_LEVEL[level] || 'var(--ink)';
+    tt.innerHTML =
+      '<div class="tt-year' + (post ? ' post' : '') + '">' +
+        fmtYear(year) + (post ? ' · POST-GPT' : '') +
+      '</div>' +
+      '<div class="tt-row">' +
+        '<div class="tt-swatch" style="background:' + color + '"></div>' +
+        '<div class="tt-label">' + (LEVEL_LABEL[level] || level) + '</div>' +
+      '</div>' +
+      '<div class="tt-value">' + raw + '</div>' +
+      '<div class="tt-idx">index ' + idx + '</div>' +
+      (src ? '<div class="tt-idx">src: ' + new URL(src).hostname + '</div>' : '');
+    tt.classList.add('visible');
+  }
+  function hide() { tt.classList.remove('visible'); }
+  function move(e) {
+    const pad = 14;
+    const r = tt.getBoundingClientRect();
+    let x = e.clientX + pad, y = e.clientY + pad;
+    if (x + r.width  > window.innerWidth  - 8) x = e.clientX - r.width  - pad;
+    if (y + r.height > window.innerHeight - 8) y = e.clientY - r.height - pad;
+    tt.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+  }
+
+  document.addEventListener('mouseover', e => {
+    const c = e.target;
+    if (c.tagName === 'circle' && c.hasAttribute('data-year')) {
+      show(c);
+      move(e);
+    }
+  });
+  document.addEventListener('mousemove', e => {
+    if (tt.classList.contains('visible')) move(e);
+  });
+  document.addEventListener('mouseout', e => {
+    const c = e.target;
+    if (c.tagName === 'circle' && c.hasAttribute('data-year')) hide();
+  });
+})();
+</script>
 
 </body>
 </html>
