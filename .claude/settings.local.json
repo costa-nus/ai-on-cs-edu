@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import json,re; t=open\\('/Users/jyhong/Code/CoSTA-NUS/ai-on-cs-edu/data/university-cs-enrollment.js'\\).read\\(\\); m=re.search\\(r'window\\\\.UNIVERSITY_CS_DATA\\\\s*=\\\\s*\\(.*?\\);\\\\s*$', t, re.S\\); d=json.loads\\(m.group\\(1\\)\\); print\\('schools:', list\\(d.keys\\(\\)\\)\\); print\\('berkeley present:', 'UC Berkeley' in d\\)\")",
+      "Bash(pdftotext -layout data/raw/uiuc-statsfa23.pdf -)",
+      "WebSearch",
+      "Bash(grep -nE '#[0-9a-fA-F]{3,8}|rgba?\\\\\\(' /Users/jyhong/Code/CoSTA-NUS/ai-on-cs-edu/index.html)",
+      "Bash(python3 *)",
+      "Read(//Users/jyhong/Code/CoSTA-NUS/costa-nus.github.io/**)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "WebFetch(domain:cra.org)",
+      "WebFetch(domain:datavisualization.cra.org)",
+      "WebFetch(domain:www.umass.edu)",
+      "WebFetch(domain:udc.vt.edu)",
+      "WebFetch(domain:oira.unc.edu)",
+      "WebFetch(domain:idr.umn.edu)",
+      "Bash(curl *)"
+    ]
+  }
+}

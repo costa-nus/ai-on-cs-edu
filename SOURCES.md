@@ -186,6 +186,19 @@ Constructing residential-only MS = Total MS − OMSCS by stitching these scatter
 - URL stability: UAIR overwrites each PDF at the same `media/<id>/download` URL annually; the current download is the 2025-2026 factbook. Older factbook editions exist as separate `media/<id>` slugs (visible in directory listings — e.g. media/707, media/527, media/283) but the per-major PDFs are not separately archived under stable URLs in those older bundles.
 - Note: a separate `Computer Science (UWW)` row appears in the master's factbook starting Fall 2021 (10 students; growing to 60 by Fall 2025). The parser deliberately skips it via a regex lookahead — to include it, change `parse_umass_factbook` to capture both rows and sum.
 
+### [U6] Stony Brook University — IRPE Annual Factbook XLSX
+- Office: Stony Brook University Office of Institutional Research, Planning & Effectiveness (IRPE)
+- Index: https://www.stonybrook.edu/commcms/irpe/factbook/data-and-reports.html
+- File: https://stonybrook.edu/irpe/_media/Enrollment/FallbyLevelCollegeSchoolMajorF25.xlsx
+- Title: "Stony Brook University Fall Headcount Enrollment by Level, College/School (Academic Group) and Major (Plan)"
+- Scope: **Computer Science major** in the College of Engineering & Applied Sciences (CEAS). Distinct from CEAS's separate **Computer Engineering** major (excluded) and the "Area of Interest - Computer Science" UG admission status (excluded — tracks intent-to-major freshman applicants, not declared majors). Values are Fall headcount of students with primary plan = Computer Science; double-majors are counted in each plan but only once in totals.
+- Coverage: Fall 2014 → Fall 2025 (12 years, **UG / MS / PhD all populated**).
+- Year mapping: column headers are "Fall YYYY" naming the Fall term, e.g. "Fall 2024" = AY 2024-25.
+- Layout note: graduate programs that span multiple degree levels use a "merged-cell continuation" pattern — the first row carries program name + one degree (e.g. "Computer Science" / Doctoral, row 271), and the next row has an empty label cell (visually merged) with the next degree (e.g. row 272 = Master's = 396 in Fall 2022). The parser carries forward the most-recent non-empty label so the unlabeled rows inherit it.
+- Parser: stdlib `zipfile` + `xml.etree` (no `openpyxl` dependency, matching the rest of this project's collectors). `pdftotext` would not work because the merged-cell pattern is not preserved in text rendering.
+- Caveat: the file's header explicitly says **"2025 data are preliminary until reported to IPEDS in spring 2026"** — Fall 2025 values are kept but flagged in the per-row `notes` field. The CSV's Fall 2025 row will need re-fetching after IRPE finalises the file (likely mid-2026).
+- URL stability: IRPE replaces the XLSX at the same `/irpe/_media/Enrollment/` path annually; the file name encodes the latest Fall term ("F25"), and prior editions are not separately archived under stable URLs in this pass.
+
 ## Schools checked and excluded
 
 Documented here so they're not re-attempted from the same dead-end source. To
@@ -204,6 +217,14 @@ add any of these, find a different primary source.
 - **University of Minnesota–Twin Cities** — IDR's "Enrollments" report (`idr.umn.edu/reports-by-topic-enrollment/enrollments`) is a Tableau dashboard with no per-major static breakdown. The Twin Cities Common Data Set PDFs (`idr.umn.edu/sites/idr.umn.edu/files/cds_YYYY_YYYY_tc.pdf`) follow the standard CDS layout, which reports degrees-conferred and aggregate enrollment but not enrollment by CIP / major.
 - **UNC Chapel Hill** — OIRA's analytic reports (`oira.unc.edu/reports/`) include "Headcount and FTE Enrollment by School, Education Level and Residency" (Excel + PDF), but the smallest unit is *school* not *department*; CS-specific enrollment is not separately reported in the public series.
 - **University of Pittsburgh (SCI / CS Dept)** — SCI's "At A Glance" page reports a single recent term ("over 900 pre-CS/CS majors" prose-style, not tabular), and Pitt IR's `ir.pitt.edu` factbooks publish only school-level enrollment, not departmental.
+- **University of Notre Dame** — `ir.nd.edu` was DNS/connection-unreachable to programmatic clients during this pass (HTTP 000 from `curl`). May be region-restricted or temporarily down; would need re-checking from a different network before deciding it's a permanent dead-end.
+- **Rice University** — Rice OIR returns 403 Forbidden to programmatic User-Agents on its public factbook URLs; Cloudflare-style protection without a public crosstab/PDF alternative discovered in this pass.
+- **Indiana University Bloomington** — IU's enrollment-by-major data is published only via `tableau.bi.iu.edu` Tableau dashboards (no Crosstab download equivalent to UW–Madison's public viz exposed in this pass). The Luddy School's public factsheet shows only the most recent Fall.
+- **Iowa State University** — IR factbook XLSX files are well-organised and stably hosted, but the smallest unit broken out is College × Level (e.g. "Liberal Arts & Sciences, Undergraduate"), not by major. CS-specific enrollment is not separately reported in the public series.
+- **Tufts University** — Provost IR (`provost.tufts.edu/institutionalresearch/fact-book/`) publishes annual "Fact Book" PDFs with a clean by-major CS breakdown (Liberal Arts CS + Engineering CS itemised separately), but the most recent edition is the 2023-24 Fact Book whose latest column is AY 2022-23 (= Fall 2022). No 2024-25 or 2025-26 Fact Book has been published; Fall 2023 and Fall 2024 data are not yet available.
+- **Oregon State University** — `institutionalresearch.oregonstate.edu/enrollment-and-demographic-reports` publishes per-Fall enrollment PDFs (`enroll-fall-YYYY.pdf`, dating back to 2009) and a "Degree Program Profile" series with major-level CS data. CS enrollment, however, is dominated by the **Ecampus Postbacc Computer Science** online program (analogous to Georgia Tech's OMSCS situation but at the bachelor's level), and the published numbers do not separate residential CS from online Postbacc CS. Including OSU without that breakdown would obscure the post-ChatGPT residential-demand signal we care about. Beyond the data issue, OSU's CSRankings AI-areas position is closer to rank 30-40 than 50-60, so it would not fill the rank-50-60 sub-band that is the current target.
+- **University of Houston** — UH IR's "Facts At A Glance" series (`uh.edu/ir/reports/facts-at-a-glance/facts-at-a-glance-faYYYY.pdf`, going back to Fall 2006) is a stable, parseable per-Fall PDF, but the smallest unit broken out is by-college, not by-major. CS is bundled inside the College of Engineering total.
+- **Utah, CU Boulder, Brown, Northeastern (Khoury), ASU, Rutgers, Vanderbilt, Boston University, George Mason, Dartmouth, U-Buffalo, U-Rochester, Wake Forest, William & Mary, U-Albany SUNY, Lehigh, WPI, GWU, Drexel, Stevens, NJIT** — these were investigated as candidates for the **rank 50-60 sub-band** in this pass and all share the same blocker: their IR offices either (a) publish only via Tableau/PowerBI dashboards with no Crosstab export, (b) return 403 / DNS-fail to programmatic clients, (c) do not break enrollment out by major, or (d) the dept page shows only single-snapshot figures. This is a structural pattern: rank 5-30 schools (research powerhouses with mature IR functions) tend to publish multi-year by-major static reports; rank 50-60 schools have largely migrated to interactive dashboards in the past 5 years. **Boston College** does have a clean by-major CS PDF Fact Book (UG CS = 484, 486, 555, 556, 533 for Fall 2020–2024), but BC's CSRankings AI-areas rank is closer to 100, well outside the rank-50-60 sub-band, so it was not added in this pass.
 
 ## CSRankings tier coverage
 
@@ -216,7 +237,7 @@ Current coverage:
 - ≈ rank 5: Carnegie Mellon (≈ 1-5)
 - ≈ rank 10: Georgia Tech (≈ 7-10)
 - ≈ rank 30: University of Wisconsin–Madison (≈ 20-25), UMass Amherst (≈ 25-30)
-- ≈ rank 50: Michigan State University (≈ 40-60)
+- ≈ rank 50: Michigan State University (≈ 40-60), Stony Brook University (≈ 40-60)
 
 UMass Amherst was added as a second school in the rank-30 tier because the
 true rank-30-to-50 candidates (Virginia Tech, University of Minnesota–Twin
@@ -226,6 +247,15 @@ school-not-department grain in static form. UAIR's annual factbook PDFs
 publish a clean, parseable 10-year-by-major Fall history for all three
 degree levels, making UMass the only viable static-source candidate found
 in this rank band during this pass.
+
+Stony Brook was added as a second school in the rank-50 tier alongside MSU.
+Both are CS majors housed within a College of Engineering, but the data
+shapes complement each other: MSU is UG-only and short (5 years), while
+Stony Brook spans 12 years across UG/MS/PhD, giving the rank-50 tier the
+same UG/MS/PhD richness as rank 5/10/30. The IRPE XLSX was the only
+viable rank-40-to-60 static source found in this pass after Notre Dame
+(unreachable), Rice (403), IU Bloomington (Tableau-only), and Iowa State
+(no by-major breakdown) were ruled out — see "Schools checked and excluded".
 
 UW–Madison was added by extracting values from DAPIR's public Tableau viz
 via Chrome — the first non-`urllib` collector in the project. The pattern

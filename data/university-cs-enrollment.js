@@ -680,5 +680,221 @@ window.UNIVERSITY_CS_DATA = {
         }
       }
     }
+  },
+  "Stony Brook University": {
+    "tier": "top50",
+    "scope": "Stony Brook University Computer Science major in the College of Engineering & Applied Sciences (CEAS). Distinct from the separate Computer Engineering major (CEAS) and the 'Area of Interest - Computer Science' UG admission status (intent-to-major freshmen, not declared majors) \u2014 both excluded. Values are Fall headcount of students whose primary plan is Computer Science; double-majors are counted in each plan.",
+    "sources": [
+      {
+        "label": "SBU IRPE \u2014 Fall Headcount Enrollment by Level, College/School and Major (annual factbook XLSX)",
+        "url": "https://stonybrook.edu/irpe/_media/Enrollment/FallbyLevelCollegeSchoolMajorF25.xlsx"
+      }
+    ],
+    "series": {
+      "2014-15": {
+        "bachelors": {
+          "total_enrollment": 604,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 319,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 175,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      },
+      "2015-16": {
+        "bachelors": {
+          "total_enrollment": 796,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 323,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 187,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      },
+      "2016-17": {
+        "bachelors": {
+          "total_enrollment": 977,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 320,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 192,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      },
+      "2017-18": {
+        "bachelors": {
+          "total_enrollment": 1058,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 418,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 205,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      },
+      "2018-19": {
+        "bachelors": {
+          "total_enrollment": 983,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 454,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 218,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      },
+      "2019-20": {
+        "bachelors": {
+          "total_enrollment": 974,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 518,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 219,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      },
+      "2020-21": {
+        "bachelors": {
+          "total_enrollment": 932,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 337,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 238,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      },
+      "2021-22": {
+        "bachelors": {
+          "total_enrollment": 958,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 327,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 218,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      },
+      "2022-23": {
+        "bachelors": {
+          "total_enrollment": 1039,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 396,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 232,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      },
+      "2023-24": {
+        "bachelors": {
+          "total_enrollment": 1129,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 392,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 245,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      },
+      "2024-25": {
+        "bachelors": {
+          "total_enrollment": 1093,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 406,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 266,
+          "source_idx": 0,
+          "notes": "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      },
+      "2025-26": {
+        "bachelors": {
+          "total_enrollment": 954,
+          "source_idx": 0,
+          "notes": "Fall 2025 marked PRELIMINARY in source. IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "masters": {
+          "total_enrollment": 333,
+          "source_idx": 0,
+          "notes": "Fall 2025 marked PRELIMINARY in source. IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        },
+        "phd": {
+          "total_enrollment": 268,
+          "source_idx": 0,
+          "notes": "Fall 2025 marked PRELIMINARY in source. IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path annually; current file is the F25 edition covering Fall 2014 to Fall 2025. Per the file's own header note, 2025 data are preliminary until reported to IPEDS in spring 2026."
+        }
+      }
+    }
   }
 };

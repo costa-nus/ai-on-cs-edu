@@ -26,6 +26,8 @@ available):
       values extracted manually from DAPIR's public Tableau viz)
     - UMass Amherst (CS major in CICS — UG/MS/PhD, Fall 2016-2025; UAIR factbook
       "Students by Major" PDFs, one per degree level)
+    - Stony Brook University (CS major in CEAS — UG/MS/PhD, Fall 2014-2025;
+      IRPE annual factbook XLSX parsed via stdlib zipfile + xml.etree)
 
 Schools intentionally excluded:
     - UIUC: DMI Statistical Abstract PDFs only contain degrees-by-CIP, not
@@ -62,8 +64,10 @@ import re
 import subprocess
 import sys
 import urllib.request
+import zipfile
 from dataclasses import dataclass
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -637,6 +641,176 @@ def collect_umass_amherst() -> None:
 
 
 # ──────────────────────────────────────────────────────────────────────────────
+# Stony Brook University — Computer Science major Fall enrollment, by degree level
+# Source: SBU Office of Institutional Research, Planning & Effectiveness (IRPE)
+# annual factbook XLSX "Fall Headcount Enrollment by Level, College/School
+# (Academic Group) and Major (Plan)".
+#
+# URL is stable: IRPE replaces the file year-over-year at the same media path
+# (current file name encodes the latest term — F25 — but the directory layout
+# has been consistent across editions).
+#
+# Workbook layout: a single wide sheet with row groupings:
+#   Grand Total → Undergraduate (by college, then by major) → Graduate
+#   (by college, then by program with sub-rows per degree level).
+#
+# A "merged-cell continuation" pattern is used in the graduate section:
+# programs with multiple degree levels span 2+ rows — the first has the
+# program name and one degree (e.g. Doctoral), and the next row has an empty
+# label cell (visually merged) with the next degree (e.g. Master's). The
+# parser carries forward the most-recent non-empty label as `current_program`
+# so the unlabeled rows inherit it.
+#
+# Scope: SBU's CS dept lives in the College of Engineering & Applied Sciences
+# (CEAS) and operates a separate Computer Engineering major (excluded), plus
+# an "Area of Interest - Computer Science" UG admission status (excluded — it
+# tracks intent-to-major freshmen, not declared majors). We extract the
+# "Computer Science" plan exactly, which is the declared CS major.
+#
+# Note: the file is plainly labelled "2025 data are preliminary until reported
+# to IPEDS in spring 2026." Fall 2025 values are kept but flagged in notes.
+
+SBU_XLSX_URL = "https://stonybrook.edu/irpe/_media/Enrollment/FallbyLevelCollegeSchoolMajorF25.xlsx"
+SBU_XLSX_PATH = RAW / "stonybrook-fall-by-level-college-major.xlsx"
+SBU_INDEX_URL = "https://www.stonybrook.edu/commcms/irpe/factbook/data-and-reports.html"
+
+_XL_NS = {"s": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+
+
+def _xlsx_col_index(cell_ref: str) -> int:
+    letters = ""
+    for ch in cell_ref:
+        if ch.isalpha():
+            letters += ch
+        else:
+            break
+    n = 0
+    for ch in letters:
+        n = n * 26 + (ord(ch) - ord("A") + 1)
+    return n - 1
+
+
+def _xlsx_load_rows(xlsx_path: Path) -> list[dict[int, str]]:
+    """Return a flat list of {col_index: cell_text} dicts, one per row."""
+    with zipfile.ZipFile(xlsx_path) as z:
+        ss_root = ET.fromstring(z.read("xl/sharedStrings.xml"))
+        shared = [
+            "".join(t.text or "" for t in si.iter(f"{{{_XL_NS['s']}}}t"))
+            for si in ss_root.findall("s:si", _XL_NS)
+        ]
+        sheet_root = ET.fromstring(z.read("xl/worksheets/sheet1.xml"))
+    sheet_data = sheet_root.find("s:sheetData", _XL_NS)
+    out: list[dict[int, str]] = []
+    for row in sheet_data.findall("s:row", _XL_NS):
+        cells: dict[int, str] = {}
+        for c in row.findall("s:c", _XL_NS):
+            ci = _xlsx_col_index(c.get("r"))
+            t = c.get("t")
+            v = c.find("s:v", _XL_NS)
+            if v is None:
+                continue
+            cells[ci] = shared[int(v.text)] if t == "s" else (v.text or "")
+        out.append(cells)
+    return out
+
+
+def parse_stony_brook_xlsx(xlsx_path: Path) -> dict[int, dict[str, int]]:
+    """Returns {fall_year: {'bachelors': n, 'masters': n, 'phd': n}} for the
+    Stony Brook 'Computer Science' major (CEAS)."""
+    rows = _xlsx_load_rows(xlsx_path)
+
+    years: list[int] = []
+    year_cols: list[int] = []
+    for cells in rows:
+        if (cells.get(0) or "").strip().startswith("Level / Academic Group"):
+            for ci in sorted(cells):
+                if ci < 2:
+                    continue
+                m = re.match(r"Fall\s+(\d{4})", (cells.get(ci) or "").strip())
+                if m:
+                    years.append(int(m.group(1)))
+                    year_cols.append(ci)
+            break
+    if not years:
+        raise RuntimeError(f"{xlsx_path.name}: no 'Fall YYYY' header row")
+
+    DEGREES = {"Bachelor's": "bachelors", "Master's": "masters", "Doctoral": "phd"}
+    out: dict[int, dict[str, int]] = {y: {} for y in years}
+    current_program = ""
+    for cells in rows:
+        label = (cells.get(0) or "").strip()
+        deg = (cells.get(1) or "").strip()
+        if label:
+            current_program = label
+        if current_program != "Computer Science":
+            continue
+        level = DEGREES.get(deg)
+        if level is None:
+            continue
+        for y, ci in zip(years, year_cols):
+            raw = (cells.get(ci) or "").strip()
+            if not raw:
+                continue
+            value = int(raw.replace(",", ""))
+            prior = out[y].get(level)
+            if prior is not None and prior != value:
+                raise RuntimeError(
+                    f"{xlsx_path.name}: duplicate Computer Science {level} "
+                    f"row for Fall {y} with conflicting values {prior} vs {value}"
+                )
+            out[y][level] = value
+
+    missing = [(y, lvl) for y in years for lvl in ("bachelors", "masters", "phd") if lvl not in out[y]]
+    if missing:
+        raise RuntimeError(f"{xlsx_path.name}: missing CS values: {missing[:5]}…")
+    return out
+
+
+def collect_stony_brook() -> None:
+    if not SBU_XLSX_PATH.exists():
+        fetch(SBU_XLSX_URL, SBU_XLSX_PATH)
+    parsed = parse_stony_brook_xlsx(SBU_XLSX_PATH)
+    label = (
+        "SBU IRPE — Fall Headcount Enrollment by Level, College/School "
+        "and Major (annual factbook XLSX)"
+    )
+    scope = (
+        "Stony Brook University Computer Science major in the College of "
+        "Engineering & Applied Sciences (CEAS). Distinct from the separate "
+        "Computer Engineering major (CEAS) and the 'Area of Interest - "
+        "Computer Science' UG admission status (intent-to-major freshmen, "
+        "not declared majors) — both excluded. Values are Fall headcount of "
+        "students whose primary plan is Computer Science; double-majors are "
+        "counted in each plan."
+    )
+    notes_common = (
+        "IRPE replaces this XLSX at the same /irpe/_media/Enrollment/ path "
+        "annually; current file is the F25 edition covering Fall 2014 to "
+        "Fall 2025. Per the file's own header note, 2025 data are "
+        "preliminary until reported to IPEDS in spring 2026."
+    )
+    for fall_year in sorted(parsed):
+        ay = f"{fall_year}-{str(fall_year + 1)[-2:]}"
+        for level in ("bachelors", "masters", "phd"):
+            value = parsed[fall_year][level]
+            note = notes_common
+            if fall_year == 2025:
+                note = "Fall 2025 marked PRELIMINARY in source. " + notes_common
+            rows.append(Row(
+                university="Stony Brook University",
+                csrankings_tier="top50",
+                academic_year=ay,
+                degree_level=level,
+                metric="total_enrollment",
+                value=value,
+                scope=scope,
+                source_url=SBU_XLSX_URL,
+                source_label=label,
+                notes=note,
+            ))
+
+
+# ──────────────────────────────────────────────────────────────────────────────
 # main
 
 def write_csv(rows: list[Row]) -> None:
@@ -690,6 +864,7 @@ def main() -> None:
     collect_cmu()
     collect_uw_madison()
     collect_umass_amherst()
+    collect_stony_brook()
     write_csv(rows)
     write_js(rows)
 

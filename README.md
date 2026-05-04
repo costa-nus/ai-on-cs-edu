@@ -57,6 +57,7 @@ A second view in the dashboard shows a single school at a time. Same indexing id
 | Carnegie Mellon | IRA School-of-Computer-Science PDFs | Whole SCS (CS, AI, ML, HCI, Robotics, Computational Biology, Software Research, Language Technologies) |
 | Georgia Tech | College of Computing fact book | **Whole College of Computing**, including OMSCS — master's growth is dominated by OMSCS scaling, not residential demand |
 | Michigan State | CSE Department enrollment page | CS B.S. major in the College of Engineering — Fall 4th-week census headcount |
+| Stony Brook | IRPE annual factbook XLSX | CS major in the College of Engineering & Applied Sciences — Fall headcount of declared CS plan; excludes the separate Computer Engineering major and "Area of Interest - CS" UG admit status |
 | UMass Amherst | UAIR factbook "Students by Major" PDFs | CS major headcount |
 | UW–Madison | DAPIR "Trends in Student Enrollments" Tableau viz | Computer Sciences major in the College of Letters & Science; MS + PhD slightly overlap (6–21 students/year) due to MS-en-route-to-PhD students |
 
@@ -66,7 +67,7 @@ Different universities report at different scopes — **do not assume cross-univ
 
 These schools were checked but **excluded** because their public sources do not publish per-CS-major enrollment in a stable, parseable form (most institutional-research offices publish degrees conferred — federally required for IPEDS — but not enrollment):
 
-> Stanford, U Washington, U Michigan, UIUC, UMD, UC Berkeley, Purdue, UCSD, UC Irvine, Penn State, Princeton, Cornell, Penn, NC State (post-2020), USC, Ohio State, Texas A&M, Virginia Tech, U Minnesota–Twin Cities, UNC Chapel Hill, U Pittsburgh
+> Stanford, U Washington, U Michigan, UIUC, UMD, UC Berkeley, Purdue, UCSD, UC Irvine, Penn State, Princeton, Cornell, Penn, NC State (post-2020), USC, Ohio State, Texas A&M, Virginia Tech, U Minnesota–Twin Cities, UNC Chapel Hill, U Pittsburgh, Notre Dame, Rice, Indiana University Bloomington, Iowa State
 
 Adding any of them requires finding a different primary source. See `SOURCES.md` for the dead-ends already explored. Better an honest gap than a metric substitution.
 
